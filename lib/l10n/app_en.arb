@@ -4,6 +4,7 @@
   "common_cancel": "Cancel",
   "common_delete": "Delete",
   "common_confirm": "Confirm",
+  "common_save": "Save",
 
   "home_title": "DayCount",
   "home_filterAll": "All",
@@ -28,5 +29,24 @@
   "home_emptySubtitle": "Track your important dates\nwith beautiful cards.",
   "home_emptyButton": "Create D-Day",
   "home_filterEmptyTitle": "No D-Days found",
-  "home_filterEmptySubtitle": "Try a different filter."
+  "home_filterEmptySubtitle": "Try a different filter.",
+
+  "form_titleNew": "New D-Day",
+  "form_titleEdit": "Edit D-Day",
+  "form_emojiLabel": "Emoji",
+  "form_emojiHint": "Tap to select",
+  "form_titleLabel": "Title",
+  "form_titleHint": "Enter D-Day title",
+  "form_dateLabel": "Date",
+  "form_categoryLabel": "Category",
+  "form_categoryGeneral": "General",
+  "form_categoryCouple": "Couple",
+  "form_categoryExam": "Exam",
+  "form_categoryBaby": "Baby",
+  "form_themeLabel": "Theme",
+  "form_memoLabel": "Memo (optional)",
+  "form_memoHint": "Add a note...",
+  "form_save": "Save",
+  "form_proBadge": "PRO",
+  "error_titleRequired": "Title is required"
 }

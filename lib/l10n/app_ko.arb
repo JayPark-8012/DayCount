@@ -4,6 +4,7 @@
   "common_cancel": "취소",
   "common_delete": "삭제",
   "common_confirm": "확인",
+  "common_save": "저장",
 
   "home_title": "DayCount",
   "home_filterAll": "전체",
@@ -28,5 +29,24 @@
   "home_emptySubtitle": "아름다운 카드로\n소중한 날짜를 기록하세요.",
   "home_emptyButton": "D-Day 만들기",
   "home_filterEmptyTitle": "D-Day가 없습니다",
-  "home_filterEmptySubtitle": "다른 필터를 선택해 보세요."
+  "home_filterEmptySubtitle": "다른 필터를 선택해 보세요.",
+
+  "form_titleNew": "새 D-Day",
+  "form_titleEdit": "D-Day 수정",
+  "form_emojiLabel": "이모지",
+  "form_emojiHint": "탭하여 선택",
+  "form_titleLabel": "제목",
+  "form_titleHint": "D-Day 제목을 입력하세요",
+  "form_dateLabel": "날짜",
+  "form_categoryLabel": "카테고리",
+  "form_categoryGeneral": "일반",
+  "form_categoryCouple": "커플",
+  "form_categoryExam": "시험",
+  "form_categoryBaby": "육아",
+  "form_themeLabel": "테마",
+  "form_memoLabel": "메모 (선택사항)",
+  "form_memoHint": "메모를 입력하세요...",
+  "form_save": "저장",
+  "form_proBadge": "PRO",
+  "error_titleRequired": "제목을 입력해 주세요"
 }

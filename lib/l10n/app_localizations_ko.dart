@@ -21,6 +21,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get common_confirm => '확인';
 
   @override
+  String get common_save => '저장';
+
+  @override
   String get home_title => 'DayCount';
 
   @override
@@ -65,4 +68,58 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get home_filterEmptySubtitle => '다른 필터를 선택해 보세요.';
+
+  @override
+  String get form_titleNew => '새 D-Day';
+
+  @override
+  String get form_titleEdit => 'D-Day 수정';
+
+  @override
+  String get form_emojiLabel => '이모지';
+
+  @override
+  String get form_emojiHint => '탭하여 선택';
+
+  @override
+  String get form_titleLabel => '제목';
+
+  @override
+  String get form_titleHint => 'D-Day 제목을 입력하세요';
+
+  @override
+  String get form_dateLabel => '날짜';
+
+  @override
+  String get form_categoryLabel => '카테고리';
+
+  @override
+  String get form_categoryGeneral => '일반';
+
+  @override
+  String get form_categoryCouple => '커플';
+
+  @override
+  String get form_categoryExam => '시험';
+
+  @override
+  String get form_categoryBaby => '육아';
+
+  @override
+  String get form_themeLabel => '테마';
+
+  @override
+  String get form_memoLabel => '메모 (선택사항)';
+
+  @override
+  String get form_memoHint => '메모를 입력하세요...';
+
+  @override
+  String get form_save => '저장';
+
+  @override
+  String get form_proBadge => 'PRO';
+
+  @override
+  String get error_titleRequired => '제목을 입력해 주세요';
 }

@@ -21,6 +21,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get common_confirm => 'Confirm';
 
   @override
+  String get common_save => 'Save';
+
+  @override
   String get home_title => 'DayCount';
 
   @override
@@ -66,4 +69,58 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get home_filterEmptySubtitle => 'Try a different filter.';
+
+  @override
+  String get form_titleNew => 'New D-Day';
+
+  @override
+  String get form_titleEdit => 'Edit D-Day';
+
+  @override
+  String get form_emojiLabel => 'Emoji';
+
+  @override
+  String get form_emojiHint => 'Tap to select';
+
+  @override
+  String get form_titleLabel => 'Title';
+
+  @override
+  String get form_titleHint => 'Enter D-Day title';
+
+  @override
+  String get form_dateLabel => 'Date';
+
+  @override
+  String get form_categoryLabel => 'Category';
+
+  @override
+  String get form_categoryGeneral => 'General';
+
+  @override
+  String get form_categoryCouple => 'Couple';
+
+  @override
+  String get form_categoryExam => 'Exam';
+
+  @override
+  String get form_categoryBaby => 'Baby';
+
+  @override
+  String get form_themeLabel => 'Theme';
+
+  @override
+  String get form_memoLabel => 'Memo (optional)';
+
+  @override
+  String get form_memoHint => 'Add a note...';
+
+  @override
+  String get form_save => 'Save';
+
+  @override
+  String get form_proBadge => 'PRO';
+
+  @override
+  String get error_titleRequired => 'Title is required';
 }

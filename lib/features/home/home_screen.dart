@@ -7,6 +7,7 @@ import '../../l10n/app_localizations.dart';
 import '../../providers/filter_providers.dart';
 import 'widgets/dday_card.dart';
 import 'widgets/empty_state.dart';
+import '../dday_form/form_screen.dart';
 import 'widgets/filter_chips.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -173,7 +174,10 @@ class HomeScreen extends ConsumerWidget {
   }
 
   void _navigateToCreate(BuildContext context) {
-    // TODO(T-form): Navigate to DDay form screen
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const DdayFormScreen()),
+    );
   }
 
   void _navigateToDetail(BuildContext context, int ddayId) {

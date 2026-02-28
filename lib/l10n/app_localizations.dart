@@ -122,6 +122,12 @@ abstract class AppLocalizations {
   /// **'Confirm'**
   String get common_confirm;
 
+  /// No description provided for @common_save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get common_save;
+
   /// No description provided for @home_title.
   ///
   /// In en, this message translates to:
@@ -205,6 +211,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Try a different filter.'**
   String get home_filterEmptySubtitle;
+
+  /// No description provided for @form_titleNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New D-Day'**
+  String get form_titleNew;
+
+  /// No description provided for @form_titleEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit D-Day'**
+  String get form_titleEdit;
+
+  /// No description provided for @form_emojiLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Emoji'**
+  String get form_emojiLabel;
+
+  /// No description provided for @form_emojiHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to select'**
+  String get form_emojiHint;
+
+  /// No description provided for @form_titleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get form_titleLabel;
+
+  /// No description provided for @form_titleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter D-Day title'**
+  String get form_titleHint;
+
+  /// No description provided for @form_dateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get form_dateLabel;
+
+  /// No description provided for @form_categoryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get form_categoryLabel;
+
+  /// No description provided for @form_categoryGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'General'**
+  String get form_categoryGeneral;
+
+  /// No description provided for @form_categoryCouple.
+  ///
+  /// In en, this message translates to:
+  /// **'Couple'**
+  String get form_categoryCouple;
+
+  /// No description provided for @form_categoryExam.
+  ///
+  /// In en, this message translates to:
+  /// **'Exam'**
+  String get form_categoryExam;
+
+  /// No description provided for @form_categoryBaby.
+  ///
+  /// In en, this message translates to:
+  /// **'Baby'**
+  String get form_categoryBaby;
+
+  /// No description provided for @form_themeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get form_themeLabel;
+
+  /// No description provided for @form_memoLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Memo (optional)'**
+  String get form_memoLabel;
+
+  /// No description provided for @form_memoHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a note...'**
+  String get form_memoHint;
+
+  /// No description provided for @form_save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get form_save;
+
+  /// No description provided for @form_proBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'PRO'**
+  String get form_proBadge;
+
+  /// No description provided for @error_titleRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Title is required'**
+  String get error_titleRequired;
 }
 
 class _AppLocalizationsDelegate
