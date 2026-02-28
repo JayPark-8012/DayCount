@@ -29,8 +29,8 @@ const String colMilestoneNotifyBefore = 'notify_before';
 
 /// Table: settings
 const String tableSettings = 'settings';
-const String colSettingsKey = 'key';
-const String colSettingsValue = 'value';
+const String colSettingsKey = 'setting_key';
+const String colSettingsValue = 'setting_value';
 
 /// Index names
 const String idxDdaysCategory = 'idx_ddays_category';

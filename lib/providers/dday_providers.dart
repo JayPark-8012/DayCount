@@ -15,7 +15,7 @@ final ddayListProvider =
     AsyncNotifierProvider<DdayListNotifier, List<DDay>>(DdayListNotifier.new);
 
 class DdayListNotifier extends AsyncNotifier<List<DDay>> {
-  late final DdayRepository _repository;
+  late DdayRepository _repository;
 
   @override
   FutureOr<List<DDay>> build() {

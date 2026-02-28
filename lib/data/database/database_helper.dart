@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart' show debugPrint, kIsWeb;
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -8,16 +11,43 @@ class DatabaseHelper {
   static final DatabaseHelper instance = DatabaseHelper._();
 
   Database? _database;
+  Completer<Database>? _initCompleter;
 
   Future<Database> get database async {
     if (_database != null) return _database!;
-    _database = await _initDatabase();
-    return _database!;
+
+    // Prevent multiple simultaneous _initDatabase() calls (race condition).
+    // On web (sql.js), concurrent opens of the same DB can hang.
+    if (_initCompleter != null) {
+      return _initCompleter!.future;
+    }
+
+    _initCompleter = Completer<Database>();
+    try {
+      final db = await _initDatabase();
+      _database = db;
+      _initCompleter!.complete(db);
+      return db;
+    } catch (e) {
+      _initCompleter!.completeError(e);
+      _initCompleter = null;
+      rethrow;
+    }
   }
 
   Future<Database> _initDatabase() async {
-    final dbPath = await getDatabasesPath();
-    final path = join(dbPath, dbName);
+    final String path;
+    if (kIsWeb) {
+      // On web, sqflite_common_ffi_web uses IndexedDB.
+      // getDatabasesPath() may return empty/unexpected values.
+      // Use the database name directly as the key.
+      path = dbName;
+    } else {
+      final dbPath = await getDatabasesPath();
+      path = join(dbPath, dbName);
+    }
+
+    debugPrint('[DatabaseHelper] Opening database at: $path');
 
     return openDatabase(
       path,
@@ -29,7 +59,12 @@ class DatabaseHelper {
   }
 
   Future<void> _onConfigure(Database db) async {
-    await db.execute('PRAGMA foreign_keys = ON');
+    try {
+      await db.execute('PRAGMA foreign_keys = ON');
+    } catch (e) {
+      // sql.js on web may not fully support this PRAGMA
+      debugPrint('[DatabaseHelper] PRAGMA foreign_keys failed: $e');
+    }
   }
 
   Future<void> _onCreate(Database db, int version) async {
@@ -100,6 +135,7 @@ class DatabaseHelper {
     if (db != null) {
       await db.close();
       _database = null;
+      _initCompleter = null;
     }
   }
 }

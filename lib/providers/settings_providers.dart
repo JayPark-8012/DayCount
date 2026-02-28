@@ -22,7 +22,7 @@ final themeModeProvider =
     AsyncNotifierProvider<ThemeModeNotifier, ThemeMode>(ThemeModeNotifier.new);
 
 class ThemeModeNotifier extends AsyncNotifier<ThemeMode> {
-  late final SettingsRepository _repository;
+  late SettingsRepository _repository;
 
   @override
   FutureOr<ThemeMode> build() async {
@@ -56,7 +56,7 @@ final languageProvider =
     AsyncNotifierProvider<LanguageNotifier, String?>(LanguageNotifier.new);
 
 class LanguageNotifier extends AsyncNotifier<String?> {
-  late final SettingsRepository _repository;
+  late SettingsRepository _repository;
 
   @override
   FutureOr<String?> build() async {
@@ -78,7 +78,7 @@ final defaultSortProvider =
 );
 
 class DefaultSortNotifier extends AsyncNotifier<String> {
-  late final SettingsRepository _repository;
+  late SettingsRepository _repository;
 
   @override
   FutureOr<String> build() async {
@@ -102,7 +102,7 @@ final onboardingDoneProvider =
 );
 
 class OnboardingDoneNotifier extends AsyncNotifier<bool> {
-  late final SettingsRepository _repository;
+  late SettingsRepository _repository;
 
   @override
   FutureOr<bool> build() async {
@@ -123,7 +123,7 @@ final milestoneAlertsProvider =
 );
 
 class MilestoneAlertsNotifier extends AsyncNotifier<bool> {
-  late final SettingsRepository _repository;
+  late SettingsRepository _repository;
 
   @override
   FutureOr<bool> build() async {
@@ -144,7 +144,7 @@ final ddayAlertsProvider =
 );
 
 class DdayAlertsNotifier extends AsyncNotifier<bool> {
-  late final SettingsRepository _repository;
+  late SettingsRepository _repository;
 
   @override
   FutureOr<bool> build() async {
