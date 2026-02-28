@@ -147,7 +147,7 @@ class _DdayCardState extends State<DdayCard>
                             style: TextStyle(
                               fontSize: 36,
                               fontWeight: FontWeight.w800,
-                              color: theme.textColor,
+                              color: theme.accentColor,
                               letterSpacing: -1.0,
                               height: 1.0,
                             ),

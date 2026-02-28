@@ -8,6 +8,7 @@ import '../../providers/filter_providers.dart';
 import 'widgets/dday_card.dart';
 import 'widgets/empty_state.dart';
 import '../dday_form/form_screen.dart';
+import '../settings/settings_screen.dart';
 import 'widgets/filter_chips.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -80,9 +81,7 @@ class HomeScreen extends ConsumerWidget {
                   _AppBarIconButton(
                     icon: '\u{2699}\u{FE0F}',
                     isDark: isDark,
-                    onTap: () {
-                      // TODO(T-settings): Navigate to settings
-                    },
+                    onTap: () => _navigateToSettings(context),
                   ),
                 ],
               ),
@@ -177,6 +176,13 @@ class HomeScreen extends ConsumerWidget {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (_) => const DdayFormScreen()),
+    );
+  }
+
+  void _navigateToSettings(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const SettingsScreen()),
     );
   }
 

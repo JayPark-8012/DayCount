@@ -58,5 +58,11 @@
   "onboarding_desc3": "모든 D-Day와 마일스톤을\n한눈에 확인하세요",
   "onboarding_next": "다음",
   "onboarding_getStarted": "시작하기",
-  "onboarding_skip": "건너뛰기"
+  "onboarding_skip": "건너뛰기",
+
+  "settings_title": "설정",
+  "settings_themeMode": "테마 모드",
+  "settings_themeModeSystem": "시스템",
+  "settings_themeModeLight": "라이트",
+  "settings_themeModeDark": "다크"
 }

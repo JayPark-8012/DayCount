@@ -373,6 +373,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Skip'**
   String get onboarding_skip;
+
+  /// No description provided for @settings_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings_title;
+
+  /// No description provided for @settings_themeMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme Mode'**
+  String get settings_themeMode;
+
+  /// No description provided for @settings_themeModeSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get settings_themeModeSystem;
+
+  /// No description provided for @settings_themeModeLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get settings_themeModeLight;
+
+  /// No description provided for @settings_themeModeDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get settings_themeModeDark;
 }
 
 class _AppLocalizationsDelegate

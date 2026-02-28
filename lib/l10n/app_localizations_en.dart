@@ -153,4 +153,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboarding_skip => 'Skip';
+
+  @override
+  String get settings_title => 'Settings';
+
+  @override
+  String get settings_themeMode => 'Theme Mode';
+
+  @override
+  String get settings_themeModeSystem => 'System';
+
+  @override
+  String get settings_themeModeLight => 'Light';
+
+  @override
+  String get settings_themeModeDark => 'Dark';
 }

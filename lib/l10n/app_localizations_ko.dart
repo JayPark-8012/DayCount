@@ -149,4 +149,19 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get onboarding_skip => '건너뛰기';
+
+  @override
+  String get settings_title => '설정';
+
+  @override
+  String get settings_themeMode => '테마 모드';
+
+  @override
+  String get settings_themeModeSystem => '시스템';
+
+  @override
+  String get settings_themeModeLight => '라이트';
+
+  @override
+  String get settings_themeModeDark => '다크';
 }

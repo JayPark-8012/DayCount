@@ -58,5 +58,11 @@
   "onboarding_desc3": "See all your D-Days and\nmilestones at a glance",
   "onboarding_next": "Next",
   "onboarding_getStarted": "Get Started",
-  "onboarding_skip": "Skip"
+  "onboarding_skip": "Skip",
+
+  "settings_title": "Settings",
+  "settings_themeMode": "Theme Mode",
+  "settings_themeModeSystem": "System",
+  "settings_themeModeLight": "Light",
+  "settings_themeModeDark": "Dark"
 }
