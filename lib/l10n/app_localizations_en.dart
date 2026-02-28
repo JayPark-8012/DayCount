@@ -302,4 +302,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notification_channelDesc => 'Notifications for D-Day milestones';
+
+  @override
+  String get celebration_congratulations => 'Congratulations!';
+
+  @override
+  String get celebration_reached => 'reached';
+
+  @override
+  String get celebration_shareThis => 'Share This';
+
+  @override
+  String get celebration_dismiss => 'Dismiss';
 }

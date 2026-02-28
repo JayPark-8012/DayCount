@@ -144,5 +144,10 @@
     }
   },
   "notification_channelName": "Milestone Alerts",
-  "notification_channelDesc": "Notifications for D-Day milestones"
+  "notification_channelDesc": "Notifications for D-Day milestones",
+
+  "celebration_congratulations": "Congratulations!",
+  "celebration_reached": "reached",
+  "celebration_shareThis": "Share This",
+  "celebration_dismiss": "Dismiss"
 }

@@ -298,4 +298,16 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get notification_channelDesc => 'D-Day 마일스톤 알림';
+
+  @override
+  String get celebration_congratulations => '축하합니다!';
+
+  @override
+  String get celebration_reached => '달성';
+
+  @override
+  String get celebration_shareThis => '공유하기';
+
+  @override
+  String get celebration_dismiss => '닫기';
 }

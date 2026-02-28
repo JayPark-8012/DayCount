@@ -1,22 +1,86 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_config.dart';
 import '../../l10n/app_localizations.dart';
+import '../../providers/celebration_providers.dart';
 import '../../providers/filter_providers.dart';
-import 'widgets/dday_card.dart';
-import 'widgets/empty_state.dart';
+import '../../providers/settings_providers.dart';
 import '../dday_detail/detail_screen.dart';
 import '../dday_form/form_screen.dart';
+import '../milestone_celebration/celebration_dialog.dart';
 import '../settings/settings_screen.dart';
+import 'widgets/dday_card.dart';
+import 'widgets/empty_state.dart';
 import 'widgets/filter_chips.dart';
 
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  bool _celebrationChecked = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkCelebrations();
+    });
+  }
+
+  Future<void> _checkCelebrations() async {
+    if (_celebrationChecked) return;
+    _celebrationChecked = true;
+
+    final celebrations = await ref.read(todayCelebrationsProvider.future);
+    if (celebrations.isEmpty || !mounted) return;
+
+    for (final item in celebrations) {
+      if (!mounted) break;
+      await _showCelebration(item);
+    }
+  }
+
+  Future<void> _showCelebration(CelebrationItem item) async {
+    final completer = Completer<void>();
+
+    showCelebrationDialog(
+      context,
+      dday: item.dday,
+      milestone: item.milestone,
+      onDismiss: () {
+        Navigator.pop(context);
+        _markCelebrated(item);
+        completer.complete();
+      },
+      onShare: () {
+        Navigator.pop(context);
+        _markCelebrated(item);
+        completer.complete();
+        // TODO(T-share): Navigate to share card screen
+      },
+    );
+
+    return completer.future;
+  }
+
+  Future<void> _markCelebrated(CelebrationItem item) async {
+    final settingsRepo = ref.read(settingsRepositoryProvider);
+    await settingsRepo.set(
+      'celebrated_${item.dday.id}_${item.milestone.id}',
+      'true',
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final filteredAsync = ref.watch(filteredDdayListProvider);
     final currentFilter = ref.watch(currentFilterProvider);
     final isDark = Theme.of(context).brightness == Brightness.dark;

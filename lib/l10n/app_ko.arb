@@ -144,5 +144,10 @@
     }
   },
   "notification_channelName": "마일스톤 알림",
-  "notification_channelDesc": "D-Day 마일스톤 알림"
+  "notification_channelDesc": "D-Day 마일스톤 알림",
+
+  "celebration_congratulations": "축하합니다!",
+  "celebration_reached": "달성",
+  "celebration_shareThis": "공유하기",
+  "celebration_dismiss": "닫기"
 }

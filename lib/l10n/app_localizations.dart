@@ -643,6 +643,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Notifications for D-Day milestones'**
   String get notification_channelDesc;
+
+  /// No description provided for @celebration_congratulations.
+  ///
+  /// In en, this message translates to:
+  /// **'Congratulations!'**
+  String get celebration_congratulations;
+
+  /// No description provided for @celebration_reached.
+  ///
+  /// In en, this message translates to:
+  /// **'reached'**
+  String get celebration_reached;
+
+  /// No description provided for @celebration_shareThis.
+  ///
+  /// In en, this message translates to:
+  /// **'Share This'**
+  String get celebration_shareThis;
+
+  /// No description provided for @celebration_dismiss.
+  ///
+  /// In en, this message translates to:
+  /// **'Dismiss'**
+  String get celebration_dismiss;
 }
 
 class _AppLocalizationsDelegate
