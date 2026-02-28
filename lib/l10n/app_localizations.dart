@@ -319,6 +319,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Title is required'**
   String get error_titleRequired;
+
+  /// No description provided for @onboarding_title1.
+  ///
+  /// In en, this message translates to:
+  /// **'Beautiful D-Day Cards'**
+  String get onboarding_title1;
+
+  /// No description provided for @onboarding_desc1.
+  ///
+  /// In en, this message translates to:
+  /// **'Track your important dates\nwith stunning card designs'**
+  String get onboarding_desc1;
+
+  /// No description provided for @onboarding_title2.
+  ///
+  /// In en, this message translates to:
+  /// **'Milestone Alerts'**
+  String get onboarding_title2;
+
+  /// No description provided for @onboarding_desc2.
+  ///
+  /// In en, this message translates to:
+  /// **'Get notified when important\nmilestones are approaching'**
+  String get onboarding_desc2;
+
+  /// No description provided for @onboarding_title3.
+  ///
+  /// In en, this message translates to:
+  /// **'Timeline View'**
+  String get onboarding_title3;
+
+  /// No description provided for @onboarding_desc3.
+  ///
+  /// In en, this message translates to:
+  /// **'See all your D-Days and\nmilestones at a glance'**
+  String get onboarding_desc3;
+
+  /// No description provided for @onboarding_next.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get onboarding_next;
+
+  /// No description provided for @onboarding_getStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Get Started'**
+  String get onboarding_getStarted;
+
+  /// No description provided for @onboarding_skip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get onboarding_skip;
 }
 
 class _AppLocalizationsDelegate

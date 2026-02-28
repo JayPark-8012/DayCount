@@ -48,5 +48,15 @@
   "form_memoHint": "Add a note...",
   "form_save": "Save",
   "form_proBadge": "PRO",
-  "error_titleRequired": "Title is required"
+  "error_titleRequired": "Title is required",
+
+  "onboarding_title1": "Beautiful D-Day Cards",
+  "onboarding_desc1": "Track your important dates\nwith stunning card designs",
+  "onboarding_title2": "Milestone Alerts",
+  "onboarding_desc2": "Get notified when important\nmilestones are approaching",
+  "onboarding_title3": "Timeline View",
+  "onboarding_desc3": "See all your D-Days and\nmilestones at a glance",
+  "onboarding_next": "Next",
+  "onboarding_getStarted": "Get Started",
+  "onboarding_skip": "Skip"
 }

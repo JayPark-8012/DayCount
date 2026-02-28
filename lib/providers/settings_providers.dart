@@ -13,6 +13,7 @@ final settingsRepositoryProvider = Provider<SettingsRepository>((ref) {
 const _keyThemeMode = 'theme_mode';
 const _keyLanguage = 'language';
 const _keyDefaultSort = 'default_sort';
+const _keyOnboardingDone = 'onboarding_done';
 
 // --- ThemeMode ---
 final themeModeProvider =
@@ -89,5 +90,26 @@ class DefaultSortNotifier extends AsyncNotifier<String> {
   Future<void> setDefaultSort(String sort) async {
     state = AsyncData(sort);
     await _repository.set(_keyDefaultSort, sort);
+  }
+}
+
+// --- Onboarding done ---
+final onboardingDoneProvider =
+    AsyncNotifierProvider<OnboardingDoneNotifier, bool>(
+  OnboardingDoneNotifier.new,
+);
+
+class OnboardingDoneNotifier extends AsyncNotifier<bool> {
+  late final SettingsRepository _repository;
+
+  @override
+  FutureOr<bool> build() async {
+    _repository = ref.watch(settingsRepositoryProvider);
+    return _repository.getBool(_keyOnboardingDone, defaultValue: false);
+  }
+
+  Future<void> setDone() async {
+    state = const AsyncData(true);
+    await _repository.set(_keyOnboardingDone, 'true');
   }
 }

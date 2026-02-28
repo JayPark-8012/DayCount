@@ -122,4 +122,31 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get error_titleRequired => '제목을 입력해 주세요';
+
+  @override
+  String get onboarding_title1 => '아름다운 D-Day 카드';
+
+  @override
+  String get onboarding_desc1 => '멋진 카드 디자인으로\n소중한 날짜를 기록하세요';
+
+  @override
+  String get onboarding_title2 => '마일스톤 알림';
+
+  @override
+  String get onboarding_desc2 => '중요한 마일스톤이 다가오면\n알려드립니다';
+
+  @override
+  String get onboarding_title3 => '타임라인 뷰';
+
+  @override
+  String get onboarding_desc3 => '모든 D-Day와 마일스톤을\n한눈에 확인하세요';
+
+  @override
+  String get onboarding_next => '다음';
+
+  @override
+  String get onboarding_getStarted => '시작하기';
+
+  @override
+  String get onboarding_skip => '건너뛰기';
 }

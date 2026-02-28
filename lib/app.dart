@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'core/constants/app_colors.dart';
 import 'features/home/home_screen.dart';
+import 'features/onboarding/onboarding_screen.dart';
 import 'l10n/app_localizations.dart';
 import 'providers/settings_providers.dart';
 
@@ -15,6 +16,9 @@ class DayCountApp extends ConsumerWidget {
     final themeModeAsync = ref.watch(themeModeProvider);
     final themeMode =
         themeModeAsync.valueOrNull ?? ThemeMode.system;
+
+    final onboardingDone =
+        ref.watch(onboardingDoneProvider).valueOrNull ?? true;
 
     return MaterialApp(
       title: 'DayCount',
@@ -42,7 +46,7 @@ class DayCountApp extends ConsumerWidget {
         scaffoldBackgroundColor: AppColors.backgroundDark,
         colorSchemeSeed: AppColors.primaryColor,
       ),
-      home: const HomeScreen(),
+      home: onboardingDone ? const HomeScreen() : const OnboardingScreen(),
     );
   }
 }

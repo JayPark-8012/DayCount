@@ -123,4 +123,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get error_titleRequired => 'Title is required';
+
+  @override
+  String get onboarding_title1 => 'Beautiful D-Day Cards';
+
+  @override
+  String get onboarding_desc1 =>
+      'Track your important dates\nwith stunning card designs';
+
+  @override
+  String get onboarding_title2 => 'Milestone Alerts';
+
+  @override
+  String get onboarding_desc2 =>
+      'Get notified when important\nmilestones are approaching';
+
+  @override
+  String get onboarding_title3 => 'Timeline View';
+
+  @override
+  String get onboarding_desc3 =>
+      'See all your D-Days and\nmilestones at a glance';
+
+  @override
+  String get onboarding_next => 'Next';
+
+  @override
+  String get onboarding_getStarted => 'Get Started';
+
+  @override
+  String get onboarding_skip => 'Skip';
 }
