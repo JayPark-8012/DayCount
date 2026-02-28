@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(flutter create --org com.daycount --project-name daycount --platforms ios,android -e .)",
+      "Bash(for dir in lib/core/constants lib/core/theme lib/core/utils lib/core/extensions lib/data/database lib/data/models lib/data/repositories lib/providers lib/features/home/widgets lib/features/dday_detail/widgets lib/features/dday_form/widgets lib/features/timeline/widgets lib/features/share_card/widgets lib/features/settings lib/features/pro_purchase lib/features/onboarding lib/features/milestone_celebration)",
+      "Bash(do touch \"$dir/.gitkeep\")",
+      "Bash(done)",
+      "Bash(flutter pub get)",
+      "Bash(flutter gen-l10n)"
+    ]
+  }
+}

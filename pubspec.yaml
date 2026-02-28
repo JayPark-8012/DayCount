@@ -1,0 +1,49 @@
+name: daycount
+description: "DayCount - D-Day Countdown"
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.10.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # State Management
+  flutter_riverpod: ^2.6.1
+
+  # Local DB
+  sqflite: ^2.4.2
+  path_provider: ^2.1.5
+  path: ^1.9.1
+
+  # Notifications
+  flutter_local_notifications: ^18.0.1
+
+  # In-App Purchase
+  purchases_flutter: ^8.6.0
+
+  # Firebase
+  firebase_core: ^3.12.1
+  firebase_analytics: ^11.5.1
+  firebase_crashlytics: ^4.3.3
+
+  # Utilities
+  intl: ^0.20.2
+  share_plus: ^10.1.4
+  emoji_picker_flutter: ^4.3.0
+  google_fonts: ^6.2.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.3
+  flutter_native_splash: ^2.4.6
+
+flutter:
+  generate: true
+  uses-material-design: true
