@@ -24,9 +24,13 @@ class AppColors {
   static const textDisabledDark = Color(0xFF666680);
   static const dividerDark = Color(0xFF3A3A5C);
 
-  // Status
+  // Status (light)
   static const errorColor = Color(0xFFE53935);
   static const successColor = Color(0xFF43A047);
+
+  // Status (dark)
+  static const errorColorDark = Color(0xFFEF5350);
+  static const successColorDark = Color(0xFF66BB6A);
 
   // Gradients
   static const primaryGradient = LinearGradient(
