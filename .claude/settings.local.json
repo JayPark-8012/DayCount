@@ -8,7 +8,8 @@
       "Bash(flutter pub get)",
       "Bash(flutter gen-l10n)",
       "Bash(flutter analyze)",
-      "Bash(flutter pub deps)"
+      "Bash(flutter pub deps)",
+      "Bash(flutter test test/milestone_generator_test.dart)"
     ]
   }
 }

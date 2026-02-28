@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../core/utils/milestone_generator.dart';
 import '../data/models/dday.dart';
 import '../data/repositories/dday_repository.dart';
+import 'milestone_providers.dart';
 
 final ddayRepositoryProvider = Provider<DdayRepository>((ref) {
   return DdayRepository();
@@ -23,6 +25,15 @@ class DdayListNotifier extends AsyncNotifier<List<DDay>> {
 
   Future<int> addDday(DDay dday) async {
     final id = await _repository.insert(dday);
+
+    // Auto-generate milestones
+    final milestones = generateMilestones(
+      ddayId: id,
+      category: dday.category,
+    );
+    final milestoneRepo = ref.read(milestoneRepositoryProvider);
+    await milestoneRepo.insertAll(milestones);
+
     ref.invalidateSelf();
     await future;
     return id;
