@@ -6,7 +6,8 @@
       "Bash(do touch \"$dir/.gitkeep\")",
       "Bash(done)",
       "Bash(flutter pub get)",
-      "Bash(flutter gen-l10n)"
+      "Bash(flutter gen-l10n)",
+      "Bash(flutter analyze)"
     ]
   }
 }
