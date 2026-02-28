@@ -1,4 +1,32 @@
 {
   "@@locale": "en",
-  "common_appName": "DayCount"
+  "common_appName": "DayCount",
+  "common_cancel": "Cancel",
+  "common_delete": "Delete",
+  "common_confirm": "Confirm",
+
+  "home_title": "DayCount",
+  "home_filterAll": "All",
+  "home_filterCouple": "Couple",
+  "home_filterExam": "Exam",
+  "home_filterBaby": "Baby",
+  "home_filterFavorites": "Favs",
+  "home_daysLeft": "{count} days left",
+  "@home_daysLeft": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "home_daysAgo": "+{count} days ago",
+  "@home_daysAgo": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "home_dDay": "D-Day!",
+  "home_emptyTitle": "Add your first D-Day!",
+  "home_emptySubtitle": "Track your important dates\nwith beautiful cards.",
+  "home_emptyButton": "Create D-Day",
+  "home_filterEmptyTitle": "No D-Days found",
+  "home_filterEmptySubtitle": "Try a different filter."
 }

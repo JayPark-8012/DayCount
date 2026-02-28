@@ -103,6 +103,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'DayCount'**
   String get common_appName;
+
+  /// No description provided for @common_cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get common_cancel;
+
+  /// No description provided for @common_delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get common_delete;
+
+  /// No description provided for @common_confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get common_confirm;
+
+  /// No description provided for @home_title.
+  ///
+  /// In en, this message translates to:
+  /// **'DayCount'**
+  String get home_title;
+
+  /// No description provided for @home_filterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get home_filterAll;
+
+  /// No description provided for @home_filterCouple.
+  ///
+  /// In en, this message translates to:
+  /// **'Couple'**
+  String get home_filterCouple;
+
+  /// No description provided for @home_filterExam.
+  ///
+  /// In en, this message translates to:
+  /// **'Exam'**
+  String get home_filterExam;
+
+  /// No description provided for @home_filterBaby.
+  ///
+  /// In en, this message translates to:
+  /// **'Baby'**
+  String get home_filterBaby;
+
+  /// No description provided for @home_filterFavorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Favs'**
+  String get home_filterFavorites;
+
+  /// No description provided for @home_daysLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} days left'**
+  String home_daysLeft(int count);
+
+  /// No description provided for @home_daysAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'+{count} days ago'**
+  String home_daysAgo(int count);
+
+  /// No description provided for @home_dDay.
+  ///
+  /// In en, this message translates to:
+  /// **'D-Day!'**
+  String get home_dDay;
+
+  /// No description provided for @home_emptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your first D-Day!'**
+  String get home_emptyTitle;
+
+  /// No description provided for @home_emptySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Track your important dates\nwith beautiful cards.'**
+  String get home_emptySubtitle;
+
+  /// No description provided for @home_emptyButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Create D-Day'**
+  String get home_emptyButton;
+
+  /// No description provided for @home_filterEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No D-Days found'**
+  String get home_filterEmptyTitle;
+
+  /// No description provided for @home_filterEmptySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Try a different filter.'**
+  String get home_filterEmptySubtitle;
 }
 
 class _AppLocalizationsDelegate

@@ -1,15 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'l10n/app_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class DayCountApp extends StatelessWidget {
+import 'core/constants/app_colors.dart';
+import 'features/home/home_screen.dart';
+import 'l10n/app_localizations.dart';
+import 'providers/settings_providers.dart';
+
+class DayCountApp extends ConsumerWidget {
   const DayCountApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeModeAsync = ref.watch(themeModeProvider);
+    final themeMode =
+        themeModeAsync.valueOrNull ?? ThemeMode.system;
+
     return MaterialApp(
       title: 'DayCount',
       debugShowCheckedModeBanner: false,
+      themeMode: themeMode,
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -21,29 +31,18 @@ class DayCountApp extends StatelessWidget {
         Locale('ko'),
       ],
       theme: ThemeData(
-        colorSchemeSeed: Colors.blue,
-        useMaterial3: true,
         brightness: Brightness.light,
+        useMaterial3: true,
+        scaffoldBackgroundColor: AppColors.backgroundLight,
+        colorSchemeSeed: AppColors.primaryColor,
       ),
       darkTheme: ThemeData(
-        colorSchemeSeed: Colors.blue,
-        useMaterial3: true,
         brightness: Brightness.dark,
+        useMaterial3: true,
+        scaffoldBackgroundColor: AppColors.backgroundDark,
+        colorSchemeSeed: AppColors.primaryColor,
       ),
-      home: const _EmptyHomeScreen(),
-    );
-  }
-}
-
-class _EmptyHomeScreen extends StatelessWidget {
-  const _EmptyHomeScreen();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text('DayCount'),
-      ),
+      home: const HomeScreen(),
     );
   }
 }

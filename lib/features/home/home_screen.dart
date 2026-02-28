@@ -1,0 +1,212 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../core/constants/app_colors.dart';
+import '../../core/constants/app_config.dart';
+import '../../l10n/app_localizations.dart';
+import '../../providers/filter_providers.dart';
+import 'widgets/dday_card.dart';
+import 'widgets/empty_state.dart';
+import 'widgets/filter_chips.dart';
+
+class HomeScreen extends ConsumerWidget {
+  const HomeScreen({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final filteredAsync = ref.watch(filteredDdayListProvider);
+    final currentFilter = ref.watch(currentFilterProvider);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context)!;
+
+    return Scaffold(
+      backgroundColor:
+          isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
+      body: SafeArea(
+        child: Column(
+          children: [
+            // App bar
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppConfig.xl,
+                vertical: AppConfig.sm,
+              ),
+              child: Row(
+                children: [
+                  // Logo
+                  Container(
+                    width: 36,
+                    height: 36,
+                    decoration: BoxDecoration(
+                      gradient: AppColors.logoGradient,
+                      borderRadius:
+                          BorderRadius.circular(AppConfig.logoRadius),
+                    ),
+                    child: const Center(
+                      child: Text(
+                        'D',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: AppConfig.sm),
+                  Text(
+                    l10n.home_title,
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: -0.5,
+                      color: isDark
+                          ? AppColors.textPrimaryDark
+                          : AppColors.textPrimaryLight,
+                    ),
+                  ),
+                  const Spacer(),
+                  // View toggle
+                  _AppBarIconButton(
+                    icon: '\u{1F4CA}',
+                    isDark: isDark,
+                    onTap: () {
+                      // TODO(T11): Navigate to timeline view
+                    },
+                  ),
+                  const SizedBox(width: AppConfig.sm),
+                  // Settings
+                  _AppBarIconButton(
+                    icon: '\u{2699}\u{FE0F}',
+                    isDark: isDark,
+                    onTap: () {
+                      // TODO(T-settings): Navigate to settings
+                    },
+                  ),
+                ],
+              ),
+            ),
+
+            // Filter chips
+            const FilterChips(),
+            const SizedBox(height: AppConfig.md),
+
+            // Card list
+            Expanded(
+              child: filteredAsync.when(
+                data: (ddays) {
+                  if (ddays.isEmpty) {
+                    return HomeEmptyState(
+                      isFiltered: currentFilter != DdayFilter.all,
+                      onCreateTap: () => _navigateToCreate(context),
+                    );
+                  }
+                  return ListView.separated(
+                    padding: const EdgeInsets.only(
+                      left: AppConfig.xl,
+                      right: AppConfig.xl,
+                      top: AppConfig.sm,
+                      bottom: 100,
+                    ),
+                    itemCount: ddays.length,
+                    separatorBuilder: (_, _) =>
+                        const SizedBox(height: AppConfig.md),
+                    itemBuilder: (context, index) {
+                      return DdayCard(
+                        dday: ddays[index],
+                        index: index,
+                        onTap: () => _navigateToDetail(context, ddays[index].id!),
+                      );
+                    },
+                  );
+                },
+                loading: () => const Center(
+                  child: CircularProgressIndicator(
+                    color: AppColors.primaryColor,
+                  ),
+                ),
+                error: (error, _) => Center(
+                  child: Text(
+                    error.toString(),
+                    style: const TextStyle(color: AppColors.errorColor),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: _buildFab(context),
+    );
+  }
+
+  Widget _buildFab(BuildContext context) {
+    return GestureDetector(
+      onTap: () => _navigateToCreate(context),
+      child: Container(
+        width: 56,
+        height: 56,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(AppConfig.fabRadius),
+          gradient: AppColors.primaryGradient,
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.primaryColor.withValues(alpha: 0.4),
+              blurRadius: 24,
+              offset: const Offset(0, 8),
+            ),
+          ],
+        ),
+        child: const Center(
+          child: Text(
+            '+',
+            style: TextStyle(
+              fontSize: 28,
+              fontWeight: FontWeight.w400,
+              color: Colors.white,
+              height: 1.0,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _navigateToCreate(BuildContext context) {
+    // TODO(T-form): Navigate to DDay form screen
+  }
+
+  void _navigateToDetail(BuildContext context, int ddayId) {
+    // TODO(T-detail): Navigate to DDay detail screen
+  }
+}
+
+class _AppBarIconButton extends StatelessWidget {
+  final String icon;
+  final bool isDark;
+  final VoidCallback onTap;
+
+  const _AppBarIconButton({
+    required this.icon,
+    required this.isDark,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 36,
+        height: 36,
+        decoration: BoxDecoration(
+          color: isDark ? AppColors.iconButtonDark : AppColors.iconButtonLight,
+          borderRadius: BorderRadius.circular(AppConfig.iconButtonRadius),
+        ),
+        child: Center(
+          child: Text(icon, style: const TextStyle(fontSize: 16)),
+        ),
+      ),
+    );
+  }
+}

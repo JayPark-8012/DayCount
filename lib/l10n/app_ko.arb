@@ -1,4 +1,32 @@
 {
   "@@locale": "ko",
-  "common_appName": "DayCount"
+  "common_appName": "DayCount",
+  "common_cancel": "취소",
+  "common_delete": "삭제",
+  "common_confirm": "확인",
+
+  "home_title": "DayCount",
+  "home_filterAll": "전체",
+  "home_filterCouple": "커플",
+  "home_filterExam": "시험",
+  "home_filterBaby": "육아",
+  "home_filterFavorites": "즐겨찾기",
+  "home_daysLeft": "{count}일 남음",
+  "@home_daysLeft": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "home_daysAgo": "+{count}일 지남",
+  "@home_daysAgo": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "home_dDay": "D-Day!",
+  "home_emptyTitle": "첫 번째 D-Day를 추가하세요!",
+  "home_emptySubtitle": "아름다운 카드로\n소중한 날짜를 기록하세요.",
+  "home_emptyButton": "D-Day 만들기",
+  "home_filterEmptyTitle": "D-Day가 없습니다",
+  "home_filterEmptySubtitle": "다른 필터를 선택해 보세요."
 }
