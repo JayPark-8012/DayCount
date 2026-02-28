@@ -276,4 +276,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get detail_edit => 'Edit';
+
+  @override
+  String notification_milestone7d(String title, String milestone) {
+    return '7 days until $title hits $milestone!';
+  }
+
+  @override
+  String notification_milestone3d(String title, String milestone) {
+    return 'Only 3 days to go! $title - $milestone';
+  }
+
+  @override
+  String notification_milestoneToday(String title, String milestone) {
+    return '🎉 Today is $milestone for $title!';
+  }
+
+  @override
+  String notification_ddayToday(String title) {
+    return '🎉 Today is the day! $title';
+  }
+
+  @override
+  String get notification_channelName => 'Milestone Alerts';
+
+  @override
+  String get notification_channelDesc => 'Notifications for D-Day milestones';
 }

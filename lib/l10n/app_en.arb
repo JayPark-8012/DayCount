@@ -114,5 +114,35 @@
   "detail_shareCard": "Share Card",
   "detail_customTitle": "Custom Milestone",
   "detail_customHint": "Enter days (e.g. 777)",
-  "detail_edit": "Edit"
+  "detail_edit": "Edit",
+
+  "notification_milestone7d": "7 days until {title} hits {milestone}!",
+  "@notification_milestone7d": {
+    "placeholders": {
+      "title": { "type": "String" },
+      "milestone": { "type": "String" }
+    }
+  },
+  "notification_milestone3d": "Only 3 days to go! {title} - {milestone}",
+  "@notification_milestone3d": {
+    "placeholders": {
+      "title": { "type": "String" },
+      "milestone": { "type": "String" }
+    }
+  },
+  "notification_milestoneToday": "\ud83c\udf89 Today is {milestone} for {title}!",
+  "@notification_milestoneToday": {
+    "placeholders": {
+      "title": { "type": "String" },
+      "milestone": { "type": "String" }
+    }
+  },
+  "notification_ddayToday": "\ud83c\udf89 Today is the day! {title}",
+  "@notification_ddayToday": {
+    "placeholders": {
+      "title": { "type": "String" }
+    }
+  },
+  "notification_channelName": "Milestone Alerts",
+  "notification_channelDesc": "Notifications for D-Day milestones"
 }

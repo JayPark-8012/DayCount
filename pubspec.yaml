@@ -23,6 +23,7 @@ dependencies:
 
   # Notifications
   flutter_local_notifications: ^18.0.1
+  timezone: ^0.10.1
 
   # In-App Purchase
   purchases_flutter: ^8.6.0

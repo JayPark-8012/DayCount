@@ -272,4 +272,30 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get detail_edit => '수정';
+
+  @override
+  String notification_milestone7d(String title, String milestone) {
+    return '$title $milestone까지 7일!';
+  }
+
+  @override
+  String notification_milestone3d(String title, String milestone) {
+    return '$title $milestone까지 3일!';
+  }
+
+  @override
+  String notification_milestoneToday(String title, String milestone) {
+    return '🎉 오늘은 $title $milestone이에요!';
+  }
+
+  @override
+  String notification_ddayToday(String title) {
+    return '🎉 오늘이에요! $title';
+  }
+
+  @override
+  String get notification_channelName => '마일스톤 알림';
+
+  @override
+  String get notification_channelDesc => 'D-Day 마일스톤 알림';
 }

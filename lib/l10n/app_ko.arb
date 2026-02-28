@@ -114,5 +114,35 @@
   "detail_shareCard": "카드 공유",
   "detail_customTitle": "커스텀 마일스톤",
   "detail_customHint": "일수를 입력하세요 (예: 777)",
-  "detail_edit": "수정"
+  "detail_edit": "수정",
+
+  "notification_milestone7d": "{title} {milestone}까지 7일!",
+  "@notification_milestone7d": {
+    "placeholders": {
+      "title": { "type": "String" },
+      "milestone": { "type": "String" }
+    }
+  },
+  "notification_milestone3d": "{title} {milestone}까지 3일!",
+  "@notification_milestone3d": {
+    "placeholders": {
+      "title": { "type": "String" },
+      "milestone": { "type": "String" }
+    }
+  },
+  "notification_milestoneToday": "\ud83c\udf89 오늘은 {title} {milestone}이에요!",
+  "@notification_milestoneToday": {
+    "placeholders": {
+      "title": { "type": "String" },
+      "milestone": { "type": "String" }
+    }
+  },
+  "notification_ddayToday": "\ud83c\udf89 오늘이에요! {title}",
+  "@notification_ddayToday": {
+    "placeholders": {
+      "title": { "type": "String" }
+    }
+  },
+  "notification_channelName": "마일스톤 알림",
+  "notification_channelDesc": "D-Day 마일스톤 알림"
 }

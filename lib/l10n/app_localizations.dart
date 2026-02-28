@@ -607,6 +607,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Edit'**
   String get detail_edit;
+
+  /// No description provided for @notification_milestone7d.
+  ///
+  /// In en, this message translates to:
+  /// **'7 days until {title} hits {milestone}!'**
+  String notification_milestone7d(String title, String milestone);
+
+  /// No description provided for @notification_milestone3d.
+  ///
+  /// In en, this message translates to:
+  /// **'Only 3 days to go! {title} - {milestone}'**
+  String notification_milestone3d(String title, String milestone);
+
+  /// No description provided for @notification_milestoneToday.
+  ///
+  /// In en, this message translates to:
+  /// **'🎉 Today is {milestone} for {title}!'**
+  String notification_milestoneToday(String title, String milestone);
+
+  /// No description provided for @notification_ddayToday.
+  ///
+  /// In en, this message translates to:
+  /// **'🎉 Today is the day! {title}'**
+  String notification_ddayToday(String title);
+
+  /// No description provided for @notification_channelName.
+  ///
+  /// In en, this message translates to:
+  /// **'Milestone Alerts'**
+  String get notification_channelName;
+
+  /// No description provided for @notification_channelDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications for D-Day milestones'**
+  String get notification_channelDesc;
 }
 
 class _AppLocalizationsDelegate
