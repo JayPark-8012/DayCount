@@ -158,6 +158,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_title => 'Settings';
 
   @override
+  String get settings_appearance => 'APPEARANCE';
+
+  @override
   String get settings_themeMode => 'Theme Mode';
 
   @override
@@ -168,4 +171,61 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settings_themeModeDark => 'Dark';
+
+  @override
+  String get settings_language => 'Language';
+
+  @override
+  String get settings_languageEnglish => 'English';
+
+  @override
+  String get settings_languageKorean => '한국어';
+
+  @override
+  String get settings_notifications => 'NOTIFICATIONS';
+
+  @override
+  String get settings_milestoneAlerts => 'Milestone Alerts';
+
+  @override
+  String get settings_ddayAlerts => 'D-Day Alerts';
+
+  @override
+  String get settings_data => 'DATA';
+
+  @override
+  String get settings_defaultSort => 'Default Sort';
+
+  @override
+  String get settings_sortDateAsc => 'Date (Ascending)';
+
+  @override
+  String get settings_sortDateDesc => 'Date (Descending)';
+
+  @override
+  String get settings_sortCreated => 'Created';
+
+  @override
+  String get settings_sortManual => 'Manual';
+
+  @override
+  String get settings_about => 'ABOUT';
+
+  @override
+  String get settings_privacyPolicy => 'Privacy Policy';
+
+  @override
+  String get settings_termsOfService => 'Terms of Service';
+
+  @override
+  String get settings_appVersion => 'App Version';
+
+  @override
+  String get settings_restorePurchase => 'Restore Purchase';
+
+  @override
+  String get settings_proBanner => 'DayCount PRO';
+
+  @override
+  String get settings_proBannerDesc => 'Unlock all themes & features';
 }

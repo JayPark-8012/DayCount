@@ -154,6 +154,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get settings_title => '설정';
 
   @override
+  String get settings_appearance => '외관';
+
+  @override
   String get settings_themeMode => '테마 모드';
 
   @override
@@ -164,4 +167,61 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get settings_themeModeDark => '다크';
+
+  @override
+  String get settings_language => '언어';
+
+  @override
+  String get settings_languageEnglish => 'English';
+
+  @override
+  String get settings_languageKorean => '한국어';
+
+  @override
+  String get settings_notifications => '알림';
+
+  @override
+  String get settings_milestoneAlerts => '마일스톤 알림';
+
+  @override
+  String get settings_ddayAlerts => 'D-Day 알림';
+
+  @override
+  String get settings_data => '데이터';
+
+  @override
+  String get settings_defaultSort => '기본 정렬';
+
+  @override
+  String get settings_sortDateAsc => '날짜 (오름차순)';
+
+  @override
+  String get settings_sortDateDesc => '날짜 (내림차순)';
+
+  @override
+  String get settings_sortCreated => '생성순';
+
+  @override
+  String get settings_sortManual => '수동';
+
+  @override
+  String get settings_about => '정보';
+
+  @override
+  String get settings_privacyPolicy => '개인정보 처리방침';
+
+  @override
+  String get settings_termsOfService => '이용약관';
+
+  @override
+  String get settings_appVersion => '앱 버전';
+
+  @override
+  String get settings_restorePurchase => '구매 복원';
+
+  @override
+  String get settings_proBanner => 'DayCount PRO';
+
+  @override
+  String get settings_proBannerDesc => '모든 테마와 기능을 잠금 해제하세요';
 }

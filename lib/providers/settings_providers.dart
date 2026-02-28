@@ -14,6 +14,8 @@ const _keyThemeMode = 'theme_mode';
 const _keyLanguage = 'language';
 const _keyDefaultSort = 'default_sort';
 const _keyOnboardingDone = 'onboarding_done';
+const _keyMilestoneAlerts = 'milestone_alerts_enabled';
+const _keyDdayAlerts = 'dday_alerts_enabled';
 
 // --- ThemeMode ---
 final themeModeProvider =
@@ -111,5 +113,47 @@ class OnboardingDoneNotifier extends AsyncNotifier<bool> {
   Future<void> setDone() async {
     state = const AsyncData(true);
     await _repository.set(_keyOnboardingDone, 'true');
+  }
+}
+
+// --- Milestone alerts ---
+final milestoneAlertsProvider =
+    AsyncNotifierProvider<MilestoneAlertsNotifier, bool>(
+  MilestoneAlertsNotifier.new,
+);
+
+class MilestoneAlertsNotifier extends AsyncNotifier<bool> {
+  late final SettingsRepository _repository;
+
+  @override
+  FutureOr<bool> build() async {
+    _repository = ref.watch(settingsRepositoryProvider);
+    return _repository.getBool(_keyMilestoneAlerts, defaultValue: true);
+  }
+
+  Future<void> setEnabled(bool enabled) async {
+    state = AsyncData(enabled);
+    await _repository.set(_keyMilestoneAlerts, enabled.toString());
+  }
+}
+
+// --- D-Day alerts ---
+final ddayAlertsProvider =
+    AsyncNotifierProvider<DdayAlertsNotifier, bool>(
+  DdayAlertsNotifier.new,
+);
+
+class DdayAlertsNotifier extends AsyncNotifier<bool> {
+  late final SettingsRepository _repository;
+
+  @override
+  FutureOr<bool> build() async {
+    _repository = ref.watch(settingsRepositoryProvider);
+    return _repository.getBool(_keyDdayAlerts, defaultValue: true);
+  }
+
+  Future<void> setEnabled(bool enabled) async {
+    state = AsyncData(enabled);
+    await _repository.set(_keyDdayAlerts, enabled.toString());
   }
 }

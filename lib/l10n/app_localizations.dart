@@ -380,6 +380,12 @@ abstract class AppLocalizations {
   /// **'Settings'**
   String get settings_title;
 
+  /// No description provided for @settings_appearance.
+  ///
+  /// In en, this message translates to:
+  /// **'APPEARANCE'**
+  String get settings_appearance;
+
   /// No description provided for @settings_themeMode.
   ///
   /// In en, this message translates to:
@@ -403,6 +409,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Dark'**
   String get settings_themeModeDark;
+
+  /// No description provided for @settings_language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get settings_language;
+
+  /// No description provided for @settings_languageEnglish.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get settings_languageEnglish;
+
+  /// No description provided for @settings_languageKorean.
+  ///
+  /// In en, this message translates to:
+  /// **'한국어'**
+  String get settings_languageKorean;
+
+  /// No description provided for @settings_notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'NOTIFICATIONS'**
+  String get settings_notifications;
+
+  /// No description provided for @settings_milestoneAlerts.
+  ///
+  /// In en, this message translates to:
+  /// **'Milestone Alerts'**
+  String get settings_milestoneAlerts;
+
+  /// No description provided for @settings_ddayAlerts.
+  ///
+  /// In en, this message translates to:
+  /// **'D-Day Alerts'**
+  String get settings_ddayAlerts;
+
+  /// No description provided for @settings_data.
+  ///
+  /// In en, this message translates to:
+  /// **'DATA'**
+  String get settings_data;
+
+  /// No description provided for @settings_defaultSort.
+  ///
+  /// In en, this message translates to:
+  /// **'Default Sort'**
+  String get settings_defaultSort;
+
+  /// No description provided for @settings_sortDateAsc.
+  ///
+  /// In en, this message translates to:
+  /// **'Date (Ascending)'**
+  String get settings_sortDateAsc;
+
+  /// No description provided for @settings_sortDateDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Date (Descending)'**
+  String get settings_sortDateDesc;
+
+  /// No description provided for @settings_sortCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Created'**
+  String get settings_sortCreated;
+
+  /// No description provided for @settings_sortManual.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual'**
+  String get settings_sortManual;
+
+  /// No description provided for @settings_about.
+  ///
+  /// In en, this message translates to:
+  /// **'ABOUT'**
+  String get settings_about;
+
+  /// No description provided for @settings_privacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get settings_privacyPolicy;
+
+  /// No description provided for @settings_termsOfService.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of Service'**
+  String get settings_termsOfService;
+
+  /// No description provided for @settings_appVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'App Version'**
+  String get settings_appVersion;
+
+  /// No description provided for @settings_restorePurchase.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore Purchase'**
+  String get settings_restorePurchase;
+
+  /// No description provided for @settings_proBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'DayCount PRO'**
+  String get settings_proBanner;
+
+  /// No description provided for @settings_proBannerDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock all themes & features'**
+  String get settings_proBannerDesc;
 }
 
 class _AppLocalizationsDelegate

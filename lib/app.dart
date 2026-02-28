@@ -20,10 +20,14 @@ class DayCountApp extends ConsumerWidget {
     final onboardingDone =
         ref.watch(onboardingDoneProvider).valueOrNull ?? true;
 
+    final languageCode = ref.watch(languageProvider).valueOrNull;
+    final locale = languageCode != null ? Locale(languageCode) : null;
+
     return MaterialApp(
       title: 'DayCount',
       debugShowCheckedModeBanner: false,
       themeMode: themeMode,
+      locale: locale,
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
