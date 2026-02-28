@@ -523,6 +523,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unlock all themes & features'**
   String get settings_proBannerDesc;
+
+  /// No description provided for @detail_daysSince.
+  ///
+  /// In en, this message translates to:
+  /// **'+{count} days since'**
+  String detail_daysSince(int count);
+
+  /// No description provided for @detail_daysLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} days left'**
+  String detail_daysLeft(int count);
+
+  /// No description provided for @detail_dDay.
+  ///
+  /// In en, this message translates to:
+  /// **'D-Day!'**
+  String get detail_dDay;
+
+  /// No description provided for @detail_months.
+  ///
+  /// In en, this message translates to:
+  /// **'months'**
+  String get detail_months;
+
+  /// No description provided for @detail_weeks.
+  ///
+  /// In en, this message translates to:
+  /// **'weeks'**
+  String get detail_weeks;
+
+  /// No description provided for @detail_days.
+  ///
+  /// In en, this message translates to:
+  /// **'days'**
+  String get detail_days;
+
+  /// No description provided for @detail_milestones.
+  ///
+  /// In en, this message translates to:
+  /// **'Milestones'**
+  String get detail_milestones;
+
+  /// No description provided for @detail_addCustom.
+  ///
+  /// In en, this message translates to:
+  /// **'+ Custom'**
+  String get detail_addCustom;
+
+  /// No description provided for @detail_reached.
+  ///
+  /// In en, this message translates to:
+  /// **'Reached ✨'**
+  String get detail_reached;
+
+  /// No description provided for @detail_daysRemaining.
+  ///
+  /// In en, this message translates to:
+  /// **'in {count}d'**
+  String detail_daysRemaining(int count);
+
+  /// No description provided for @detail_shareCard.
+  ///
+  /// In en, this message translates to:
+  /// **'Share Card'**
+  String get detail_shareCard;
+
+  /// No description provided for @detail_customTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom Milestone'**
+  String get detail_customTitle;
+
+  /// No description provided for @detail_customHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter days (e.g. 777)'**
+  String get detail_customHint;
+
+  /// No description provided for @detail_edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get detail_edit;
 }
 
 class _AppLocalizationsDelegate

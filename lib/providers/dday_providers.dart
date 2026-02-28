@@ -14,6 +14,20 @@ final ddayRepositoryProvider = Provider<DdayRepository>((ref) {
 final ddayListProvider =
     AsyncNotifierProvider<DdayListNotifier, List<DDay>>(DdayListNotifier.new);
 
+final ddayDetailProvider =
+    Provider.family<AsyncValue<DDay?>, int>((ref, ddayId) {
+  final listAsync = ref.watch(ddayListProvider);
+  return listAsync.whenData(
+    (list) {
+      try {
+        return list.firstWhere((d) => d.id == ddayId);
+      } catch (_) {
+        return null;
+      }
+    },
+  );
+});
+
 class DdayListNotifier extends AsyncNotifier<List<DDay>> {
   late DdayRepository _repository;
 

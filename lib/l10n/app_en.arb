@@ -84,5 +84,35 @@
   "settings_appVersion": "App Version",
   "settings_restorePurchase": "Restore Purchase",
   "settings_proBanner": "DayCount PRO",
-  "settings_proBannerDesc": "Unlock all themes & features"
+  "settings_proBannerDesc": "Unlock all themes & features",
+
+  "detail_daysSince": "+{count} days since",
+  "@detail_daysSince": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "detail_daysLeft": "{count} days left",
+  "@detail_daysLeft": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "detail_dDay": "D-Day!",
+  "detail_months": "months",
+  "detail_weeks": "weeks",
+  "detail_days": "days",
+  "detail_milestones": "Milestones",
+  "detail_addCustom": "+ Custom",
+  "detail_reached": "Reached \u2728",
+  "detail_daysRemaining": "in {count}d",
+  "@detail_daysRemaining": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "detail_shareCard": "Share Card",
+  "detail_customTitle": "Custom Milestone",
+  "detail_customHint": "Enter days (e.g. 777)",
+  "detail_edit": "Edit"
 }

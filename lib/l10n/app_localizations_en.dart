@@ -228,4 +228,52 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settings_proBannerDesc => 'Unlock all themes & features';
+
+  @override
+  String detail_daysSince(int count) {
+    return '+$count days since';
+  }
+
+  @override
+  String detail_daysLeft(int count) {
+    return '$count days left';
+  }
+
+  @override
+  String get detail_dDay => 'D-Day!';
+
+  @override
+  String get detail_months => 'months';
+
+  @override
+  String get detail_weeks => 'weeks';
+
+  @override
+  String get detail_days => 'days';
+
+  @override
+  String get detail_milestones => 'Milestones';
+
+  @override
+  String get detail_addCustom => '+ Custom';
+
+  @override
+  String get detail_reached => 'Reached ✨';
+
+  @override
+  String detail_daysRemaining(int count) {
+    return 'in ${count}d';
+  }
+
+  @override
+  String get detail_shareCard => 'Share Card';
+
+  @override
+  String get detail_customTitle => 'Custom Milestone';
+
+  @override
+  String get detail_customHint => 'Enter days (e.g. 777)';
+
+  @override
+  String get detail_edit => 'Edit';
 }

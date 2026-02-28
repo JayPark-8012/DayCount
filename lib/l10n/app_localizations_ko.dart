@@ -224,4 +224,52 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get settings_proBannerDesc => '모든 테마와 기능을 잠금 해제하세요';
+
+  @override
+  String detail_daysSince(int count) {
+    return '+$count일 지남';
+  }
+
+  @override
+  String detail_daysLeft(int count) {
+    return '$count일 남음';
+  }
+
+  @override
+  String get detail_dDay => 'D-Day!';
+
+  @override
+  String get detail_months => '개월';
+
+  @override
+  String get detail_weeks => '주';
+
+  @override
+  String get detail_days => '일';
+
+  @override
+  String get detail_milestones => '마일스톤';
+
+  @override
+  String get detail_addCustom => '+ 커스텀';
+
+  @override
+  String get detail_reached => '달성 ✨';
+
+  @override
+  String detail_daysRemaining(int count) {
+    return '$count일 후';
+  }
+
+  @override
+  String get detail_shareCard => '카드 공유';
+
+  @override
+  String get detail_customTitle => '커스텀 마일스톤';
+
+  @override
+  String get detail_customHint => '일수를 입력하세요 (예: 777)';
+
+  @override
+  String get detail_edit => '수정';
 }
