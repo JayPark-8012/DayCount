@@ -30,6 +30,11 @@
   "home_emptyButton": "Create D-Day",
   "home_filterEmptyTitle": "No D-Days found",
   "home_filterEmptySubtitle": "Try a different filter.",
+  "home_edit": "Edit",
+  "home_favorite": "Favorite",
+  "home_unfavorite": "Unfavorite",
+  "home_deleteConfirmTitle": "Delete D-Day?",
+  "home_deleteConfirmMessage": "This will permanently delete this D-Day and all its milestones.",
 
   "form_titleNew": "New D-Day",
   "form_titleEdit": "Edit D-Day",
@@ -111,7 +116,14 @@
       "count": { "type": "int" }
     }
   },
+  "detail_milestonesAfterDday": "Milestones will appear after D-Day",
   "detail_shareCard": "Share Card",
+  "detail_customLabel": "{count} Days",
+  "@detail_customLabel": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "detail_customTitle": "Custom Milestone",
   "detail_customHint": "Enter days (e.g. 777)",
   "detail_edit": "Edit",

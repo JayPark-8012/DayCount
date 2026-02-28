@@ -52,7 +52,7 @@ class DetailScreen extends ConsumerWidget {
         final theme = getCardTheme(dday.themeId);
         final today = DateUtils.dateOnly(DateTime.now());
         final target = DateTime.parse(dday.targetDate);
-        final daysDiff = today.difference(target).inDays;
+        final daysDiff = target.difference(today).inDays;
 
         return Scaffold(
           body: SingleChildScrollView(
@@ -84,14 +84,15 @@ class DetailScreen extends ConsumerWidget {
                               ),
                               const Spacer(),
                               IconButton(
-                                onPressed: () {
-                                  Navigator.push(
+                                onPressed: () async {
+                                  await Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: (_) =>
                                           DdayFormScreen(existingDday: dday),
                                     ),
                                   );
+                                  ref.invalidate(ddayListProvider);
                                 },
                                 icon: Text(
                                   '\u270F\uFE0F',

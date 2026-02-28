@@ -212,6 +212,36 @@ abstract class AppLocalizations {
   /// **'Try a different filter.'**
   String get home_filterEmptySubtitle;
 
+  /// No description provided for @home_edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get home_edit;
+
+  /// No description provided for @home_favorite.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorite'**
+  String get home_favorite;
+
+  /// No description provided for @home_unfavorite.
+  ///
+  /// In en, this message translates to:
+  /// **'Unfavorite'**
+  String get home_unfavorite;
+
+  /// No description provided for @home_deleteConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete D-Day?'**
+  String get home_deleteConfirmTitle;
+
+  /// No description provided for @home_deleteConfirmMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This will permanently delete this D-Day and all its milestones.'**
+  String get home_deleteConfirmMessage;
+
   /// No description provided for @form_titleNew.
   ///
   /// In en, this message translates to:
@@ -584,11 +614,23 @@ abstract class AppLocalizations {
   /// **'in {count}d'**
   String detail_daysRemaining(int count);
 
+  /// No description provided for @detail_milestonesAfterDday.
+  ///
+  /// In en, this message translates to:
+  /// **'Milestones will appear after D-Day'**
+  String get detail_milestonesAfterDday;
+
   /// No description provided for @detail_shareCard.
   ///
   /// In en, this message translates to:
   /// **'Share Card'**
   String get detail_shareCard;
+
+  /// No description provided for @detail_customLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Days'**
+  String detail_customLabel(int count);
 
   /// No description provided for @detail_customTitle.
   ///

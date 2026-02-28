@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart' show DateUtils;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data/models/dday.dart';
@@ -36,7 +37,16 @@ final filteredDdayListProvider = Provider<AsyncValue<List<DDay>>>((ref) {
     // Sort
     switch (sort) {
       case DdaySort.dateAsc:
-        filtered.sort((a, b) => a.targetDate.compareTo(b.targetDate));
+        // Future-first: nearest future → far future → recent past → far past
+        final today = DateUtils.dateOnly(DateTime.now());
+        filtered.sort((a, b) {
+          final daysA = DateTime.parse(a.targetDate).difference(today).inDays;
+          final daysB = DateTime.parse(b.targetDate).difference(today).inDays;
+          if (daysA >= 0 && daysB >= 0) return daysA.compareTo(daysB);
+          if (daysA < 0 && daysB < 0) return daysB.compareTo(daysA);
+          if (daysA >= 0) return -1;
+          return 1;
+        });
       case DdaySort.dateDesc:
         filtered.sort((a, b) => b.targetDate.compareTo(a.targetDate));
       case DdaySort.created:

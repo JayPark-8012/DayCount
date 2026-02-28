@@ -70,6 +70,21 @@ class AppLocalizationsKo extends AppLocalizations {
   String get home_filterEmptySubtitle => '다른 필터를 선택해 보세요.';
 
   @override
+  String get home_edit => '수정';
+
+  @override
+  String get home_favorite => '즐겨찾기';
+
+  @override
+  String get home_unfavorite => '즐겨찾기 해제';
+
+  @override
+  String get home_deleteConfirmTitle => 'D-Day를 삭제할까요?';
+
+  @override
+  String get home_deleteConfirmMessage => '이 D-Day와 모든 마일스톤이 영구적으로 삭제됩니다.';
+
+  @override
   String get form_titleNew => '새 D-Day';
 
   @override
@@ -262,7 +277,15 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
+  String get detail_milestonesAfterDday => 'D-Day 이후 마일스톤이 표시됩니다';
+
+  @override
   String get detail_shareCard => '카드 공유';
+
+  @override
+  String detail_customLabel(int count) {
+    return '$count일';
+  }
 
   @override
   String get detail_customTitle => '커스텀 마일스톤';

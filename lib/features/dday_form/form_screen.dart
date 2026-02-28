@@ -302,6 +302,9 @@ class _DdayFormScreenState extends ConsumerState<DdayFormScreen> {
     final memo = _memoController.text.trim().isEmpty
         ? null
         : _memoController.text.trim();
+    final today = DateUtils.dateOnly(DateTime.now());
+    final isCountUp = _selectedDate.isBefore(today) ||
+        _selectedDate.isAtSameMomentAs(today);
 
     if (widget.isEditMode) {
       final updated = widget.existingDday!.copyWith(
@@ -310,6 +313,7 @@ class _DdayFormScreenState extends ConsumerState<DdayFormScreen> {
         category: _category,
         emoji: _emoji,
         themeId: _themeId,
+        isCountUp: isCountUp,
         memo: memo,
         updatedAt: now,
       );
@@ -321,6 +325,7 @@ class _DdayFormScreenState extends ConsumerState<DdayFormScreen> {
         category: _category,
         emoji: _emoji,
         themeId: _themeId,
+        isCountUp: isCountUp,
         memo: memo,
         createdAt: now,
         updatedAt: now,

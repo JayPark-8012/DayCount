@@ -30,14 +30,14 @@ class CounterDisplay extends StatelessWidget {
     if (daysDiff == 0) {
       label = l10n.detail_dDay;
       displayNumber = '0';
-    } else if (isCountUp || daysDiff < 0) {
-      // Past date (count up)
-      label = l10n.detail_daysSince(absDays);
-      displayNumber = '+$absDays';
-    } else {
+    } else if (daysDiff > 0) {
       // Future date (countdown)
       label = l10n.detail_daysLeft(absDays);
       displayNumber = '$absDays';
+    } else {
+      // Past date (count up)
+      label = l10n.detail_daysSince(absDays);
+      displayNumber = '+$absDays';
     }
 
     return Column(

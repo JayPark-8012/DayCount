@@ -8,6 +8,7 @@ import '../data/models/dday.dart';
 import '../data/repositories/dday_repository.dart';
 import '../data/repositories/notification_repository.dart';
 import 'milestone_providers.dart';
+import 'settings_providers.dart';
 
 final ddayRepositoryProvider = Provider<DdayRepository>((ref) {
   return DdayRepository();
@@ -53,8 +54,14 @@ class DdayListNotifier extends AsyncNotifier<List<DDay>> {
     // Schedule notifications
     if (!kIsWeb) {
       final insertedMilestones = await milestoneRepo.getByDdayId(id);
-      await NotificationRepository.instance
-          .rescheduleAllForDday(dday.copyWith(id: id), insertedMilestones);
+      final milestoneAlerts = await ref.read(milestoneAlertsProvider.future);
+      final ddayAlerts = await ref.read(ddayAlertsProvider.future);
+      await NotificationRepository.instance.rescheduleAllForDday(
+        dday.copyWith(id: id),
+        insertedMilestones,
+        milestoneAlertsEnabled: milestoneAlerts,
+        ddayAlertsEnabled: ddayAlerts,
+      );
     }
 
     ref.invalidateSelf();
@@ -69,10 +76,23 @@ class DdayListNotifier extends AsyncNotifier<List<DDay>> {
     if (!kIsWeb && dday.id != null) {
       final milestoneRepo = ref.read(milestoneRepositoryProvider);
       final milestones = await milestoneRepo.getByDdayId(dday.id!);
-      await NotificationRepository.instance
-          .rescheduleAllForDday(dday, milestones);
+      final milestoneAlerts = await ref.read(milestoneAlertsProvider.future);
+      final ddayAlerts = await ref.read(ddayAlertsProvider.future);
+      await NotificationRepository.instance.rescheduleAllForDday(
+        dday,
+        milestones,
+        milestoneAlertsEnabled: milestoneAlerts,
+        ddayAlertsEnabled: ddayAlerts,
+      );
     }
 
+    ref.invalidateSelf();
+    await future;
+  }
+
+  Future<void> toggleFavorite(DDay dday) async {
+    final updated = dday.copyWith(isFavorite: !dday.isFavorite);
+    await _repository.update(updated);
     ref.invalidateSelf();
     await future;
   }

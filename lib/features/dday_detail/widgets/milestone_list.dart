@@ -128,7 +128,7 @@ class _MilestoneListState extends ConsumerState<MilestoneList>
               final milestone = Milestone(
                 ddayId: widget.ddayId,
                 days: days,
-                label: '$days Days',
+                label: l10n.detail_customLabel(days),
                 isCustom: true,
               );
 
@@ -147,10 +147,18 @@ class _MilestoneListState extends ConsumerState<MilestoneList>
     );
   }
 
+  bool _isTargetInFuture() {
+    final today = DateUtils.dateOnly(DateTime.now());
+    final target = DateTime.parse(widget.targetDate);
+    return target.isAfter(today);
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final hideMilestones =
+        widget.category != 'exam' && _isTargetInFuture();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -172,60 +180,81 @@ class _MilestoneListState extends ConsumerState<MilestoneList>
                 ),
               ),
               const Spacer(),
-              GestureDetector(
-                onTap: _showAddCustomDialog,
-                child: Text(
-                  l10n.detail_addCustom,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.primaryColor,
+              if (!hideMilestones)
+                GestureDetector(
+                  onTap: _showAddCustomDialog,
+                  child: Text(
+                    l10n.detail_addCustom,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.primaryColor,
+                    ),
                   ),
                 ),
-              ),
             ],
           ),
         ),
         const SizedBox(height: AppConfig.md),
 
-        // Milestone items
-        ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          padding: const EdgeInsets.symmetric(horizontal: AppConfig.xl),
-          itemCount: widget.milestones.length,
-          itemBuilder: (context, index) {
-            final milestone = widget.milestones[index];
-            final reached = _isMilestoneReached(milestone);
-            final daysLeft = _daysUntilMilestone(milestone);
-
-            final double begin = (index * 80 /
-                    (_controller.duration?.inMilliseconds ?? 1))
-                .clamp(0.0, 0.7);
-            final double end = (begin + 0.3).clamp(0.0, 1.0);
-
-            final animation = CurvedAnimation(
-              parent: _controller,
-              curve: Interval(begin, end, curve: Curves.easeOut),
-            );
-
-            return FadeTransition(
-              opacity: animation,
-              child: SlideTransition(
-                position: Tween<Offset>(
-                  begin: const Offset(0, 0.15),
-                  end: Offset.zero,
-                ).animate(animation),
-                child: _MilestoneRow(
-                  milestone: milestone,
-                  reached: reached,
-                  daysLeft: daysLeft,
-                  isDark: isDark,
+        if (hideMilestones)
+          // Show placeholder for future non-exam D-Days
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppConfig.xl,
+              vertical: AppConfig.lg,
+            ),
+            child: Center(
+              child: Text(
+                l10n.detail_milestonesAfterDday,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: isDark
+                      ? AppColors.textSecondaryDark
+                      : AppColors.textSecondaryLight,
                 ),
               ),
-            );
-          },
-        ),
+            ),
+          )
+        else
+          // Milestone items
+          ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            padding: const EdgeInsets.symmetric(horizontal: AppConfig.xl),
+            itemCount: widget.milestones.length,
+            itemBuilder: (context, index) {
+              final milestone = widget.milestones[index];
+              final reached = _isMilestoneReached(milestone);
+              final daysLeft = _daysUntilMilestone(milestone);
+
+              final double begin = (index * 80 /
+                      (_controller.duration?.inMilliseconds ?? 1))
+                  .clamp(0.0, 0.7);
+              final double end = (begin + 0.3).clamp(0.0, 1.0);
+
+              final animation = CurvedAnimation(
+                parent: _controller,
+                curve: Interval(begin, end, curve: Curves.easeOut),
+              );
+
+              return FadeTransition(
+                opacity: animation,
+                child: SlideTransition(
+                  position: Tween<Offset>(
+                    begin: const Offset(0, 0.15),
+                    end: Offset.zero,
+                  ).animate(animation),
+                  child: _MilestoneRow(
+                    milestone: milestone,
+                    reached: reached,
+                    daysLeft: daysLeft,
+                    isDark: isDark,
+                  ),
+                ),
+              );
+            },
+          ),
       ],
     );
   }

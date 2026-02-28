@@ -9,12 +9,14 @@ class DdayCard extends StatefulWidget {
   final DDay dday;
   final int index;
   final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
 
   const DdayCard({
     super.key,
     required this.dday,
     required this.index,
     this.onTap,
+    this.onLongPress,
   });
 
   @override
@@ -70,6 +72,7 @@ class _DdayCardState extends State<DdayCard>
       },
       child: GestureDetector(
         onTap: widget.onTap,
+        onLongPress: widget.onLongPress,
         child: Container(
           padding: const EdgeInsets.all(AppConfig.lg),
           decoration: BoxDecoration(

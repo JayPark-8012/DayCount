@@ -71,6 +71,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get home_filterEmptySubtitle => 'Try a different filter.';
 
   @override
+  String get home_edit => 'Edit';
+
+  @override
+  String get home_favorite => 'Favorite';
+
+  @override
+  String get home_unfavorite => 'Unfavorite';
+
+  @override
+  String get home_deleteConfirmTitle => 'Delete D-Day?';
+
+  @override
+  String get home_deleteConfirmMessage =>
+      'This will permanently delete this D-Day and all its milestones.';
+
+  @override
   String get form_titleNew => 'New D-Day';
 
   @override
@@ -266,7 +282,15 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get detail_milestonesAfterDday => 'Milestones will appear after D-Day';
+
+  @override
   String get detail_shareCard => 'Share Card';
+
+  @override
+  String detail_customLabel(int count) {
+    return '$count Days';
+  }
 
   @override
   String get detail_customTitle => 'Custom Milestone';

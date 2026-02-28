@@ -178,8 +178,10 @@ class NotificationRepository {
 
   Future<void> rescheduleAllForDday(
     DDay dday,
-    List<Milestone> milestones,
-  ) async {
+    List<Milestone> milestones, {
+    bool milestoneAlertsEnabled = true,
+    bool ddayAlertsEnabled = true,
+  }) async {
     if (kIsWeb || dday.id == null) return;
 
     final ddayId = dday.id!;
@@ -197,42 +199,46 @@ class NotificationRepository {
 
     final target = DateTime.parse(dday.targetDate);
 
-    // 3. Schedule milestone notifications
-    for (final milestone in milestones) {
-      if (milestone.id == null) continue;
+    // 3. Schedule milestone notifications (if global toggle is ON)
+    if (milestoneAlertsEnabled) {
+      for (final milestone in milestones) {
+        if (milestone.id == null) continue;
 
-      final mDate = _milestoneDate(target, milestone.days, dday.category);
+        final mDate = _milestoneDate(target, milestone.days, dday.category);
 
-      for (final notifyBefore in milestone.notifyBefore) {
-        final notifyType = _notifyTypeIndex(notifyBefore);
-        if (notifyType < 0) continue;
+        for (final notifyBefore in milestone.notifyBefore) {
+          final notifyType = _notifyTypeIndex(notifyBefore);
+          if (notifyType < 0) continue;
 
-        final notifDate = _notificationDate(mDate, notifyBefore);
-        final notifId = _notificationId(ddayId, milestone.id!, notifyType);
+          final notifDate = _notificationDate(mDate, notifyBefore);
+          final notifId = _notificationId(ddayId, milestone.id!, notifyType);
 
-        final body = _milestoneBody(
-          notifyBefore: notifyBefore,
-          ddayTitle: dday.title,
-          milestoneLabel: milestone.label,
-        );
+          final body = _milestoneBody(
+            notifyBefore: notifyBefore,
+            ddayTitle: dday.title,
+            milestoneLabel: milestone.label,
+          );
 
-        await scheduleNotification(
-          id: notifId,
-          title: dday.title,
-          body: body,
-          scheduledDate: notifDate,
-        );
+          await scheduleNotification(
+            id: notifId,
+            title: dday.title,
+            body: body,
+            scheduledDate: notifDate,
+          );
+        }
       }
     }
 
-    // 4. Schedule D-Day itself alert
-    final ddayNotifId = _ddayNotificationId(ddayId);
-    await scheduleNotification(
-      id: ddayNotifId,
-      title: dday.title,
-      body: '\u{1F389} Today is the day! ${dday.title}',
-      scheduledDate: target,
-    );
+    // 4. Schedule D-Day itself alert (if global toggle is ON)
+    if (ddayAlertsEnabled) {
+      final ddayNotifId = _ddayNotificationId(ddayId);
+      await scheduleNotification(
+        id: ddayNotifId,
+        title: dday.title,
+        body: '\u{1F389} Today is the day! ${dday.title}',
+        scheduledDate: target,
+      );
+    }
 
     debugPrint(
       '[NotificationRepository] Rescheduled all for ddayId=$ddayId',
