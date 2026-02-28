@@ -146,7 +146,8 @@ D-Day 생성/수정 화면을 구현해줘. 기획서 S03 참고.
    - 프리미엄 테마에 🔒 PRO 뱃지
    - 잠긴 테마 탭 시 PRO 구매 화면 이동 (나중에 연결)
 
-먼저 core/theme/card_themes.dart에 기획서 20번의 기본 6개 + 프리미엄 5개 테마를 정의해줘.
+먼저 core/theme/card_themes.dart에 docs/design-tokens.md의 전체 테마를 정의해줘.
+기본 무료 6개 + 프리미엄 15개 = 총 21개. 컬러코드는 design-tokens.md 2번 섹션 참고.
 ```
 
 ### T1.6 — 마일스톤 자동 생성 로직

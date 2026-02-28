@@ -38,7 +38,7 @@
 | F03 | D-Day 상세 화면 | 무료 | P0 | 남은/지난 일수, 주/월 환산, 마일스톤 리스트, 공유 버튼 |
 | F04 | 카테고리 태그 | 무료 | P0 | 일반/커플/시험/육아 분류 |
 | F05 | 기본 테마 (6개) | 무료 | P1 | Cloud, Sunset, Ocean, Forest, Lavender, Minimal |
-| F06 | 프리미엄 테마 (10~15개) | 유료 | P1 | Midnight, Cherry, Aurora, Peach, Noir 등 |
+| F06 | 프리미엄 테마 (15개) | 유료 | P1 | Midnight, Cherry, Aurora, Peach, Noir, Rose Gold, Arctic, Ember, Sage, Twilight, Mocha, Ocean Deep, Cotton Candy, Graphite, Royal |
 | F07 | 마일스톤 자동 생성 | 무료 | P1 | 카테고리별 자동: 일반(100/200/365일), 커플(100일 단위), 육아(개월수) |
 | F08 | 마일스톤 사전 알림 | 무료 | P1 | 7일전, 3일전, 당일 로컬 알림. D-Day별 ON/OFF (기본 ON) |
 | F09 | 커스텀 마일스톤 추가 | 무료 | P1 | 유저가 원하는 일수 직접 추가 (예: 777일) |
@@ -677,7 +677,7 @@ daycount/
 | 상품명 | DayCount PRO |
 | 타입 | Non-consumable (1회 구매, 영구) |
 | 가격 | $3.99 (USD) / ₩4,900 (KRW) |
-| 해금 기능 | 프리미엄 테마 10~15개 + 카테고리 특화 모드 + 공유 카드 커스텀 |
+| 해금 기능 | 프리미엄 테마 15개 + 카테고리 특화 모드 + 공유 카드 커스텀 |
 | 구매 복원 | 설정 화면 "Restore Purchase" 버튼 (Apple 필수 요구사항) |
 
 ### 비용 구조
@@ -978,7 +978,7 @@ daycount/
 | lavender | Lavender | #F3E5F5 → #E1BEE7 | #4A148C | #9C27B0 |
 | minimal | Minimal | #FFFFFF → #F5F5F5 | #212121 | #6C63FF |
 
-### 프리미엄 테마 (유료)
+### 프리미엄 테마 (유료, 15개)
 
 | ID | 테마명 | 카드 배경 그라데이션 | 텍스트 | 액센트 |
 |----|--------|---------------------|--------|--------|
@@ -987,8 +987,18 @@ daycount/
 | aurora | Aurora | #0F2027 → #2C5364 | #43E8D8 | #43E8D8 |
 | peach | Peach | #FFECD2 → #FCB69F | #5D4037 | #FF7043 |
 | noir | Noir | #232526 → #414345 | #FAFAFA | #FFD700 |
+| rosegold | Rose Gold | #F4C4C4 → #E8A8A8 | #5D3A3A | #C97B7B |
+| arctic | Arctic | #E0F2F7 → #B2E0F0 | #0D3B66 | #1E88E5 |
+| ember | Ember | #FF8A65 → #FF5722 | #FFFFFF | #FFE0B2 |
+| sage | Sage | #D5E1D5 → #B5C9B5 | #2E4A2E | #5C8A5C |
+| twilight | Twilight | #2D1B69 → #1A1A4E | #D4C5FF | #B39DDB |
+| mocha | Mocha | #D7CCC8 → #BCAAA4 | #3E2723 | #795548 |
+| ocean_deep | Ocean Deep | #0D1B2A → #1B3A4B | #A8D8EA | #48CAE4 |
+| cotton_candy | Cotton Candy | #F8BBD0 → #CE93D8 | #4A148C | #E040FB |
+| graphite | Graphite | #37474F → #546E7A | #ECEFF1 | #90A4AE |
+| royal | Royal | #1A237E → #283593 | #E8EAF6 | #FFD700 |
 
-> 추가 프리미엄 테마는 출시 후 유저 반응 보며 확장
+> 전체 컬러 코드 및 디자인 상세: `docs/design-tokens.md` 참고
 
 ### 타이포그래피
 
@@ -1110,7 +1120,7 @@ DayCount. 모든 날이 소중하니까.
 | 버전 | 내용 | 예상 시기 |
 |------|------|----------|
 | **v1.0** | MVP 출시 | W3 |
-| **v1.1** | 유저 피드백 반영, 버그 수정, 프리미엄 테마 5개 추가 | v1.0 + 2주 |
+| **v1.1** | 유저 피드백 반영, 버그 수정, 신규 프리미엄 테마 추가 | v1.0 + 2주 |
 | **v1.2** | 알림 시간 커스텀, 추가 언어 (일본어/중국어 간체) | v1.1 + 2주 |
 | **v2.0** | 홈 화면 위젯 (iOS WidgetKit + Android Glance) | v1.2 + 4주 |
 | **v2.1** | 클라우드 백업/동기화 (Firebase Auth + Firestore) | v2.0 + 2주 |
