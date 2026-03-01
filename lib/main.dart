@@ -6,6 +6,7 @@ import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
 
 import 'app.dart';
 import 'data/repositories/notification_repository.dart';
+import 'data/repositories/purchase_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,9 +18,10 @@ void main() async {
   // Initialize timezone data
   NotificationRepository.initializeTimeZones();
 
-  // Initialize notification plugin (skip on web)
+  // Initialize notification plugin and RevenueCat (skip on web)
   if (!kIsWeb) {
     await NotificationRepository.instance.initialize();
+    await PurchaseRepository.init();
   }
 
   runApp(const ProviderScope(child: DayCountApp()));

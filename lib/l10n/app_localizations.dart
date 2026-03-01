@@ -865,6 +865,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Saved to gallery!'**
   String get share_saved;
+
+  /// No description provided for @pro_title.
+  ///
+  /// In en, this message translates to:
+  /// **'DayCount PRO'**
+  String get pro_title;
+
+  /// No description provided for @pro_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock the full experience'**
+  String get pro_subtitle;
+
+  /// No description provided for @pro_feature1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Premium Themes'**
+  String get pro_feature1Title;
+
+  /// No description provided for @pro_feature1Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'15+ stunning card themes'**
+  String get pro_feature1Desc;
+
+  /// No description provided for @pro_feature2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Special Modes'**
+  String get pro_feature2Title;
+
+  /// No description provided for @pro_feature2Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Couple, exam & baby trackers'**
+  String get pro_feature2Desc;
+
+  /// No description provided for @pro_feature3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom Share Cards'**
+  String get pro_feature3Title;
+
+  /// No description provided for @pro_feature3Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Premium templates & fonts'**
+  String get pro_feature3Desc;
+
+  /// No description provided for @pro_price.
+  ///
+  /// In en, this message translates to:
+  /// **'\$3.99'**
+  String get pro_price;
+
+  /// No description provided for @pro_priceDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'One-time purchase · Forever yours'**
+  String get pro_priceDesc;
+
+  /// No description provided for @pro_unlock.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock DayCount PRO'**
+  String get pro_unlock;
+
+  /// No description provided for @pro_restore.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore Purchase'**
+  String get pro_restore;
+
+  /// No description provided for @pro_already.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re already PRO!'**
+  String get pro_already;
+
+  /// No description provided for @pro_alreadyDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'All features are unlocked.'**
+  String get pro_alreadyDesc;
+
+  /// No description provided for @pro_thankYou.
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you!'**
+  String get pro_thankYou;
+
+  /// No description provided for @error_purchaseFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase failed. Please try again.'**
+  String get error_purchaseFailed;
+
+  /// No description provided for @error_restoreNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No previous purchase found.'**
+  String get error_restoreNone;
+
+  /// No description provided for @error_restoreFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get error_restoreFailed;
 }
 
 class _AppLocalizationsDelegate

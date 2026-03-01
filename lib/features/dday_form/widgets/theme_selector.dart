@@ -5,6 +5,7 @@ import '../../../core/constants/app_config.dart';
 import '../../../core/theme/card_themes.dart';
 import '../../../data/models/card_theme.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../pro_purchase/pro_screen.dart';
 
 class ThemeSelector extends StatelessWidget {
   final String selectedThemeId;
@@ -51,7 +52,12 @@ class ThemeSelector extends StatelessWidget {
                 proLabel: l10n.form_proBadge,
                 onTap: () {
                   if (theme.isPro) {
-                    // TODO(T-pro): Navigate to PRO purchase screen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const ProScreen(),
+                      ),
+                    );
                     return;
                   }
                   onThemeChanged(theme.id);

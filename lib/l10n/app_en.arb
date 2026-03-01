@@ -207,5 +207,24 @@
   "share_save": "Save",
   "share_share": "Share",
   "share_template": "Template",
-  "share_saved": "Saved to gallery!"
+  "share_saved": "Saved to gallery!",
+
+  "pro_title": "DayCount PRO",
+  "pro_subtitle": "Unlock the full experience",
+  "pro_feature1Title": "Premium Themes",
+  "pro_feature1Desc": "15+ stunning card themes",
+  "pro_feature2Title": "Special Modes",
+  "pro_feature2Desc": "Couple, exam & baby trackers",
+  "pro_feature3Title": "Custom Share Cards",
+  "pro_feature3Desc": "Premium templates & fonts",
+  "pro_price": "$3.99",
+  "pro_priceDesc": "One-time purchase \u00b7 Forever yours",
+  "pro_unlock": "Unlock DayCount PRO",
+  "pro_restore": "Restore Purchase",
+  "pro_already": "You're already PRO!",
+  "pro_alreadyDesc": "All features are unlocked.",
+  "pro_thankYou": "Thank you!",
+  "error_purchaseFailed": "Purchase failed. Please try again.",
+  "error_restoreNone": "No previous purchase found.",
+  "error_restoreFailed": "Something went wrong. Please try again."
 }

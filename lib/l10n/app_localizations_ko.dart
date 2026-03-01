@@ -417,4 +417,58 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get share_saved => '갤러리에 저장되었습니다!';
+
+  @override
+  String get pro_title => 'DayCount PRO';
+
+  @override
+  String get pro_subtitle => '모든 기능을 잠금 해제하세요';
+
+  @override
+  String get pro_feature1Title => '프리미엄 테마';
+
+  @override
+  String get pro_feature1Desc => '15개 이상의 아름다운 카드 테마';
+
+  @override
+  String get pro_feature2Title => '스페셜 모드';
+
+  @override
+  String get pro_feature2Desc => '커플, 시험, 육아 추적';
+
+  @override
+  String get pro_feature3Title => '커스텀 카드';
+
+  @override
+  String get pro_feature3Desc => '프리미엄 템플릿과 폰트';
+
+  @override
+  String get pro_price => '₩4,900';
+
+  @override
+  String get pro_priceDesc => '1회 구매 · 영구 소유';
+
+  @override
+  String get pro_unlock => 'DayCount PRO 잠금 해제';
+
+  @override
+  String get pro_restore => '구매 복원';
+
+  @override
+  String get pro_already => '이미 PRO입니다!';
+
+  @override
+  String get pro_alreadyDesc => '모든 기능이 잠금 해제되었습니다.';
+
+  @override
+  String get pro_thankYou => '감사합니다!';
+
+  @override
+  String get error_purchaseFailed => '구매에 실패했습니다. 다시 시도해주세요.';
+
+  @override
+  String get error_restoreNone => '이전 구매 내역이 없습니다.';
+
+  @override
+  String get error_restoreFailed => '문제가 발생했습니다. 다시 시도해주세요.';
 }

@@ -422,4 +422,58 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get share_saved => 'Saved to gallery!';
+
+  @override
+  String get pro_title => 'DayCount PRO';
+
+  @override
+  String get pro_subtitle => 'Unlock the full experience';
+
+  @override
+  String get pro_feature1Title => 'Premium Themes';
+
+  @override
+  String get pro_feature1Desc => '15+ stunning card themes';
+
+  @override
+  String get pro_feature2Title => 'Special Modes';
+
+  @override
+  String get pro_feature2Desc => 'Couple, exam & baby trackers';
+
+  @override
+  String get pro_feature3Title => 'Custom Share Cards';
+
+  @override
+  String get pro_feature3Desc => 'Premium templates & fonts';
+
+  @override
+  String get pro_price => '\$3.99';
+
+  @override
+  String get pro_priceDesc => 'One-time purchase · Forever yours';
+
+  @override
+  String get pro_unlock => 'Unlock DayCount PRO';
+
+  @override
+  String get pro_restore => 'Restore Purchase';
+
+  @override
+  String get pro_already => 'You\'re already PRO!';
+
+  @override
+  String get pro_alreadyDesc => 'All features are unlocked.';
+
+  @override
+  String get pro_thankYou => 'Thank you!';
+
+  @override
+  String get error_purchaseFailed => 'Purchase failed. Please try again.';
+
+  @override
+  String get error_restoreNone => 'No previous purchase found.';
+
+  @override
+  String get error_restoreFailed => 'Something went wrong. Please try again.';
 }

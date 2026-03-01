@@ -6,6 +6,7 @@ import '../../../core/constants/app_config.dart';
 import '../../../core/theme/card_themes.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../providers/purchase_providers.dart';
+import '../../pro_purchase/pro_screen.dart';
 
 /// Horizontal scrolling template selector with PRO badges.
 class TemplateSelector extends ConsumerWidget {
@@ -54,7 +55,15 @@ class TemplateSelector extends ConsumerWidget {
                 padding: const EdgeInsets.only(right: AppConfig.sm),
                 child: GestureDetector(
                   onTap: () {
-                    if (isLocked) return;
+                    if (isLocked) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const ProScreen(),
+                        ),
+                      );
+                      return;
+                    }
                     onSelect(entry.key);
                   },
                   child: Stack(

@@ -4,7 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_config.dart';
 import '../../l10n/app_localizations.dart';
+import '../../providers/purchase_providers.dart';
 import '../../providers/settings_providers.dart';
+import '../pro_purchase/pro_screen.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -63,7 +65,10 @@ class SettingsScreen extends ConsumerWidget {
             isDark: isDark,
             l10n: l10n,
             onTap: () {
-              // TODO(T-pro): Navigate to PRO purchase screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const ProScreen()),
+              );
             },
           ),
           const SizedBox(height: AppConfig.xxl),
@@ -201,8 +206,17 @@ class SettingsScreen extends ConsumerWidget {
                 label: l10n.settings_restorePurchase,
                 icon: Icons.restore,
                 isDark: isDark,
-                onTap: () {
-                  // TODO(T-pro): Restore purchase via RevenueCat
+                onTap: () async {
+                  final success =
+                      await ref.read(isProProvider.notifier).restore();
+                  if (context.mounted) {
+                    final msg = success
+                        ? l10n.pro_thankYou
+                        : l10n.error_restoreNone;
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(msg)),
+                    );
+                  }
                 },
               ),
             ],

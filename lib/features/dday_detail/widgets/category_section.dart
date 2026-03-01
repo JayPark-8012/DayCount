@@ -9,6 +9,7 @@ import '../../../core/constants/app_config.dart';
 import '../../../data/models/dday.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../providers/purchase_providers.dart';
+import '../../pro_purchase/pro_screen.dart';
 
 /// Category-specific PRO section for the detail screen.
 /// Shows couple anniversaries, exam countdown, or baby growth info.
@@ -600,7 +601,12 @@ class _ProLockOverlay extends StatelessWidget {
                     const SizedBox(height: AppConfig.lg),
                     FilledButton(
                       onPressed: () {
-                        // TODO(T-pro): Navigate to PRO purchase screen
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const ProScreen(),
+                          ),
+                        );
                       },
                       style: FilledButton.styleFrom(
                         backgroundColor: AppColors.primaryColor,
