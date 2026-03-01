@@ -8,6 +8,7 @@ import '../../l10n/app_localizations.dart';
 import '../../providers/dday_providers.dart';
 import '../../providers/milestone_providers.dart';
 import '../dday_form/form_screen.dart';
+import 'widgets/category_section.dart';
 import 'widgets/counter_display.dart';
 import 'widgets/milestone_list.dart';
 import 'widgets/sub_counts.dart';
@@ -138,6 +139,12 @@ class DetailScreen extends ConsumerWidget {
                   child: Column(
                     children: [
                       const SizedBox(height: AppConfig.xxl),
+
+                      // Category-specific PRO section
+                      if (dday.category != 'general') ...[
+                        CategorySection(dday: dday),
+                        const SizedBox(height: AppConfig.lg),
+                      ],
 
                       // Milestones
                       milestonesAsync.when(

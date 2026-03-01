@@ -161,5 +161,42 @@
   "celebration_congratulations": "축하합니다!",
   "celebration_reached": "달성",
   "celebration_shareThis": "공유하기",
-  "celebration_dismiss": "닫기"
+  "celebration_dismiss": "닫기",
+
+  "detail_coupleTitle": "커플 기념일",
+  "detail_coupleAnniversary": "{count}일 기념일",
+  "@detail_coupleAnniversary": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "detail_coupleNext": "다음",
+  "detail_examTitle": "시험 카운트다운",
+  "detail_examRemaining": "{weeks}주 {days}일 남음",
+  "@detail_examRemaining": {
+    "placeholders": {
+      "weeks": { "type": "int" },
+      "days": { "type": "int" }
+    }
+  },
+  "detail_examCompleted": "시험 완료",
+  "detail_babyTitle": "아기 성장",
+  "detail_babyAge": "{months}개월 {days}일",
+  "@detail_babyAge": {
+    "placeholders": {
+      "months": { "type": "int" },
+      "days": { "type": "int" }
+    }
+  },
+  "detail_babyRolling": "뒤집기",
+  "detail_babyRollingAge": "3-4개월",
+  "detail_babySitting": "앉기",
+  "detail_babySittingAge": "6개월",
+  "detail_babyCrawling": "기어가기",
+  "detail_babyCrawlingAge": "8-10개월",
+  "detail_babyWalking": "걷기",
+  "detail_babyWalkingAge": "12개월",
+  "detail_proLockTitle": "스페셜 모드 잠금 해제",
+  "detail_proLockSubtitle": "DayCount PRO로",
+  "detail_proLockButton": "자세히 보기"
 }

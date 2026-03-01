@@ -338,4 +338,67 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get celebration_dismiss => 'Dismiss';
+
+  @override
+  String get detail_coupleTitle => 'Couple Anniversaries';
+
+  @override
+  String detail_coupleAnniversary(int count) {
+    return '$count-Day Anniversary';
+  }
+
+  @override
+  String get detail_coupleNext => 'Next';
+
+  @override
+  String get detail_examTitle => 'Exam Countdown';
+
+  @override
+  String detail_examRemaining(int weeks, int days) {
+    return '${weeks}w ${days}d remaining';
+  }
+
+  @override
+  String get detail_examCompleted => 'Exam completed';
+
+  @override
+  String get detail_babyTitle => 'Baby Growth';
+
+  @override
+  String detail_babyAge(int months, int days) {
+    return '${months}m ${days}d old';
+  }
+
+  @override
+  String get detail_babyRolling => 'Rolling Over';
+
+  @override
+  String get detail_babyRollingAge => '3-4 months';
+
+  @override
+  String get detail_babySitting => 'Sitting Up';
+
+  @override
+  String get detail_babySittingAge => '6 months';
+
+  @override
+  String get detail_babyCrawling => 'Crawling';
+
+  @override
+  String get detail_babyCrawlingAge => '8-10 months';
+
+  @override
+  String get detail_babyWalking => 'Walking';
+
+  @override
+  String get detail_babyWalkingAge => '12 months';
+
+  @override
+  String get detail_proLockTitle => 'Unlock Special Mode';
+
+  @override
+  String get detail_proLockSubtitle => 'with DayCount PRO';
+
+  @override
+  String get detail_proLockButton => 'Learn More';
 }

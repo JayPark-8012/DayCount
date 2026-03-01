@@ -709,6 +709,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Dismiss'**
   String get celebration_dismiss;
+
+  /// No description provided for @detail_coupleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Couple Anniversaries'**
+  String get detail_coupleTitle;
+
+  /// No description provided for @detail_coupleAnniversary.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}-Day Anniversary'**
+  String detail_coupleAnniversary(int count);
+
+  /// No description provided for @detail_coupleNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get detail_coupleNext;
+
+  /// No description provided for @detail_examTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Exam Countdown'**
+  String get detail_examTitle;
+
+  /// No description provided for @detail_examRemaining.
+  ///
+  /// In en, this message translates to:
+  /// **'{weeks}w {days}d remaining'**
+  String detail_examRemaining(int weeks, int days);
+
+  /// No description provided for @detail_examCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Exam completed'**
+  String get detail_examCompleted;
+
+  /// No description provided for @detail_babyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Baby Growth'**
+  String get detail_babyTitle;
+
+  /// No description provided for @detail_babyAge.
+  ///
+  /// In en, this message translates to:
+  /// **'{months}m {days}d old'**
+  String detail_babyAge(int months, int days);
+
+  /// No description provided for @detail_babyRolling.
+  ///
+  /// In en, this message translates to:
+  /// **'Rolling Over'**
+  String get detail_babyRolling;
+
+  /// No description provided for @detail_babyRollingAge.
+  ///
+  /// In en, this message translates to:
+  /// **'3-4 months'**
+  String get detail_babyRollingAge;
+
+  /// No description provided for @detail_babySitting.
+  ///
+  /// In en, this message translates to:
+  /// **'Sitting Up'**
+  String get detail_babySitting;
+
+  /// No description provided for @detail_babySittingAge.
+  ///
+  /// In en, this message translates to:
+  /// **'6 months'**
+  String get detail_babySittingAge;
+
+  /// No description provided for @detail_babyCrawling.
+  ///
+  /// In en, this message translates to:
+  /// **'Crawling'**
+  String get detail_babyCrawling;
+
+  /// No description provided for @detail_babyCrawlingAge.
+  ///
+  /// In en, this message translates to:
+  /// **'8-10 months'**
+  String get detail_babyCrawlingAge;
+
+  /// No description provided for @detail_babyWalking.
+  ///
+  /// In en, this message translates to:
+  /// **'Walking'**
+  String get detail_babyWalking;
+
+  /// No description provided for @detail_babyWalkingAge.
+  ///
+  /// In en, this message translates to:
+  /// **'12 months'**
+  String get detail_babyWalkingAge;
+
+  /// No description provided for @detail_proLockTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock Special Mode'**
+  String get detail_proLockTitle;
+
+  /// No description provided for @detail_proLockSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'with DayCount PRO'**
+  String get detail_proLockSubtitle;
+
+  /// No description provided for @detail_proLockButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Learn More'**
+  String get detail_proLockButton;
 }
 
 class _AppLocalizationsDelegate

@@ -161,5 +161,42 @@
   "celebration_congratulations": "Congratulations!",
   "celebration_reached": "reached",
   "celebration_shareThis": "Share This",
-  "celebration_dismiss": "Dismiss"
+  "celebration_dismiss": "Dismiss",
+
+  "detail_coupleTitle": "Couple Anniversaries",
+  "detail_coupleAnniversary": "{count}-Day Anniversary",
+  "@detail_coupleAnniversary": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "detail_coupleNext": "Next",
+  "detail_examTitle": "Exam Countdown",
+  "detail_examRemaining": "{weeks}w {days}d remaining",
+  "@detail_examRemaining": {
+    "placeholders": {
+      "weeks": { "type": "int" },
+      "days": { "type": "int" }
+    }
+  },
+  "detail_examCompleted": "Exam completed",
+  "detail_babyTitle": "Baby Growth",
+  "detail_babyAge": "{months}m {days}d old",
+  "@detail_babyAge": {
+    "placeholders": {
+      "months": { "type": "int" },
+      "days": { "type": "int" }
+    }
+  },
+  "detail_babyRolling": "Rolling Over",
+  "detail_babyRollingAge": "3-4 months",
+  "detail_babySitting": "Sitting Up",
+  "detail_babySittingAge": "6 months",
+  "detail_babyCrawling": "Crawling",
+  "detail_babyCrawlingAge": "8-10 months",
+  "detail_babyWalking": "Walking",
+  "detail_babyWalkingAge": "12 months",
+  "detail_proLockTitle": "Unlock Special Mode",
+  "detail_proLockSubtitle": "with DayCount PRO",
+  "detail_proLockButton": "Learn More"
 }

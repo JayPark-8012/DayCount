@@ -333,4 +333,67 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get celebration_dismiss => '닫기';
+
+  @override
+  String get detail_coupleTitle => '커플 기념일';
+
+  @override
+  String detail_coupleAnniversary(int count) {
+    return '$count일 기념일';
+  }
+
+  @override
+  String get detail_coupleNext => '다음';
+
+  @override
+  String get detail_examTitle => '시험 카운트다운';
+
+  @override
+  String detail_examRemaining(int weeks, int days) {
+    return '$weeks주 $days일 남음';
+  }
+
+  @override
+  String get detail_examCompleted => '시험 완료';
+
+  @override
+  String get detail_babyTitle => '아기 성장';
+
+  @override
+  String detail_babyAge(int months, int days) {
+    return '$months개월 $days일';
+  }
+
+  @override
+  String get detail_babyRolling => '뒤집기';
+
+  @override
+  String get detail_babyRollingAge => '3-4개월';
+
+  @override
+  String get detail_babySitting => '앉기';
+
+  @override
+  String get detail_babySittingAge => '6개월';
+
+  @override
+  String get detail_babyCrawling => '기어가기';
+
+  @override
+  String get detail_babyCrawlingAge => '8-10개월';
+
+  @override
+  String get detail_babyWalking => '걷기';
+
+  @override
+  String get detail_babyWalkingAge => '12개월';
+
+  @override
+  String get detail_proLockTitle => '스페셜 모드 잠금 해제';
+
+  @override
+  String get detail_proLockSubtitle => 'DayCount PRO로';
+
+  @override
+  String get detail_proLockButton => '자세히 보기';
 }
