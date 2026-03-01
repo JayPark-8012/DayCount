@@ -866,6 +866,72 @@ abstract class AppLocalizations {
   /// **'Saved to gallery!'**
   String get share_saved;
 
+  /// No description provided for @share_dDay.
+  ///
+  /// In en, this message translates to:
+  /// **'D-Day!'**
+  String get share_dDay;
+
+  /// No description provided for @share_today.
+  ///
+  /// In en, this message translates to:
+  /// **'Today!'**
+  String get share_today;
+
+  /// No description provided for @share_daysLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'days left'**
+  String get share_daysLeft;
+
+  /// No description provided for @share_daysTogether.
+  ///
+  /// In en, this message translates to:
+  /// **'days together'**
+  String get share_daysTogether;
+
+  /// No description provided for @share_daysSince.
+  ///
+  /// In en, this message translates to:
+  /// **'days since'**
+  String get share_daysSince;
+
+  /// No description provided for @detail_notFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Not found'**
+  String get detail_notFound;
+
+  /// No description provided for @milestone_labelDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Days'**
+  String milestone_labelDays(int count);
+
+  /// No description provided for @milestone_labelMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Month'**
+  String milestone_labelMonth(int count);
+
+  /// No description provided for @milestone_labelMonths.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Months'**
+  String milestone_labelMonths(int count);
+
+  /// No description provided for @milestone_labelYear.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Year'**
+  String milestone_labelYear(int count);
+
+  /// No description provided for @milestone_labelYears.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Years'**
+  String milestone_labelYears(int count);
+
   /// No description provided for @pro_title.
   ///
   /// In en, this message translates to:

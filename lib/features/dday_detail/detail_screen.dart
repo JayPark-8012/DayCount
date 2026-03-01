@@ -47,7 +47,7 @@ class DetailScreen extends ConsumerWidget {
           return Scaffold(
             backgroundColor:
                 isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
-            body: const Center(child: Text('Not found')),
+            body: Center(child: Text(l10n.detail_notFound)),
           );
         }
 

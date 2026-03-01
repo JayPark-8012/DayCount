@@ -1,4 +1,5 @@
 import '../../data/models/milestone.dart';
+import '../../l10n/app_localizations.dart';
 
 /// Generates milestones for a D-Day based on its category.
 ///
@@ -65,4 +66,24 @@ String _labelForDays(int days) {
   }
 
   return '$days Days';
+}
+
+/// Returns a localized label for a milestone based on its [days] value.
+/// Use this at display time instead of the stored [Milestone.label].
+String localizedMilestoneLabel(AppLocalizations l10n, int days) {
+  if (days % 365 == 0 && days > 0) {
+    final years = days ~/ 365;
+    return years == 1
+        ? l10n.milestone_labelYear(1)
+        : l10n.milestone_labelYears(years);
+  }
+
+  if (days % 30 == 0 && days <= 360) {
+    final months = days ~/ 30;
+    return months == 1
+        ? l10n.milestone_labelMonth(1)
+        : l10n.milestone_labelMonths(months);
+  }
+
+  return l10n.milestone_labelDays(days);
 }

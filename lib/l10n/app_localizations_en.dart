@@ -424,6 +424,49 @@ class AppLocalizationsEn extends AppLocalizations {
   String get share_saved => 'Saved to gallery!';
 
   @override
+  String get share_dDay => 'D-Day!';
+
+  @override
+  String get share_today => 'Today!';
+
+  @override
+  String get share_daysLeft => 'days left';
+
+  @override
+  String get share_daysTogether => 'days together';
+
+  @override
+  String get share_daysSince => 'days since';
+
+  @override
+  String get detail_notFound => 'Not found';
+
+  @override
+  String milestone_labelDays(int count) {
+    return '$count Days';
+  }
+
+  @override
+  String milestone_labelMonth(int count) {
+    return '$count Month';
+  }
+
+  @override
+  String milestone_labelMonths(int count) {
+    return '$count Months';
+  }
+
+  @override
+  String milestone_labelYear(int count) {
+    return '$count Year';
+  }
+
+  @override
+  String milestone_labelYears(int count) {
+    return '$count Years';
+  }
+
+  @override
   String get pro_title => 'DayCount PRO';
 
   @override

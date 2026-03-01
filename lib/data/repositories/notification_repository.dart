@@ -1,8 +1,11 @@
+import 'dart:ui';
+
 import 'package:flutter/foundation.dart' show debugPrint, kIsWeb;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
+import '../../l10n/app_localizations.dart';
 import '../models/dday.dart';
 import '../models/milestone.dart';
 
@@ -181,6 +184,7 @@ class NotificationRepository {
     List<Milestone> milestones, {
     bool milestoneAlertsEnabled = true,
     bool ddayAlertsEnabled = true,
+    String? locale,
   }) async {
     if (kIsWeb || dday.id == null) return;
 
@@ -199,6 +203,10 @@ class NotificationRepository {
 
     final target = DateTime.parse(dday.targetDate);
 
+    // Load localized strings for notification body text
+    final l10n = await AppLocalizations.delegate
+        .load(Locale(locale ?? 'en'));
+
     // 3. Schedule milestone notifications (if global toggle is ON)
     if (milestoneAlertsEnabled) {
       for (final milestone in milestones) {
@@ -214,6 +222,7 @@ class NotificationRepository {
           final notifId = _notificationId(ddayId, milestone.id!, notifyType);
 
           final body = _milestoneBody(
+            l10n: l10n,
             notifyBefore: notifyBefore,
             ddayTitle: dday.title,
             milestoneLabel: milestone.label,
@@ -235,7 +244,7 @@ class NotificationRepository {
       await scheduleNotification(
         id: ddayNotifId,
         title: dday.title,
-        body: '\u{1F389} Today is the day! ${dday.title}',
+        body: l10n.notification_ddayToday(dday.title),
         scheduledDate: target,
       );
     }
@@ -308,17 +317,18 @@ class NotificationRepository {
   // ---------------------------------------------------------------------------
 
   String _milestoneBody({
+    required AppLocalizations l10n,
     required String notifyBefore,
     required String ddayTitle,
     required String milestoneLabel,
   }) {
     switch (notifyBefore) {
       case '7d':
-        return '7 days until $ddayTitle hits $milestoneLabel!';
+        return l10n.notification_milestone7d(ddayTitle, milestoneLabel);
       case '3d':
-        return 'Only 3 days to go! $ddayTitle - $milestoneLabel';
+        return l10n.notification_milestone3d(ddayTitle, milestoneLabel);
       case '0d':
-        return '\u{1F389} Today is $milestoneLabel for $ddayTitle!';
+        return l10n.notification_milestoneToday(ddayTitle, milestoneLabel);
       default:
         return '$ddayTitle - $milestoneLabel';
     }

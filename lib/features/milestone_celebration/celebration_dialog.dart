@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_config.dart';
+import '../../core/utils/milestone_generator.dart';
 import '../../data/models/dday.dart';
 import '../../data/models/milestone.dart';
 import '../../l10n/app_localizations.dart';
@@ -117,7 +118,7 @@ class _CelebrationDialogState extends State<CelebrationDialog> {
 
                   // Milestone label
                   Text(
-                    '${widget.milestone.label}!',
+                    '${localizedMilestoneLabel(l10n, widget.milestone.days)}!',
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 36,

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_config.dart';
+import '../../../core/utils/milestone_generator.dart';
 import '../../../data/models/milestone.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../providers/milestone_providers.dart';
@@ -312,7 +313,7 @@ class _MilestoneRow extends StatelessWidget {
             // Label
             Expanded(
               child: Text(
-                milestone.label,
+                localizedMilestoneLabel(l10n, milestone.days),
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,

@@ -208,6 +208,44 @@
   "share_share": "Share",
   "share_template": "Template",
   "share_saved": "Saved to gallery!",
+  "share_dDay": "D-Day!",
+  "share_today": "Today!",
+  "share_daysLeft": "days left",
+  "share_daysTogether": "days together",
+  "share_daysSince": "days since",
+
+  "detail_notFound": "Not found",
+
+  "milestone_labelDays": "{count} Days",
+  "@milestone_labelDays": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "milestone_labelMonth": "{count} Month",
+  "@milestone_labelMonth": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "milestone_labelMonths": "{count} Months",
+  "@milestone_labelMonths": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "milestone_labelYear": "{count} Year",
+  "@milestone_labelYear": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "milestone_labelYears": "{count} Years",
+  "@milestone_labelYears": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
 
   "pro_title": "DayCount PRO",
   "pro_subtitle": "Unlock the full experience",

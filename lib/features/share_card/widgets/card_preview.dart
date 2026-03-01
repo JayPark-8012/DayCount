@@ -4,6 +4,7 @@ import '../../../core/constants/app_config.dart';
 import '../../../core/theme/card_themes.dart';
 import '../../../core/utils/date_calc.dart';
 import '../../../data/models/dday.dart';
+import '../../../l10n/app_localizations.dart';
 
 /// 1:1 square card preview for the share screen.
 /// Wrapped with [RepaintBoundary] for PNG capture.
@@ -21,12 +22,13 @@ class CardPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final theme = getCardTheme(themeId);
     final targetDate = DateTime.parse(dday.targetDate);
     final diff = daysDiff(targetDate, today());
 
-    final dayCount = _formatDayCount(diff);
-    final subtitle = _formatSubtitle(diff, dday.category);
+    final dayCount = _formatDayCount(l10n, diff);
+    final subtitle = _formatSubtitle(l10n, diff, dday.category);
 
     return RepaintBoundary(
       key: cardKey,
@@ -110,7 +112,7 @@ class CardPreview extends StatelessWidget {
               right: 20,
               bottom: 16,
               child: Text(
-                'DayCount',
+                l10n.common_appName,
                 style: TextStyle(
                   fontSize: 10,
                   color: theme.textColor.withValues(alpha: 0.3),
@@ -123,16 +125,16 @@ class CardPreview extends StatelessWidget {
     );
   }
 
-  String _formatDayCount(int diff) {
-    if (diff == 0) return 'D-Day!';
+  String _formatDayCount(AppLocalizations l10n, int diff) {
+    if (diff == 0) return l10n.share_dDay;
     if (diff > 0) return '$diff';
     return '+${diff.abs()}';
   }
 
-  String _formatSubtitle(int diff, String category) {
-    if (diff == 0) return 'Today!';
-    if (diff > 0) return 'days left';
-    if (category == 'couple') return 'days together';
-    return 'days since';
+  String _formatSubtitle(AppLocalizations l10n, int diff, String category) {
+    if (diff == 0) return l10n.share_today;
+    if (diff > 0) return l10n.share_daysLeft;
+    if (category == 'couple') return l10n.share_daysTogether;
+    return l10n.share_daysSince;
   }
 }

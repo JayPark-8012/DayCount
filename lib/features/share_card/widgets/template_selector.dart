@@ -96,9 +96,9 @@ class TemplateSelector extends ConsumerWidget {
                               color: const Color(0xFFFFD700),
                               borderRadius: BorderRadius.circular(4),
                             ),
-                            child: const Text(
-                              'PRO',
-                              style: TextStyle(
+                            child: Text(
+                              l10n.form_proBadge,
+                              style: const TextStyle(
                                 fontSize: 8,
                                 fontWeight: FontWeight.w800,
                                 color: Colors.black,

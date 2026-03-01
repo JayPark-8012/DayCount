@@ -208,6 +208,44 @@
   "share_share": "공유",
   "share_template": "템플릿",
   "share_saved": "갤러리에 저장되었습니다!",
+  "share_dDay": "D-Day!",
+  "share_today": "오늘!",
+  "share_daysLeft": "일 남음",
+  "share_daysTogether": "일째",
+  "share_daysSince": "일 지남",
+
+  "detail_notFound": "찾을 수 없습니다",
+
+  "milestone_labelDays": "{count}일",
+  "@milestone_labelDays": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "milestone_labelMonth": "{count}개월",
+  "@milestone_labelMonth": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "milestone_labelMonths": "{count}개월",
+  "@milestone_labelMonths": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "milestone_labelYear": "{count}년",
+  "@milestone_labelYear": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "milestone_labelYears": "{count}년",
+  "@milestone_labelYears": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
 
   "pro_title": "DayCount PRO",
   "pro_subtitle": "모든 기능을 잠금 해제하세요",

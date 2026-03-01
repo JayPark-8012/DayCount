@@ -419,6 +419,49 @@ class AppLocalizationsKo extends AppLocalizations {
   String get share_saved => '갤러리에 저장되었습니다!';
 
   @override
+  String get share_dDay => 'D-Day!';
+
+  @override
+  String get share_today => '오늘!';
+
+  @override
+  String get share_daysLeft => '일 남음';
+
+  @override
+  String get share_daysTogether => '일째';
+
+  @override
+  String get share_daysSince => '일 지남';
+
+  @override
+  String get detail_notFound => '찾을 수 없습니다';
+
+  @override
+  String milestone_labelDays(int count) {
+    return '$count일';
+  }
+
+  @override
+  String milestone_labelMonth(int count) {
+    return '$count개월';
+  }
+
+  @override
+  String milestone_labelMonths(int count) {
+    return '$count개월';
+  }
+
+  @override
+  String milestone_labelYear(int count) {
+    return '$count년';
+  }
+
+  @override
+  String milestone_labelYears(int count) {
+    return '$count년';
+  }
+
+  @override
   String get pro_title => 'DayCount PRO';
 
   @override

@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_config.dart';
 import '../../../core/theme/card_themes.dart';
-import '../../../data/models/dday.dart';
 import '../../../data/models/card_theme.dart';
+import '../../../data/models/dday.dart';
+import '../../../l10n/app_localizations.dart';
 
 class TimelineNode extends StatefulWidget {
   final DDay dday;
@@ -143,6 +144,7 @@ class _TimelineNodeState extends State<TimelineNode>
   }
 
   Widget _buildCard(BuildContext context, DdayCardTheme theme) {
+    final l10n = AppLocalizations.of(context)!;
     final daysDiff = _calculateDaysDiff();
 
     return GestureDetector(
@@ -197,7 +199,7 @@ class _TimelineNodeState extends State<TimelineNode>
               const SizedBox(width: AppConfig.sm),
               // Day count
               Text(
-                _formatCount(daysDiff),
+                _formatCount(l10n, daysDiff),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w800,
@@ -218,8 +220,8 @@ class _TimelineNodeState extends State<TimelineNode>
     return target.difference(now).inDays;
   }
 
-  String _formatCount(int daysDiff) {
-    if (daysDiff == 0) return 'D-Day';
+  String _formatCount(AppLocalizations l10n, int daysDiff) {
+    if (daysDiff == 0) return l10n.home_dDay;
     if (daysDiff > 0) return '$daysDiff';
     return '+${daysDiff.abs()}';
   }

@@ -56,11 +56,13 @@ class DdayListNotifier extends AsyncNotifier<List<DDay>> {
       final insertedMilestones = await milestoneRepo.getByDdayId(id);
       final milestoneAlerts = await ref.read(milestoneAlertsProvider.future);
       final ddayAlerts = await ref.read(ddayAlertsProvider.future);
+      final locale = await ref.read(languageProvider.future);
       await NotificationRepository.instance.rescheduleAllForDday(
         dday.copyWith(id: id),
         insertedMilestones,
         milestoneAlertsEnabled: milestoneAlerts,
         ddayAlertsEnabled: ddayAlerts,
+        locale: locale,
       );
     }
 
@@ -78,11 +80,13 @@ class DdayListNotifier extends AsyncNotifier<List<DDay>> {
       final milestones = await milestoneRepo.getByDdayId(dday.id!);
       final milestoneAlerts = await ref.read(milestoneAlertsProvider.future);
       final ddayAlerts = await ref.read(ddayAlertsProvider.future);
+      final locale = await ref.read(languageProvider.future);
       await NotificationRepository.instance.rescheduleAllForDday(
         dday,
         milestones,
         milestoneAlertsEnabled: milestoneAlerts,
         ddayAlertsEnabled: ddayAlerts,
+        locale: locale,
       );
     }
 
