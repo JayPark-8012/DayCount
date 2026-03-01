@@ -277,6 +277,27 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
+  String detail_examDaysUntilReach(int count) {
+    return '시험 $count일 전에 도달';
+  }
+
+  @override
+  String get detail_noMilestones => '아직 마일스톤이 없습니다';
+
+  @override
+  String detail_showAll(int count) {
+    return '모두 보기 ($count개)';
+  }
+
+  @override
+  String detail_showAllReached(int count) {
+    return '모두 보기 ($count개 달성)';
+  }
+
+  @override
+  String get detail_collapse => '접기';
+
+  @override
   String get detail_milestonesAfterDday => 'D-Day 이후 마일스톤이 표시됩니다';
 
   @override
@@ -419,6 +440,18 @@ class AppLocalizationsKo extends AppLocalizations {
   String get share_daysSince => '일 지남';
 
   @override
+  String get share_background => '배경';
+
+  @override
+  String get share_bgColor => '컬러';
+
+  @override
+  String get share_bgPhoto => '사진';
+
+  @override
+  String get share_font => '폰트';
+
+  @override
   String get detail_notFound => '찾을 수 없습니다';
 
   @override
@@ -499,4 +532,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get error_restoreFailed => '문제가 발생했습니다. 다시 시도해주세요.';
+
+  @override
+  String get error_saveFailed => '저장에 실패했습니다. 다시 시도해주세요.';
 }

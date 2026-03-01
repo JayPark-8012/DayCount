@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_config.dart';
 import '../../../core/theme/card_themes.dart';
 import '../../../data/models/card_theme.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../../providers/purchase_providers.dart';
 import '../../pro_purchase/pro_screen.dart';
 
-class ThemeSelector extends StatelessWidget {
+class ThemeSelector extends ConsumerWidget {
   final String selectedThemeId;
   final ValueChanged<String> onThemeChanged;
 
@@ -18,9 +20,10 @@ class ThemeSelector extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isPro = ref.watch(isProProvider).valueOrNull ?? false;
     final themes = cardThemes.values.toList();
 
     return Column(
@@ -46,12 +49,14 @@ class ThemeSelector extends StatelessWidget {
             itemBuilder: (context, index) {
               final theme = themes[index];
               final isSelected = theme.id == selectedThemeId;
+              final isLocked = theme.isPro && !isPro;
               return _ThemeCircle(
                 theme: theme,
                 isSelected: isSelected,
+                isLocked: isLocked,
                 proLabel: l10n.form_proBadge,
                 onTap: () {
-                  if (theme.isPro) {
+                  if (isLocked) {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -74,12 +79,14 @@ class ThemeSelector extends StatelessWidget {
 class _ThemeCircle extends StatelessWidget {
   final DdayCardTheme theme;
   final bool isSelected;
+  final bool isLocked;
   final String proLabel;
   final VoidCallback onTap;
 
   const _ThemeCircle({
     required this.theme,
     required this.isSelected,
+    required this.isLocked,
     required this.proLabel,
     required this.onTap,
   });
@@ -117,7 +124,7 @@ class _ThemeCircle extends StatelessWidget {
               ),
             ),
             // PRO badge
-            if (theme.isPro)
+            if (isLocked)
               Positioned(
                 top: -4,
                 right: -4,

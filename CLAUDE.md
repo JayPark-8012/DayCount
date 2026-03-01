@@ -202,6 +202,21 @@ class CardTheme {
 }
 ```
 
+## PRO 잠금 체크 포인트
+
+| 위치 | 체크 방법 | 잠겼을 때 |
+|------|----------|----------|
+| S03 테마 선택 | `theme.isPro && !isPro` | PRO 뱃지, 탭 → S08 |
+| S06 프리미엄 템플릿 | `theme.isPro && !isPro` | PRO 뱃지, 탭 → S08 |
+| S06 배경 사진 | `!isPro` | 📸 사진 탭 → S08 |
+| S06 프리미엄 폰트 | `font.isPro && !isPro` | PRO 뱃지, 탭 → S08 |
+| S06 워터마크 | `showWatermark: !isPro` | 무료: 워터마크 표시 (자동) |
+| S07 설정 | `!isPro` | PRO 배너 표시 |
+
+- `isProProvider` — `providers/purchase_providers.dart`
+- PRO 상태 체크: `ref.watch(isProProvider).valueOrNull ?? false`
+- 잠긴 항목 탭 → `ProScreen()` 네비게이션
+
 ## 참고 문서
 
 | 문서 | 내용 |

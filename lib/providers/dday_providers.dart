@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart' show debugPrint, kIsWeb;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/utils/milestone_generator.dart';
@@ -51,19 +51,23 @@ class DdayListNotifier extends AsyncNotifier<List<DDay>> {
     final milestoneRepo = ref.read(milestoneRepositoryProvider);
     await milestoneRepo.insertAll(milestones);
 
-    // Schedule notifications
+    // Schedule notifications (non-critical — don't block save on failure)
     if (!kIsWeb) {
-      final insertedMilestones = await milestoneRepo.getByDdayId(id);
-      final milestoneAlerts = await ref.read(milestoneAlertsProvider.future);
-      final ddayAlerts = await ref.read(ddayAlertsProvider.future);
-      final locale = await ref.read(languageProvider.future);
-      await NotificationRepository.instance.rescheduleAllForDday(
-        dday.copyWith(id: id),
-        insertedMilestones,
-        milestoneAlertsEnabled: milestoneAlerts,
-        ddayAlertsEnabled: ddayAlerts,
-        locale: locale,
-      );
+      try {
+        final insertedMilestones = await milestoneRepo.getByDdayId(id);
+        final milestoneAlerts = await ref.read(milestoneAlertsProvider.future);
+        final ddayAlerts = await ref.read(ddayAlertsProvider.future);
+        final locale = await ref.read(languageProvider.future);
+        await NotificationRepository.instance.rescheduleAllForDday(
+          dday.copyWith(id: id),
+          insertedMilestones,
+          milestoneAlertsEnabled: milestoneAlerts,
+          ddayAlertsEnabled: ddayAlerts,
+          locale: locale,
+        );
+      } catch (e) {
+        debugPrint('[DdayListNotifier] Notification scheduling failed: $e');
+      }
     }
 
     ref.invalidateSelf();
@@ -74,20 +78,24 @@ class DdayListNotifier extends AsyncNotifier<List<DDay>> {
   Future<void> updateDday(DDay dday) async {
     await _repository.update(dday);
 
-    // Reschedule notifications
+    // Reschedule notifications (non-critical — don't block update on failure)
     if (!kIsWeb && dday.id != null) {
-      final milestoneRepo = ref.read(milestoneRepositoryProvider);
-      final milestones = await milestoneRepo.getByDdayId(dday.id!);
-      final milestoneAlerts = await ref.read(milestoneAlertsProvider.future);
-      final ddayAlerts = await ref.read(ddayAlertsProvider.future);
-      final locale = await ref.read(languageProvider.future);
-      await NotificationRepository.instance.rescheduleAllForDday(
-        dday,
-        milestones,
-        milestoneAlertsEnabled: milestoneAlerts,
-        ddayAlertsEnabled: ddayAlerts,
-        locale: locale,
-      );
+      try {
+        final milestoneRepo = ref.read(milestoneRepositoryProvider);
+        final milestones = await milestoneRepo.getByDdayId(dday.id!);
+        final milestoneAlerts = await ref.read(milestoneAlertsProvider.future);
+        final ddayAlerts = await ref.read(ddayAlertsProvider.future);
+        final locale = await ref.read(languageProvider.future);
+        await NotificationRepository.instance.rescheduleAllForDday(
+          dday,
+          milestones,
+          milestoneAlertsEnabled: milestoneAlerts,
+          ddayAlertsEnabled: ddayAlerts,
+          locale: locale,
+        );
+      } catch (e) {
+        debugPrint('[DdayListNotifier] Notification rescheduling failed: $e');
+      }
     }
 
     ref.invalidateSelf();

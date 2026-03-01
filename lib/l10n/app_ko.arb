@@ -116,6 +116,26 @@
       "count": { "type": "int" }
     }
   },
+  "detail_examDaysUntilReach": "시험 {count}일 전에 도달",
+  "@detail_examDaysUntilReach": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "detail_noMilestones": "아직 마일스톤이 없습니다",
+  "detail_showAll": "모두 보기 ({count}개)",
+  "@detail_showAll": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "detail_showAllReached": "모두 보기 ({count}개 달성)",
+  "@detail_showAllReached": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "detail_collapse": "접기",
   "detail_milestonesAfterDday": "D-Day 이후 마일스톤이 표시됩니다",
   "detail_shareCard": "카드 공유",
   "detail_customLabel": "{count}일",
@@ -207,6 +227,10 @@
   "share_daysLeft": "일 남음",
   "share_daysTogether": "일째",
   "share_daysSince": "일 지남",
+  "share_background": "배경",
+  "share_bgColor": "컬러",
+  "share_bgPhoto": "사진",
+  "share_font": "폰트",
 
   "detail_notFound": "찾을 수 없습니다",
 
@@ -258,5 +282,6 @@
   "pro_thankYou": "감사합니다!",
   "error_purchaseFailed": "구매에 실패했습니다. 다시 시도해주세요.",
   "error_restoreNone": "이전 구매 내역이 없습니다.",
-  "error_restoreFailed": "문제가 발생했습니다. 다시 시도해주세요."
+  "error_restoreFailed": "문제가 발생했습니다. 다시 시도해주세요.",
+  "error_saveFailed": "저장에 실패했습니다. 다시 시도해주세요."
 }

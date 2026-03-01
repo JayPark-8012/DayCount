@@ -21,7 +21,7 @@ List<Milestone> generateMilestones({
     return Milestone(
       ddayId: ddayId,
       days: days,
-      label: _labelForDays(days),
+      label: _labelForDays(days, category),
     );
   }).toList();
 }
@@ -36,7 +36,7 @@ List<int> _daysForCategory(String category) {
         365, 730, 1095,
       ];
     case 'exam':
-      return [30, 60, 90, 100, 200, 365];
+      return [30, 60, 90, 100, 180, 365];
     case 'baby':
       return [
         // Monthly (30-day intervals)
@@ -50,7 +50,9 @@ List<int> _daysForCategory(String category) {
   }
 }
 
-String _labelForDays(int days) {
+String _labelForDays(int days, String category) {
+  if (category == 'exam') return 'D-$days';
+
   if (days == 365) return '1 Year';
   if (days == 730) return '2 Years';
   if (days == 1095) return '3 Years';
@@ -70,7 +72,9 @@ String _labelForDays(int days) {
 
 /// Returns a localized label for a milestone based on its [days] value.
 /// Use this at display time instead of the stored [Milestone.label].
-String localizedMilestoneLabel(AppLocalizations l10n, int days) {
+String localizedMilestoneLabel(AppLocalizations l10n, int days, {String? category}) {
+  if (category == 'exam') return 'D-$days';
+
   if (days % 365 == 0 && days > 0) {
     final years = days ~/ 365;
     return years == 1

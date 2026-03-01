@@ -99,6 +99,20 @@ LinearGradient(
 | 영어/숫자 | Outfit | google_fonts |
 | 한국어 | 시스템 기본 (Pretendard fallback) | - |
 
+### 공유 카드 폰트 (5종)
+
+| 폰트 | 무료/유료 | 패키지 |
+|------|----------|--------|
+| Outfit | 무료 | google_fonts |
+| Caveat | PRO | google_fonts |
+| Dancing Script | PRO | google_fonts |
+| Poppins | PRO | google_fonts |
+| Playfair Display | PRO | google_fonts |
+
+- 폰트 적용 범위: 카드 제목 (18pt Bold) + 일수 (64pt ExtraBold)
+- subtitle, watermark에는 적용하지 않음
+- `GoogleFonts.getFont(fontFamily, textStyle: base)` 로 동적 로드
+
 ### 타입 스케일
 
 | 용도 | 사이즈 | Weight | 변수명 |
@@ -299,7 +313,7 @@ Container(
 - 렌더링 사이즈: 1080 x 1080 px (고해상도 export)
 - 미리보기: 화면 너비 - 60px (좌우 30px padding)
 
-### 레이아웃 구조
+### 레이아웃 구조 — 컬러 모드
 
 ```
 ┌─────────────────────┐
@@ -315,8 +329,64 @@ Container(
 │                     │
 │    [장식 원 좌하단]   │
 │                     │
-│        DayCount     │  ← 워터마크 10pt, opacity 0.3
+│        DayCount     │  ← 워터마크 12pt, SemiBold, 흰색 50% (무료 유저만)
 └─────────────────────┘
+```
+
+### 레이아웃 구조 — 사진 모드 (PRO)
+
+```
+┌─────────────────────┐
+│  [사진 배경 cover]    │
+│  [검정 오버레이 30%]  │
+│  [하단 그라데이션 50%] │
+│                     │
+│      [이모지 48pt]   │
+│                     │
+│   [제목 18pt Bold]   │  ← 흰색
+│                     │
+│  [일수 64pt XBold]   │  ← 흰색
+│  [days together 14pt]│  ← 흰색 60%
+│                     │
+│        DayCount     │  ← 워터마크 (무료 유저만)
+└─────────────────────┘
+```
+
+### 사진 배경 오버레이 스펙
+
+```dart
+// 1. 전체 검정 오버레이
+Container(color: Colors.black.withOpacity(0.3))
+
+// 2. 하단 50% 그라데이션
+LinearGradient(
+  begin: Alignment.topCenter,
+  end: Alignment.bottomCenter,
+  stops: [0.5, 1.0],
+  colors: [Colors.transparent, Colors.black.withOpacity(0.5)],
+)
+
+// 3. 텍스트 색상 (사진 모드)
+textColor: Colors.white
+accentColor: Colors.white
+subtitleColor: Colors.white.withOpacity(0.6)
+```
+
+### 워터마크 스펙
+
+```dart
+// 무료 유저만 표시, PRO 유저는 숨김
+Positioned(
+  right: 20, bottom: 16,
+  child: Text(
+    appName,  // "DayCount"
+    style: TextStyle(
+      fontSize: 12,
+      fontWeight: FontWeight.w600,
+      color: Colors.white.withOpacity(0.5),
+    ),
+  ),
+)
 ```
 
 ### Export 방법
@@ -376,7 +446,7 @@ Uint8List pngBytes = byteData!.buffer.asUint8List();
 
 ## 12. PRO 뱃지 & 잠금 UI
 
-### PRO 뱃지 (테마 선택 시)
+### PRO 뱃지 (테마/템플릿/폰트 선택 시)
 
 ```dart
 Positioned(
@@ -392,22 +462,8 @@ Positioned(
 )
 ```
 
-### 잠금 오버레이 (카테고리 특화 UI)
-
-```dart
-Stack(
-  children: [
-    // 실제 콘텐츠 (블러 처리)
-    ClipRect(child: ImageFiltered(imageFilter: ImageFilter.blur(sigmaX: 3, sigmaY: 3), child: content)),
-    // 오버레이
-    Center(child: Column(children: [
-      Icon(Icons.lock, color: primaryColor),
-      Text("Unlock with PRO"),
-      TextButton("Learn More", onPressed: () => goToProScreen()),
-    ])),
-  ],
-)
-```
+- 적용 위치: S03 테마 선택 서클, S06 템플릿 선택 서클, S06 폰트 선택 칩
+- 탭 시 → S08 PRO 구매 화면 이동
 
 ---
 

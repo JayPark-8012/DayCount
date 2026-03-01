@@ -298,6 +298,7 @@ class _DdayFormScreenState extends ConsumerState<DdayFormScreen> {
   }
 
   Future<void> _save(BuildContext context) async {
+    final l10n = AppLocalizations.of(context)!;
     final now = _dateFormat.format(DateTime.now());
     final memo = _memoController.text.trim().isEmpty
         ? null
@@ -306,33 +307,41 @@ class _DdayFormScreenState extends ConsumerState<DdayFormScreen> {
     final isCountUp = _selectedDate.isBefore(today) ||
         _selectedDate.isAtSameMomentAs(today);
 
-    if (widget.isEditMode) {
-      final updated = widget.existingDday!.copyWith(
-        title: _titleController.text.trim(),
-        targetDate: _dateFormat.format(_selectedDate),
-        category: _category,
-        emoji: _emoji,
-        themeId: _themeId,
-        isCountUp: isCountUp,
-        memo: memo,
-        updatedAt: now,
-      );
-      await ref.read(ddayListProvider.notifier).updateDday(updated);
-    } else {
-      final newDday = DDay(
-        title: _titleController.text.trim(),
-        targetDate: _dateFormat.format(_selectedDate),
-        category: _category,
-        emoji: _emoji,
-        themeId: _themeId,
-        isCountUp: isCountUp,
-        memo: memo,
-        createdAt: now,
-        updatedAt: now,
-      );
-      await ref.read(ddayListProvider.notifier).addDday(newDday);
-    }
+    try {
+      if (widget.isEditMode) {
+        final updated = widget.existingDday!.copyWith(
+          title: _titleController.text.trim(),
+          targetDate: _dateFormat.format(_selectedDate),
+          category: _category,
+          emoji: _emoji,
+          themeId: _themeId,
+          isCountUp: isCountUp,
+          memo: memo,
+          updatedAt: now,
+        );
+        await ref.read(ddayListProvider.notifier).updateDday(updated);
+      } else {
+        final newDday = DDay(
+          title: _titleController.text.trim(),
+          targetDate: _dateFormat.format(_selectedDate),
+          category: _category,
+          emoji: _emoji,
+          themeId: _themeId,
+          isCountUp: isCountUp,
+          memo: memo,
+          createdAt: now,
+          updatedAt: now,
+        );
+        await ref.read(ddayListProvider.notifier).addDday(newDday);
+      }
 
-    if (mounted) Navigator.pop(this.context);
+      if (mounted) Navigator.pop(this.context);
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(this.context).showSnackBar(
+          SnackBar(content: Text(l10n.error_saveFailed)),
+        );
+      }
+    }
   }
 }

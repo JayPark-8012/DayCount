@@ -116,6 +116,26 @@
       "count": { "type": "int" }
     }
   },
+  "detail_examDaysUntilReach": "{count}d before exam",
+  "@detail_examDaysUntilReach": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "detail_noMilestones": "No milestones yet",
+  "detail_showAll": "Show all ({count})",
+  "@detail_showAll": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "detail_showAllReached": "Show all ({count} reached)",
+  "@detail_showAllReached": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "detail_collapse": "Show less",
   "detail_milestonesAfterDday": "Milestones will appear after D-Day",
   "detail_shareCard": "Share Card",
   "detail_customLabel": "{count} Days",
@@ -207,6 +227,10 @@
   "share_daysLeft": "days left",
   "share_daysTogether": "days together",
   "share_daysSince": "days since",
+  "share_background": "Background",
+  "share_bgColor": "Color",
+  "share_bgPhoto": "Photo",
+  "share_font": "Font",
 
   "detail_notFound": "Not found",
 
@@ -258,5 +282,6 @@
   "pro_thankYou": "Thank you!",
   "error_purchaseFailed": "Purchase failed. Please try again.",
   "error_restoreNone": "No previous purchase found.",
-  "error_restoreFailed": "Something went wrong. Please try again."
+  "error_restoreFailed": "Something went wrong. Please try again.",
+  "error_saveFailed": "Failed to save. Please try again."
 }

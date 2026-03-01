@@ -614,6 +614,36 @@ abstract class AppLocalizations {
   /// **'in {count}d'**
   String detail_daysRemaining(int count);
 
+  /// No description provided for @detail_examDaysUntilReach.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}d before exam'**
+  String detail_examDaysUntilReach(int count);
+
+  /// No description provided for @detail_noMilestones.
+  ///
+  /// In en, this message translates to:
+  /// **'No milestones yet'**
+  String get detail_noMilestones;
+
+  /// No description provided for @detail_showAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Show all ({count})'**
+  String detail_showAll(int count);
+
+  /// No description provided for @detail_showAllReached.
+  ///
+  /// In en, this message translates to:
+  /// **'Show all ({count} reached)'**
+  String detail_showAllReached(int count);
+
+  /// No description provided for @detail_collapse.
+  ///
+  /// In en, this message translates to:
+  /// **'Show less'**
+  String get detail_collapse;
+
   /// No description provided for @detail_milestonesAfterDday.
   ///
   /// In en, this message translates to:
@@ -866,6 +896,30 @@ abstract class AppLocalizations {
   /// **'days since'**
   String get share_daysSince;
 
+  /// No description provided for @share_background.
+  ///
+  /// In en, this message translates to:
+  /// **'Background'**
+  String get share_background;
+
+  /// No description provided for @share_bgColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Color'**
+  String get share_bgColor;
+
+  /// No description provided for @share_bgPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo'**
+  String get share_bgPhoto;
+
+  /// No description provided for @share_font.
+  ///
+  /// In en, this message translates to:
+  /// **'Font'**
+  String get share_font;
+
   /// No description provided for @detail_notFound.
   ///
   /// In en, this message translates to:
@@ -1009,6 +1063,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Something went wrong. Please try again.'**
   String get error_restoreFailed;
+
+  /// No description provided for @error_saveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save. Please try again.'**
+  String get error_saveFailed;
 }
 
 class _AppLocalizationsDelegate

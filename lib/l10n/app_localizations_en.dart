@@ -282,6 +282,27 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String detail_examDaysUntilReach(int count) {
+    return '${count}d before exam';
+  }
+
+  @override
+  String get detail_noMilestones => 'No milestones yet';
+
+  @override
+  String detail_showAll(int count) {
+    return 'Show all ($count)';
+  }
+
+  @override
+  String detail_showAllReached(int count) {
+    return 'Show all ($count reached)';
+  }
+
+  @override
+  String get detail_collapse => 'Show less';
+
+  @override
   String get detail_milestonesAfterDday => 'Milestones will appear after D-Day';
 
   @override
@@ -424,6 +445,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get share_daysSince => 'days since';
 
   @override
+  String get share_background => 'Background';
+
+  @override
+  String get share_bgColor => 'Color';
+
+  @override
+  String get share_bgPhoto => 'Photo';
+
+  @override
+  String get share_font => 'Font';
+
+  @override
   String get detail_notFound => 'Not found';
 
   @override
@@ -504,4 +537,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get error_restoreFailed => 'Something went wrong. Please try again.';
+
+  @override
+  String get error_saveFailed => 'Failed to save. Please try again.';
 }
