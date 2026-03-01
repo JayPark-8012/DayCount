@@ -710,23 +710,11 @@ abstract class AppLocalizations {
   /// **'Dismiss'**
   String get celebration_dismiss;
 
-  /// No description provided for @detail_coupleTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Couple Anniversaries'**
-  String get detail_coupleTitle;
-
   /// No description provided for @detail_coupleAnniversary.
   ///
   /// In en, this message translates to:
   /// **'{count}-Day Anniversary'**
   String detail_coupleAnniversary(int count);
-
-  /// No description provided for @detail_coupleNext.
-  ///
-  /// In en, this message translates to:
-  /// **'Next'**
-  String get detail_coupleNext;
 
   /// No description provided for @detail_examTitle.
   ///
@@ -805,24 +793,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'12 months'**
   String get detail_babyWalkingAge;
-
-  /// No description provided for @detail_proLockTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Unlock Special Mode'**
-  String get detail_proLockTitle;
-
-  /// No description provided for @detail_proLockSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'with DayCount PRO'**
-  String get detail_proLockSubtitle;
-
-  /// No description provided for @detail_proLockButton.
-  ///
-  /// In en, this message translates to:
-  /// **'Learn More'**
-  String get detail_proLockButton;
 
   /// No description provided for @timeline_title.
   ///
@@ -959,13 +929,13 @@ abstract class AppLocalizations {
   /// No description provided for @pro_feature2Title.
   ///
   /// In en, this message translates to:
-  /// **'Special Modes'**
+  /// **'Photo Cards'**
   String get pro_feature2Title;
 
   /// No description provided for @pro_feature2Desc.
   ///
   /// In en, this message translates to:
-  /// **'Couple, exam & baby trackers'**
+  /// **'Add your own photos to cards'**
   String get pro_feature2Desc;
 
   /// No description provided for @pro_feature3Title.

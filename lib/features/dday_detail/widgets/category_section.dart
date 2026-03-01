@@ -1,198 +1,25 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_config.dart';
 import '../../../data/models/dday.dart';
 import '../../../l10n/app_localizations.dart';
-import '../../../providers/purchase_providers.dart';
-import '../../pro_purchase/pro_screen.dart';
 
-/// Category-specific PRO section for the detail screen.
-/// Shows couple anniversaries, exam countdown, or baby growth info.
-/// Wrapped with blur overlay when PRO is not purchased.
-class CategorySection extends ConsumerWidget {
+/// Category-specific section for the detail screen.
+/// Shows exam countdown or baby growth info (free for all users).
+class CategorySection extends StatelessWidget {
   final DDay dday;
 
   const CategorySection({super.key, required this.dday});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    if (dday.category == 'general') return const SizedBox.shrink();
-
-    final isPro = ref.watch(isProProvider).valueOrNull ?? false;
-
-    final content = switch (dday.category) {
-      'couple' => _CoupleSection(dday: dday),
+  Widget build(BuildContext context) {
+    return switch (dday.category) {
       'exam' => _ExamSection(dday: dday),
       'baby' => _BabySection(dday: dday),
       _ => const SizedBox.shrink(),
     };
-
-    if (isPro) return content;
-
-    return _ProLockOverlay(child: content);
   }
-}
-
-// ─────────────────────────────────────────────
-// Couple Section — 100-day anniversary list
-// ─────────────────────────────────────────────
-
-class _CoupleSection extends StatelessWidget {
-  final DDay dday;
-  const _CoupleSection({required this.dday});
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final today = DateUtils.dateOnly(DateTime.now());
-    final target = DateTime.parse(dday.targetDate);
-    final dateFormat = DateFormat('yyyy-MM-dd');
-
-    // Generate 100-day anniversaries (100, 200, ... 1000)
-    final anniversaries = <_AnniversaryItem>[];
-    int? nextIndex;
-
-    for (int i = 1; i <= 10; i++) {
-      final days = i * 100;
-      final date = target.add(Duration(days: days));
-      final reached = today.compareTo(date) >= 0;
-      final daysLeft = date.difference(today).inDays;
-
-      anniversaries.add(_AnniversaryItem(
-        days: days,
-        date: dateFormat.format(date),
-        reached: reached,
-        daysLeft: daysLeft,
-      ));
-
-      if (!reached && nextIndex == null) {
-        nextIndex = anniversaries.length - 1;
-      }
-    }
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppConfig.xl),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Header
-          Text(
-            l10n.detail_coupleTitle,
-            style: TextStyle(
-              fontSize: 17,
-              fontWeight: FontWeight.w700,
-              letterSpacing: -0.5,
-              color: isDark
-                  ? AppColors.textPrimaryDark
-                  : AppColors.textPrimaryLight,
-            ),
-          ),
-          const SizedBox(height: AppConfig.md),
-
-          // Anniversary list
-          ...anniversaries.asMap().entries.map((entry) {
-            final index = entry.key;
-            final item = entry.value;
-            final isNext = index == nextIndex;
-
-            return Padding(
-              padding: const EdgeInsets.only(bottom: AppConfig.sm),
-              child: Row(
-                children: [
-                  // Check / Circle icon
-                  Container(
-                    width: 24,
-                    height: 24,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: item.reached
-                          ? (isDark
-                              ? AppColors.successColorDark
-                              : AppColors.successColor)
-                          : isNext
-                              ? AppColors.primaryColor
-                              : Colors.transparent,
-                      border: (item.reached || isNext)
-                          ? null
-                          : Border.all(
-                              color: isDark
-                                  ? AppColors.textDisabledDark
-                                  : AppColors.textDisabledLight,
-                              width: 1.5,
-                            ),
-                    ),
-                    child: item.reached
-                        ? const Icon(Icons.check,
-                            size: 14, color: Colors.white)
-                        : isNext
-                            ? const Icon(Icons.arrow_forward,
-                                size: 14, color: Colors.white)
-                            : null,
-                  ),
-                  const SizedBox(width: AppConfig.md),
-
-                  // Label
-                  Expanded(
-                    child: Text(
-                      l10n.detail_coupleAnniversary(item.days),
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight:
-                            isNext ? FontWeight.w700 : FontWeight.w500,
-                        color: isNext
-                            ? AppColors.primaryColor
-                            : isDark
-                                ? AppColors.textPrimaryDark
-                                : AppColors.textPrimaryLight,
-                      ),
-                    ),
-                  ),
-
-                  // Date or days left
-                  Text(
-                    item.reached
-                        ? item.date
-                        : isNext
-                            ? '${l10n.detail_coupleNext} · ${l10n.detail_daysRemaining(item.daysLeft)}'
-                            : l10n.detail_daysRemaining(item.daysLeft),
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: isNext
-                          ? AppColors.primaryColor
-                          : isDark
-                              ? AppColors.textSecondaryDark
-                              : AppColors.textSecondaryLight,
-                    ),
-                  ),
-                ],
-              ),
-            );
-          }),
-        ],
-      ),
-    );
-  }
-}
-
-class _AnniversaryItem {
-  final int days;
-  final String date;
-  final bool reached;
-  final int daysLeft;
-
-  const _AnniversaryItem({
-    required this.days,
-    required this.date,
-    required this.reached,
-    required this.daysLeft,
-  });
 }
 
 // ─────────────────────────────────────────────
@@ -535,95 +362,4 @@ class _GrowthMilestone {
     required this.ageLabel,
     required this.reachedMonth,
   });
-}
-
-// ─────────────────────────────────────────────
-// PRO Lock Overlay — Pattern B (blur + lock)
-// ─────────────────────────────────────────────
-
-class _ProLockOverlay extends StatelessWidget {
-  final Widget child;
-  const _ProLockOverlay({required this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(AppConfig.cardRadius),
-      child: Stack(
-        children: [
-          // Blurred content
-          IgnorePointer(
-            child: ImageFiltered(
-              imageFilter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-              child: child,
-            ),
-          ),
-
-          // Lock overlay
-          Positioned.fill(
-            child: Container(
-              decoration: BoxDecoration(
-                color: (isDark ? Colors.black : Colors.white)
-                    .withValues(alpha: 0.3),
-              ),
-              child: Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Text(
-                      '\u{1F512}',
-                      style: TextStyle(fontSize: 28),
-                    ),
-                    const SizedBox(height: AppConfig.sm),
-                    Text(
-                      l10n.detail_proLockTitle,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: isDark
-                            ? AppColors.textPrimaryDark
-                            : AppColors.textPrimaryLight,
-                      ),
-                    ),
-                    const SizedBox(height: AppConfig.xs),
-                    Text(
-                      l10n.detail_proLockSubtitle,
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: isDark
-                            ? AppColors.textSecondaryDark
-                            : AppColors.textSecondaryLight,
-                      ),
-                    ),
-                    const SizedBox(height: AppConfig.lg),
-                    FilledButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const ProScreen(),
-                          ),
-                        );
-                      },
-                      style: FilledButton.styleFrom(
-                        backgroundColor: AppColors.primaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(AppConfig.buttonRadius),
-                        ),
-                      ),
-                      child: Text(l10n.detail_proLockButton),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }

@@ -223,7 +223,7 @@ class _ProScreenState extends ConsumerState<ProScreen>
                       const SizedBox(height: AppConfig.md),
                       _buildFeatureCard(
                         1,
-                        '\u{1F495}',
+                        '\u{1F4F8}',
                         l10n.pro_feature2Title,
                         l10n.pro_feature2Desc,
                       ),

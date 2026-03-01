@@ -251,6 +251,7 @@ class _MilestoneListState extends ConsumerState<MilestoneList>
                     reached: reached,
                     daysLeft: daysLeft,
                     isDark: isDark,
+                    category: widget.category,
                   ),
                 ),
               );
@@ -266,12 +267,14 @@ class _MilestoneRow extends StatelessWidget {
   final bool reached;
   final int daysLeft;
   final bool isDark;
+  final String category;
 
   const _MilestoneRow({
     required this.milestone,
     required this.reached,
     required this.daysLeft,
     required this.isDark,
+    required this.category,
   });
 
   @override
@@ -313,7 +316,9 @@ class _MilestoneRow extends StatelessWidget {
             // Label
             Expanded(
               child: Text(
-                localizedMilestoneLabel(l10n, milestone.days),
+                category == 'couple'
+                    ? l10n.detail_coupleAnniversary(milestone.days)
+                    : localizedMilestoneLabel(l10n, milestone.days),
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,

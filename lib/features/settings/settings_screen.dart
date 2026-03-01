@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -222,6 +223,30 @@ class SettingsScreen extends ConsumerWidget {
             ],
           ),
           const SizedBox(height: AppConfig.xxxl),
+
+          // --- DEBUG (only in debug builds) ---
+          if (kDebugMode) ...[
+            _SectionHeader(
+              text: '\u{1F527} DEBUG',
+              isDark: isDark,
+            ),
+            const SizedBox(height: AppConfig.sm),
+            Container(
+              clipBehavior: Clip.antiAlias,
+              decoration: BoxDecoration(
+                color:
+                    isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
+                borderRadius:
+                    BorderRadius.circular(AppConfig.milestoneCardRadius),
+                border: Border.all(
+                  color: Colors.red.withValues(alpha: 0.6),
+                  width: 2,
+                ),
+              ),
+              child: _DebugProToggle(isDark: isDark, ref: ref),
+            ),
+            const SizedBox(height: AppConfig.xxxl),
+          ],
         ],
       ),
     );
@@ -542,6 +567,67 @@ class _TapRow extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _DebugProToggle extends StatelessWidget {
+  final bool isDark;
+  final WidgetRef ref;
+
+  const _DebugProToggle({required this.isDark, required this.ref});
+
+  @override
+  Widget build(BuildContext context) {
+    final isPro = ref.watch(isProProvider).valueOrNull ?? false;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppConfig.lg,
+        vertical: 4,
+      ),
+      child: Row(
+        children: [
+          Icon(
+            Icons.bug_report,
+            size: 20,
+            color: Colors.red.withValues(alpha: 0.7),
+          ),
+          const SizedBox(width: AppConfig.md),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'PRO Status',
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: isDark
+                        ? AppColors.textPrimaryDark
+                        : AppColors.textPrimaryLight,
+                  ),
+                ),
+                Text(
+                  isPro ? 'PRO: Active \u2705' : 'PRO: Inactive \u274C',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: isPro ? Colors.green : Colors.red,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Switch(
+            value: isPro,
+            activeThumbColor: Colors.green,
+            activeTrackColor: Colors.green.withValues(alpha: 0.4),
+            onChanged: (value) {
+              ref.read(isProProvider.notifier).setPro(value);
+            },
+          ),
+        ],
       ),
     );
   }

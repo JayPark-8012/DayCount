@@ -335,15 +335,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get celebration_dismiss => '닫기';
 
   @override
-  String get detail_coupleTitle => '커플 기념일';
-
-  @override
   String detail_coupleAnniversary(int count) {
     return '$count일 기념일';
   }
-
-  @override
-  String get detail_coupleNext => '다음';
 
   @override
   String get detail_examTitle => '시험 카운트다운';
@@ -387,15 +381,6 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get detail_babyWalkingAge => '12개월';
-
-  @override
-  String get detail_proLockTitle => '스페셜 모드 잠금 해제';
-
-  @override
-  String get detail_proLockSubtitle => 'DayCount PRO로';
-
-  @override
-  String get detail_proLockButton => '자세히 보기';
 
   @override
   String get timeline_title => '타임라인';
@@ -474,10 +459,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get pro_feature1Desc => '15개 이상의 아름다운 카드 테마';
 
   @override
-  String get pro_feature2Title => '스페셜 모드';
+  String get pro_feature2Title => '포토 카드';
 
   @override
-  String get pro_feature2Desc => '커플, 시험, 육아 추적';
+  String get pro_feature2Desc => '나만의 사진으로 카드 꾸미기';
 
   @override
   String get pro_feature3Title => '커스텀 카드';

@@ -163,14 +163,12 @@
   "celebration_shareThis": "Share This",
   "celebration_dismiss": "Dismiss",
 
-  "detail_coupleTitle": "Couple Anniversaries",
   "detail_coupleAnniversary": "{count}-Day Anniversary",
   "@detail_coupleAnniversary": {
     "placeholders": {
       "count": { "type": "int" }
     }
   },
-  "detail_coupleNext": "Next",
   "detail_examTitle": "Exam Countdown",
   "detail_examRemaining": "{weeks}w {days}d remaining",
   "@detail_examRemaining": {
@@ -196,10 +194,6 @@
   "detail_babyCrawlingAge": "8-10 months",
   "detail_babyWalking": "Walking",
   "detail_babyWalkingAge": "12 months",
-  "detail_proLockTitle": "Unlock Special Mode",
-  "detail_proLockSubtitle": "with DayCount PRO",
-  "detail_proLockButton": "Learn More",
-
   "timeline_title": "Timeline",
   "timeline_today": "TODAY",
 
@@ -251,8 +245,8 @@
   "pro_subtitle": "Unlock the full experience",
   "pro_feature1Title": "Premium Themes",
   "pro_feature1Desc": "15+ stunning card themes",
-  "pro_feature2Title": "Special Modes",
-  "pro_feature2Desc": "Couple, exam & baby trackers",
+  "pro_feature2Title": "Photo Cards",
+  "pro_feature2Desc": "Add your own photos to cards",
   "pro_feature3Title": "Custom Share Cards",
   "pro_feature3Desc": "Premium templates & fonts",
   "pro_price": "$3.99",

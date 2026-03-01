@@ -141,8 +141,8 @@ class DetailScreen extends ConsumerWidget {
                     children: [
                       const SizedBox(height: AppConfig.xxl),
 
-                      // Category-specific PRO section
-                      if (dday.category != 'general') ...[
+                      // Category-specific section (exam/baby)
+                      if (dday.category == 'exam' || dday.category == 'baby') ...[
                         CategorySection(dday: dday),
                         const SizedBox(height: AppConfig.lg),
                       ],

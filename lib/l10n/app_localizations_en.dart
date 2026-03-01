@@ -340,15 +340,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get celebration_dismiss => 'Dismiss';
 
   @override
-  String get detail_coupleTitle => 'Couple Anniversaries';
-
-  @override
   String detail_coupleAnniversary(int count) {
     return '$count-Day Anniversary';
   }
-
-  @override
-  String get detail_coupleNext => 'Next';
 
   @override
   String get detail_examTitle => 'Exam Countdown';
@@ -392,15 +386,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get detail_babyWalkingAge => '12 months';
-
-  @override
-  String get detail_proLockTitle => 'Unlock Special Mode';
-
-  @override
-  String get detail_proLockSubtitle => 'with DayCount PRO';
-
-  @override
-  String get detail_proLockButton => 'Learn More';
 
   @override
   String get timeline_title => 'Timeline';
@@ -479,10 +464,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pro_feature1Desc => '15+ stunning card themes';
 
   @override
-  String get pro_feature2Title => 'Special Modes';
+  String get pro_feature2Title => 'Photo Cards';
 
   @override
-  String get pro_feature2Desc => 'Couple, exam & baby trackers';
+  String get pro_feature2Desc => 'Add your own photos to cards';
 
   @override
   String get pro_feature3Title => 'Custom Share Cards';

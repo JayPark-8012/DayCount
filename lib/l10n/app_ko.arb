@@ -163,14 +163,12 @@
   "celebration_shareThis": "공유하기",
   "celebration_dismiss": "닫기",
 
-  "detail_coupleTitle": "커플 기념일",
   "detail_coupleAnniversary": "{count}일 기념일",
   "@detail_coupleAnniversary": {
     "placeholders": {
       "count": { "type": "int" }
     }
   },
-  "detail_coupleNext": "다음",
   "detail_examTitle": "시험 카운트다운",
   "detail_examRemaining": "{weeks}주 {days}일 남음",
   "@detail_examRemaining": {
@@ -196,10 +194,6 @@
   "detail_babyCrawlingAge": "8-10개월",
   "detail_babyWalking": "걷기",
   "detail_babyWalkingAge": "12개월",
-  "detail_proLockTitle": "스페셜 모드 잠금 해제",
-  "detail_proLockSubtitle": "DayCount PRO로",
-  "detail_proLockButton": "자세히 보기",
-
   "timeline_title": "타임라인",
   "timeline_today": "TODAY",
 
@@ -251,8 +245,8 @@
   "pro_subtitle": "모든 기능을 잠금 해제하세요",
   "pro_feature1Title": "프리미엄 테마",
   "pro_feature1Desc": "15개 이상의 아름다운 카드 테마",
-  "pro_feature2Title": "스페셜 모드",
-  "pro_feature2Desc": "커플, 시험, 육아 추적",
+  "pro_feature2Title": "포토 카드",
+  "pro_feature2Desc": "나만의 사진으로 카드 꾸미기",
   "pro_feature3Title": "커스텀 카드",
   "pro_feature3Desc": "프리미엄 템플릿과 폰트",
   "pro_price": "\u20a94,900",
