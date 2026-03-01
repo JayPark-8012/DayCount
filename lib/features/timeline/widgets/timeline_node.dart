@@ -47,7 +47,8 @@ class _TimelineNodeState extends State<TimelineNode>
       end: Offset.zero,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
 
-    Future.delayed(AppConfig.timelineStaggerDelay * widget.index, () {
+    final clampedIndex = widget.index.clamp(0, 10);
+    Future.delayed(AppConfig.timelineStaggerDelay * clampedIndex, () {
       if (mounted) _controller.forward();
     });
   }

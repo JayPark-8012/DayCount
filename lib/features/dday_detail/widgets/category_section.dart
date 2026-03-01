@@ -158,8 +158,8 @@ class _CoupleSection extends StatelessWidget {
                     item.reached
                         ? item.date
                         : isNext
-                            ? '${l10n.detail_coupleNext} · ${item.daysLeft}d'
-                            : 'in ${item.daysLeft}d',
+                            ? '${l10n.detail_coupleNext} · ${l10n.detail_daysRemaining(item.daysLeft)}'
+                            : l10n.detail_daysRemaining(item.daysLeft),
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,

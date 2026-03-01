@@ -6,6 +6,7 @@ import '../../core/constants/app_config.dart';
 import '../../data/models/dday.dart';
 import '../../providers/dday_providers.dart';
 import '../dday_detail/detail_screen.dart';
+import '../dday_form/form_screen.dart';
 import '../home/widgets/empty_state.dart';
 import 'widgets/timeline_node.dart';
 import 'widgets/today_marker.dart';
@@ -22,7 +23,10 @@ class TimelineView extends ConsumerWidget {
         if (ddays.isEmpty) {
           return HomeEmptyState(
             isFiltered: false,
-            onCreateTap: () {},
+            onCreateTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const DdayFormScreen()),
+            ),
           );
         }
         return _buildTimeline(context, ddays);
