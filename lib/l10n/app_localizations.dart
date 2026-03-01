@@ -835,6 +835,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'TODAY'**
   String get timeline_today;
+
+  /// No description provided for @share_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Share Card'**
+  String get share_title;
+
+  /// No description provided for @share_save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get share_save;
+
+  /// No description provided for @share_share.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get share_share;
+
+  /// No description provided for @share_template.
+  ///
+  /// In en, this message translates to:
+  /// **'Template'**
+  String get share_template;
+
+  /// No description provided for @share_saved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved to gallery!'**
+  String get share_saved;
 }
 
 class _AppLocalizationsDelegate

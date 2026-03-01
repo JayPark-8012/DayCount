@@ -8,6 +8,7 @@ import '../../l10n/app_localizations.dart';
 import '../../providers/dday_providers.dart';
 import '../../providers/milestone_providers.dart';
 import '../dday_form/form_screen.dart';
+import '../share_card/share_card_screen.dart';
 import 'widgets/category_section.dart';
 import 'widgets/counter_display.dart';
 import 'widgets/milestone_list.dart';
@@ -175,7 +176,13 @@ class DetailScreen extends ConsumerWidget {
                           width: double.infinity,
                           child: FilledButton.icon(
                             onPressed: () {
-                              // TODO(T-share): Navigate to share card screen
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) =>
+                                      ShareCardScreen(dday: dday),
+                                ),
+                              );
                             },
                             icon: const Text(
                               '\u{1F4E4}',

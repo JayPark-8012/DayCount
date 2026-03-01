@@ -402,4 +402,19 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get timeline_today => 'TODAY';
+
+  @override
+  String get share_title => '카드 공유';
+
+  @override
+  String get share_save => '저장';
+
+  @override
+  String get share_share => '공유';
+
+  @override
+  String get share_template => '템플릿';
+
+  @override
+  String get share_saved => '갤러리에 저장되었습니다!';
 }

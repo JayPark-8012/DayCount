@@ -407,4 +407,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get timeline_today => 'TODAY';
+
+  @override
+  String get share_title => 'Share Card';
+
+  @override
+  String get share_save => 'Save';
+
+  @override
+  String get share_share => 'Share';
+
+  @override
+  String get share_template => 'Template';
+
+  @override
+  String get share_saved => 'Saved to gallery!';
 }

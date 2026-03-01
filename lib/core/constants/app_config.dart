@@ -29,4 +29,7 @@ class AppConfig {
   static const Duration viewSwitchDuration = Duration(milliseconds: 300);
   static const Duration timelineStaggerDelay = Duration(milliseconds: 100);
   static const Duration todayGlowDuration = Duration(milliseconds: 2000);
+
+  // Share Card
+  static const double shareCardRadius = 28;
 }

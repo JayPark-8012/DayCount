@@ -13,6 +13,7 @@ import '../../providers/filter_providers.dart';
 import '../../providers/settings_providers.dart';
 import '../dday_detail/detail_screen.dart';
 import '../dday_form/form_screen.dart';
+import '../share_card/share_card_screen.dart';
 import '../milestone_celebration/celebration_dialog.dart';
 import '../settings/settings_screen.dart';
 import '../timeline/timeline_view.dart';
@@ -68,7 +69,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         Navigator.pop(context);
         _markCelebrated(item);
         completer.complete();
-        // TODO(T-share): Navigate to share card screen
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => ShareCardScreen(dday: item.dday),
+          ),
+        );
       },
     );
 

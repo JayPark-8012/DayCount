@@ -201,5 +201,11 @@
   "detail_proLockButton": "자세히 보기",
 
   "timeline_title": "타임라인",
-  "timeline_today": "TODAY"
+  "timeline_today": "TODAY",
+
+  "share_title": "카드 공유",
+  "share_save": "저장",
+  "share_share": "공유",
+  "share_template": "템플릿",
+  "share_saved": "갤러리에 저장되었습니다!"
 }

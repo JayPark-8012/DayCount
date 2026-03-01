@@ -201,5 +201,11 @@
   "detail_proLockButton": "Learn More",
 
   "timeline_title": "Timeline",
-  "timeline_today": "TODAY"
+  "timeline_today": "TODAY",
+
+  "share_title": "Share Card",
+  "share_save": "Save",
+  "share_share": "Share",
+  "share_template": "Template",
+  "share_saved": "Saved to gallery!"
 }
