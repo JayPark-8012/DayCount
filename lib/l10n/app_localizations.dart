@@ -823,6 +823,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Learn More'**
   String get detail_proLockButton;
+
+  /// No description provided for @timeline_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Timeline'**
+  String get timeline_title;
+
+  /// No description provided for @timeline_today.
+  ///
+  /// In en, this message translates to:
+  /// **'TODAY'**
+  String get timeline_today;
 }
 
 class _AppLocalizationsDelegate

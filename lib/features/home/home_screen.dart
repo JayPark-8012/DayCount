@@ -15,6 +15,7 @@ import '../dday_detail/detail_screen.dart';
 import '../dday_form/form_screen.dart';
 import '../milestone_celebration/celebration_dialog.dart';
 import '../settings/settings_screen.dart';
+import '../timeline/timeline_view.dart';
 import 'widgets/dday_card.dart';
 import 'widgets/empty_state.dart';
 import 'widgets/filter_chips.dart';
@@ -28,6 +29,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   bool _celebrationChecked = false;
+  bool _isTimeline = false;
 
   @override
   void initState() {
@@ -124,7 +126,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ),
                   const SizedBox(width: AppConfig.sm),
                   Text(
-                    l10n.home_title,
+                    _isTimeline ? l10n.timeline_title : l10n.home_title,
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
@@ -137,10 +139,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   const Spacer(),
                   // View toggle
                   _AppBarIconButton(
-                    icon: '\u{1F4CA}',
+                    icon: _isTimeline ? '\u{1F4CB}' : '\u{1F4CA}',
                     isDark: isDark,
                     onTap: () {
-                      // TODO(T11): Navigate to timeline view
+                      setState(() => _isTimeline = !_isTimeline);
                     },
                   ),
                   const SizedBox(width: AppConfig.sm),
@@ -154,58 +156,87 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
             ),
 
-            // Filter chips
-            const FilterChips(),
-            const SizedBox(height: AppConfig.md),
+            // Filter chips (hidden in timeline view)
+            if (!_isTimeline) ...[
+              const FilterChips(),
+              const SizedBox(height: AppConfig.md),
+            ],
 
-            // Card list
+            // Main content: list or timeline
             Expanded(
-              child: filteredAsync.when(
-                data: (ddays) {
-                  if (ddays.isEmpty) {
-                    return HomeEmptyState(
-                      isFiltered: currentFilter != DdayFilter.all,
-                      onCreateTap: () => _navigateToCreate(context),
-                    );
-                  }
-                  return ListView.separated(
-                    padding: const EdgeInsets.only(
-                      left: AppConfig.xl,
-                      right: AppConfig.xl,
-                      top: AppConfig.sm,
-                      bottom: 100,
+              child: AnimatedSwitcher(
+                duration: AppConfig.viewSwitchDuration,
+                transitionBuilder: (child, animation) {
+                  return FadeTransition(
+                    opacity: animation,
+                    child: SlideTransition(
+                      position: Tween<Offset>(
+                        begin: const Offset(0.05, 0),
+                        end: Offset.zero,
+                      ).animate(animation),
+                      child: child,
                     ),
-                    itemCount: ddays.length,
-                    separatorBuilder: (_, _) =>
-                        const SizedBox(height: AppConfig.md),
-                    itemBuilder: (context, index) {
-                      final dday = ddays[index];
-                      return DdayCard(
-                        dday: dday,
-                        index: index,
-                        onTap: () => _navigateToDetail(context, dday.id!),
-                        onLongPress: () => _showContextMenu(context, dday),
-                      );
-                    },
                   );
                 },
-                loading: () => const Center(
-                  child: CircularProgressIndicator(
-                    color: AppColors.primaryColor,
-                  ),
-                ),
-                error: (error, _) => Center(
-                  child: Text(
-                    error.toString(),
-                    style: const TextStyle(color: AppColors.errorColor),
-                  ),
-                ),
+                child: _isTimeline
+                    ? const TimelineView(key: ValueKey('timeline'))
+                    : _buildListView(filteredAsync, currentFilter),
               ),
             ),
           ],
         ),
       ),
       floatingActionButton: _buildFab(context),
+    );
+  }
+
+  Widget _buildListView(
+    AsyncValue<List<DDay>> filteredAsync,
+    DdayFilter currentFilter,
+  ) {
+    return KeyedSubtree(
+      key: const ValueKey('list'),
+      child: filteredAsync.when(
+        data: (ddays) {
+          if (ddays.isEmpty) {
+            return HomeEmptyState(
+              isFiltered: currentFilter != DdayFilter.all,
+              onCreateTap: () => _navigateToCreate(context),
+            );
+          }
+          return ListView.separated(
+            padding: const EdgeInsets.only(
+              left: AppConfig.xl,
+              right: AppConfig.xl,
+              top: AppConfig.sm,
+              bottom: 100,
+            ),
+            itemCount: ddays.length,
+            separatorBuilder: (_, _) =>
+                const SizedBox(height: AppConfig.md),
+            itemBuilder: (context, index) {
+              final dday = ddays[index];
+              return DdayCard(
+                dday: dday,
+                index: index,
+                onTap: () => _navigateToDetail(context, dday.id!),
+                onLongPress: () => _showContextMenu(context, dday),
+              );
+            },
+          );
+        },
+        loading: () => const Center(
+          child: CircularProgressIndicator(
+            color: AppColors.primaryColor,
+          ),
+        ),
+        error: (error, _) => Center(
+          child: Text(
+            error.toString(),
+            style: const TextStyle(color: AppColors.errorColor),
+          ),
+        ),
+      ),
     );
   }
 

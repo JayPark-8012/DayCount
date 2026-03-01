@@ -396,4 +396,10 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get detail_proLockButton => '자세히 보기';
+
+  @override
+  String get timeline_title => '타임라인';
+
+  @override
+  String get timeline_today => 'TODAY';
 }

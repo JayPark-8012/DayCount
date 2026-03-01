@@ -198,5 +198,8 @@
   "detail_babyWalkingAge": "12개월",
   "detail_proLockTitle": "스페셜 모드 잠금 해제",
   "detail_proLockSubtitle": "DayCount PRO로",
-  "detail_proLockButton": "자세히 보기"
+  "detail_proLockButton": "자세히 보기",
+
+  "timeline_title": "타임라인",
+  "timeline_today": "TODAY"
 }

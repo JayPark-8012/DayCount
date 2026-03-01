@@ -24,4 +24,9 @@ class AppConfig {
   static const Duration cardStaggerDelay = Duration(milliseconds: 80);
   static const Duration chipAnimDuration = Duration(milliseconds: 200);
   static const Duration fabAnimDuration = Duration(milliseconds: 200);
+
+  // Animation — Timeline
+  static const Duration viewSwitchDuration = Duration(milliseconds: 300);
+  static const Duration timelineStaggerDelay = Duration(milliseconds: 100);
+  static const Duration todayGlowDuration = Duration(milliseconds: 2000);
 }

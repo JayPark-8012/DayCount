@@ -198,5 +198,8 @@
   "detail_babyWalkingAge": "12 months",
   "detail_proLockTitle": "Unlock Special Mode",
   "detail_proLockSubtitle": "with DayCount PRO",
-  "detail_proLockButton": "Learn More"
+  "detail_proLockButton": "Learn More",
+
+  "timeline_title": "Timeline",
+  "timeline_today": "TODAY"
 }

@@ -401,4 +401,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get detail_proLockButton => 'Learn More';
+
+  @override
+  String get timeline_title => 'Timeline';
+
+  @override
+  String get timeline_today => 'TODAY';
 }
