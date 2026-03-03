@@ -64,10 +64,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get home_emptyButton => 'D-Day 만들기';
 
   @override
-  String get home_filterEmptyTitle => 'D-Day가 없습니다';
+  String get home_filterEmptyTitle => '이 카테고리에 D-Day가 없어요';
 
   @override
-  String get home_filterEmptySubtitle => '다른 필터를 선택해 보세요.';
+  String get home_filterEmptySubtitle => '다른 카테고리를 선택하거나 새로 만들어 보세요.';
 
   @override
   String get home_edit => '수정';

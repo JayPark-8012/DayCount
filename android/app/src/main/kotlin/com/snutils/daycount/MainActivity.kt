@@ -1,4 +1,4 @@
-package com.daycount.daycount
+package com.snutils.daycount
 
 import io.flutter.embedding.android.FlutterActivity
 

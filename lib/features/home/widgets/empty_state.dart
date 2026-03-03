@@ -47,11 +47,31 @@ class HomeEmptyState extends StatelessWidget {
             const SizedBox(height: AppConfig.sm),
             Text(
               l10n.home_filterEmptySubtitle,
+              textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 14,
                 color: isDark
                     ? AppColors.textDisabledDark
                     : AppColors.textDisabledLight,
+              ),
+            ),
+            const SizedBox(height: AppConfig.xxl),
+            FilledButton(
+              onPressed: onCreateTap,
+              style: FilledButton.styleFrom(
+                backgroundColor: AppColors.primaryColor,
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(AppConfig.buttonRadius),
+                ),
+              ),
+              child: Text(
+                l10n.home_emptyButton,
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                ),
               ),
             ),
           ],

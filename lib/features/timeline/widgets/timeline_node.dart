@@ -4,6 +4,7 @@ import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_config.dart';
 import '../../../core/theme/card_themes.dart';
 import '../../../core/widgets/card_pattern.dart';
+import '../../../core/widgets/favorite_icon.dart';
 import '../../../core/widgets/press_scale.dart';
 import '../../../data/models/card_theme.dart';
 import '../../../data/models/dday.dart';
@@ -153,15 +154,27 @@ class _TimelineNodeState extends State<TimelineNode>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(
-                            widget.dday.title,
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w700,
-                              color: theme.textColor,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  widget.dday.title,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w700,
+                                    color: theme.textColor,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              const SizedBox(width: 4),
+                              FavoriteIcon(
+                                isFavorite: widget.dday.isFavorite,
+                                size: 16,
+                                inactiveColor: theme.textColor.withValues(alpha: 0.15),
+                              ),
+                            ],
                           ),
                           const SizedBox(height: 2),
                           Text(

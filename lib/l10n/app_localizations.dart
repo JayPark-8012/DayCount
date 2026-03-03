@@ -203,13 +203,13 @@ abstract class AppLocalizations {
   /// No description provided for @home_filterEmptyTitle.
   ///
   /// In en, this message translates to:
-  /// **'No D-Days found'**
+  /// **'No D-Days in this category'**
   String get home_filterEmptyTitle;
 
   /// No description provided for @home_filterEmptySubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Try a different filter.'**
+  /// **'Try a different filter or create a new one.'**
   String get home_filterEmptySubtitle;
 
   /// No description provided for @home_edit.

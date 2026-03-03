@@ -65,10 +65,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get home_emptyButton => 'Create D-Day';
 
   @override
-  String get home_filterEmptyTitle => 'No D-Days found';
+  String get home_filterEmptyTitle => 'No D-Days in this category';
 
   @override
-  String get home_filterEmptySubtitle => 'Try a different filter.';
+  String get home_filterEmptySubtitle =>
+      'Try a different filter or create a new one.';
 
   @override
   String get home_edit => 'Edit';

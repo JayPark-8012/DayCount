@@ -4,6 +4,7 @@ import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_config.dart';
 import '../../../core/theme/card_themes.dart';
 import '../../../core/widgets/card_pattern.dart';
+import '../../../core/widgets/favorite_icon.dart';
 import '../../../core/widgets/press_scale.dart';
 import '../../../data/models/dday.dart';
 import '../../../l10n/app_localizations.dart';
@@ -12,12 +13,14 @@ class HeroCard extends StatelessWidget {
   final DDay dday;
   final VoidCallback? onTap;
   final VoidCallback? onLongPress;
+  final VoidCallback? onFavoriteToggle;
 
   const HeroCard({
     super.key,
     required this.dday,
     this.onTap,
     this.onLongPress,
+    this.onFavoriteToggle,
   });
 
   @override
@@ -75,6 +78,20 @@ class HeroCard extends StatelessWidget {
                   ),
                 ),
 
+                // Favorite star — top right
+                Positioned(
+                  top: 20,
+                  right: 20,
+                  child: GestureDetector(
+                    onTap: onFavoriteToggle,
+                    child: FavoriteIcon(
+                      isFavorite: dday.isFavorite,
+                      size: 28,
+                      inactiveColor: theme.textColor.withValues(alpha: 0.25),
+                    ),
+                  ),
+                ),
+
                 // Content
                 Padding(
                   padding: const EdgeInsets.all(AppConfig.xxl),
@@ -101,14 +118,6 @@ class HeroCard extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          if (dday.isFavorite)
-                            Text(
-                              '\u{2B50}',
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: theme.accentColor,
-                              ),
-                            ),
                         ],
                       ),
                       const Spacer(),

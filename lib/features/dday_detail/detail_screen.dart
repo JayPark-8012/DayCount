@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/constants/app_colors.dart';
@@ -7,6 +8,7 @@ import '../../core/theme/app_spacing.dart';
 import '../../core/theme/card_themes.dart';
 import '../../core/theme/glass_style.dart';
 import '../../core/widgets/card_pattern.dart';
+import '../../core/widgets/favorite_icon.dart';
 import '../../core/widgets/press_scale.dart';
 import '../../l10n/app_localizations.dart';
 import '../../providers/dday_providers.dart';
@@ -143,6 +145,28 @@ class DetailScreen extends ConsumerWidget {
                                 ),
                               ),
                               const Spacer(),
+                              // ⭐ Favorite toggle
+                              PressScale(
+                                onTap: () {
+                                  ref.read(ddayListProvider.notifier).toggleFavorite(dday);
+                                  HapticFeedback.selectionClick();
+                                },
+                                child: GlassContainer(
+                                  borderRadius: 12,
+                                  blur: 10,
+                                  child: SizedBox(
+                                    width: 40,
+                                    height: 40,
+                                    child: Center(
+                                      child: FavoriteIcon(
+                                        isFavorite: dday.isFavorite,
+                                        size: 26,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: AppConfig.sm),
                               // ✏️ Edit — glass 40x40, radius 12, blur 10
                               PressScale(
                                 onTap: () async {

@@ -37,9 +37,13 @@ class DdayListNotifier extends AsyncNotifier<List<DDay>> {
   late DdayRepository _repository;
 
   @override
-  FutureOr<List<DDay>> build() {
+  Future<List<DDay>> build() async {
     _repository = ref.watch(ddayRepositoryProvider);
-    return _repository.getAll();
+    final ddays = await _repository.getAll();
+    if (!kIsWeb) {
+      _syncWidget(ddays);
+    }
+    return ddays;
   }
 
   Future<int> addDday(DDay dday) async {
@@ -127,11 +131,16 @@ class DdayListNotifier extends AsyncNotifier<List<DDay>> {
   }
 
   void _updateHomeWidget() {
+    _syncWidget(state.valueOrNull ?? []);
+  }
+
+  void _syncWidget(List<DDay> ddays) {
     try {
-      final ddays = state.valueOrNull ?? [];
       final closest = WidgetService.findClosestDday(ddays);
       final theme = closest != null ? getCardTheme(closest.themeId) : null;
-      WidgetService.updateWidget(closest, theme);
+      WidgetService.updateWidget(closest, theme).catchError((dynamic e) {
+        debugPrint('[Widget] Update failed: $e');
+      });
     } catch (e) {
       debugPrint('[Widget] Update failed: $e');
     }

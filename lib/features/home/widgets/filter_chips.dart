@@ -16,6 +16,7 @@ class FilterChips extends ConsumerWidget {
 
     final items = <_FilterItem>[
       _FilterItem(DdayFilter.all, l10n.home_filterAll, null),
+      _FilterItem(DdayFilter.favorites, l10n.home_filterFavorites, '\u{2B50}'),
       _FilterItem(DdayFilter.anniversary, l10n.home_filterAnniversary, '\u{1F389}'),
       _FilterItem(DdayFilter.couple, l10n.home_filterCouple, '\u{1F495}'),
       _FilterItem(DdayFilter.exam, l10n.home_filterExam, '\u{1F4DA}'),
@@ -23,7 +24,6 @@ class FilterChips extends ConsumerWidget {
       _FilterItem(DdayFilter.birthday, l10n.home_filterBirthday, '\u{1F382}'),
       _FilterItem(DdayFilter.baby, l10n.home_filterBaby, '\u{1F476}'),
       _FilterItem(DdayFilter.custom, l10n.home_filterCustom, '\u{26A1}'),
-      _FilterItem(DdayFilter.favorites, l10n.home_filterFavorites, '\u{2B50}'),
     ];
 
     return SizedBox(

@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_config.dart';
 import '../../core/theme/app_spacing.dart';
+import '../../core/widgets/favorite_icon.dart';
 import '../../core/widgets/press_scale.dart';
 import '../../data/constants/emoji_sets.dart';
 import '../../data/models/dday.dart';
@@ -34,6 +35,7 @@ class _DdayFormScreenState extends ConsumerState<DdayFormScreen> {
   late DateTime _selectedDate;
   late String _category;
   late String _themeId;
+  late bool _isFavorite;
 
   final _dateFormat = DateFormat('yyyy-MM-dd');
 
@@ -48,6 +50,7 @@ class _DdayFormScreenState extends ConsumerState<DdayFormScreen> {
         dday != null ? DateTime.parse(dday.targetDate) : DateTime.now();
     _category = dday?.category ?? 'anniversary';
     _themeId = dday?.themeId ?? 'cloud';
+    _isFavorite = dday?.isFavorite ?? false;
   }
 
   @override
@@ -120,19 +123,33 @@ class _DdayFormScreenState extends ConsumerState<DdayFormScreen> {
               // ── 1. Title ──
               _buildSectionLabel(l10n.form_titleLabel, isDark),
               const SizedBox(height: AppConfig.sm),
-              TextField(
-                controller: _titleController,
-                onChanged: (_) => setState(() {}),
-                style: TextStyle(
-                  fontSize: 16,
-                  color: isDark
-                      ? AppColors.textPrimaryDark
-                      : AppColors.textPrimaryLight,
-                ),
-                decoration: _inputDecoration(
-                  context,
-                  hintText: l10n.form_titleHint,
-                ),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _titleController,
+                      onChanged: (_) => setState(() {}),
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: isDark
+                            ? AppColors.textPrimaryDark
+                            : AppColors.textPrimaryLight,
+                      ),
+                      decoration: _inputDecoration(
+                        context,
+                        hintText: l10n.form_titleHint,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: AppConfig.sm),
+                  GestureDetector(
+                    onTap: () => setState(() => _isFavorite = !_isFavorite),
+                    child: FavoriteIcon(
+                      isFavorite: _isFavorite,
+                      size: 26,
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: AppConfig.xxl),
 
@@ -384,6 +401,7 @@ class _DdayFormScreenState extends ConsumerState<DdayFormScreen> {
           emoji: _emoji,
           themeId: _themeId,
           isCountUp: isCountUp,
+          isFavorite: _isFavorite,
           memo: memo,
           updatedAt: now,
         );
@@ -396,6 +414,7 @@ class _DdayFormScreenState extends ConsumerState<DdayFormScreen> {
           emoji: _emoji,
           themeId: _themeId,
           isCountUp: isCountUp,
+          isFavorite: _isFavorite,
           memo: memo,
           createdAt: now,
           updatedAt: now,

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/constants/app_colors.dart';
@@ -134,7 +135,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         final now = DateTime.now();
         if (_lastBackPressed != null &&
             now.difference(_lastBackPressed!) < const Duration(seconds: 2)) {
-          Navigator.of(context).pop();
+          SystemNavigator.pop();
           return;
         }
         _lastBackPressed = now;
@@ -251,6 +252,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     onCreateTap: () => _navigateToCreate(context),
                     onDetailTap: (id) => _navigateToDetail(context, id),
                     onContextMenu: (dday) => _showContextMenu(context, dday),
+                    onDelete: (dday) => _showDeleteConfirmDialog(context, dday),
                   ),
                   const TimelineView(),
                 ],
@@ -435,85 +437,109 @@ class _ListPage extends ConsumerWidget {
   final VoidCallback onCreateTap;
   final ValueChanged<int> onDetailTap;
   final ValueChanged<DDay> onContextMenu;
+  final ValueChanged<DDay> onDelete;
 
   const _ListPage({
     required this.onCreateTap,
     required this.onDetailTap,
     required this.onContextMenu,
+    required this.onDelete,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final allDdaysAsync = ref.watch(ddayListProvider);
     final filteredAsync = ref.watch(filteredDdayListProvider);
-    final currentFilter = ref.watch(currentFilterProvider);
+
+    final allDdays = allDdaysAsync.valueOrNull ?? [];
+
+    // Truly empty — no D-Days at all
+    if (allDdays.isEmpty) {
+      return HomeEmptyState(
+        isFiltered: false,
+        onCreateTap: onCreateTap,
+      );
+    }
 
     return filteredAsync.when(
       data: (ddays) {
-        if (ddays.isEmpty) {
-          return HomeEmptyState(
-            isFiltered: currentFilter != DdayFilter.all,
-            onCreateTap: onCreateTap,
-          );
-        }
-        final hero = _findHero(ddays);
-        return CustomScrollView(
-          slivers: [
+        final hero = _findHero(allDdays);
+
+        return Column(
+          children: [
+            // ── Fixed area: Hero + Category ──
+
             // Hero card
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.pageHorizontal,
-                ),
-                child: HeroCard(
-                  dday: hero,
-                  onTap: () {
-                    final id = hero.id;
-                    if (id != null) onDetailTap(id);
-                  },
-                  onLongPress: () => onContextMenu(hero),
-                ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.pageHorizontal,
               ),
-            ),
-            const SliverToBoxAdapter(
-              child: SizedBox(height: AppConfig.md),
-            ),
-
-            // Filter chips
-            const SliverToBoxAdapter(child: FilterChips()),
-            const SliverToBoxAdapter(
-              child: SizedBox(height: AppConfig.sm),
-            ),
-
-            // List header
-            SliverToBoxAdapter(
-              child: ListHeader(count: ddays.length),
-            ),
-
-            // Cards
-            SliverPadding(
-              padding: const EdgeInsets.only(
-                left: AppSpacing.pageHorizontal,
-                right: AppSpacing.pageHorizontal,
-                top: AppConfig.sm,
-                bottom: 100,
-              ),
-              sliver: SliverList.separated(
-                itemCount: ddays.length,
-                separatorBuilder: (_, _) =>
-                    const SizedBox(height: AppSpacing.cardGap),
-                itemBuilder: (context, index) {
-                  final dday = ddays[index];
-                  return DdayCard(
-                    dday: dday,
-                    index: index,
-                    onTap: () {
-                      final id = dday.id;
-                      if (id != null) onDetailTap(id);
-                    },
-                    onLongPress: () => onContextMenu(dday),
-                  );
+              child: HeroCard(
+                dday: hero,
+                onTap: () {
+                  final id = hero.id;
+                  if (id != null) onDetailTap(id);
+                },
+                onLongPress: () => onContextMenu(hero),
+                onFavoriteToggle: () {
+                  ref.read(ddayListProvider.notifier).toggleFavorite(hero);
                 },
               ),
+            ),
+            const SizedBox(height: AppConfig.md),
+
+            // Category filter chips (always visible)
+            const FilterChips(),
+            const SizedBox(height: AppConfig.sm),
+
+            // ── Scrollable area: List ──
+            Expanded(
+              child: ddays.isEmpty
+                  // Filtered empty
+                  ? HomeEmptyState(
+                      isFiltered: true,
+                      onCreateTap: onCreateTap,
+                    )
+                  // Filtered list
+                  : CustomScrollView(
+                      slivers: [
+                        // List header
+                        SliverToBoxAdapter(
+                          child: ListHeader(count: ddays.length),
+                        ),
+
+                        // Cards
+                        SliverPadding(
+                          padding: const EdgeInsets.only(
+                            left: AppSpacing.pageHorizontal,
+                            right: AppSpacing.pageHorizontal,
+                            top: AppConfig.sm,
+                            bottom: 100,
+                          ),
+                          sliver: SliverList.separated(
+                            itemCount: ddays.length,
+                            separatorBuilder: (_, _) =>
+                                const SizedBox(height: AppSpacing.cardGap),
+                            itemBuilder: (context, index) {
+                              final dday = ddays[index];
+                              return DdayCard(
+                                dday: dday,
+                                index: index,
+                                onTap: () {
+                                  final id = dday.id;
+                                  if (id != null) onDetailTap(id);
+                                },
+                                onLongPress: () => onContextMenu(dday),
+                                onFavoriteToggle: () {
+                                  ref.read(ddayListProvider.notifier).toggleFavorite(dday);
+                                },
+                                onDelete: () => onDelete(dday),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
             ),
           ],
         );
