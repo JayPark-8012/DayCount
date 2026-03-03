@@ -30,6 +30,26 @@ class AppConfig {
   static const Duration timelineStaggerDelay = Duration(milliseconds: 100);
   static const Duration todayGlowDuration = Duration(milliseconds: 2000);
 
+  // Home — Hero Card
+  static const double heroCardRadius = 28;
+  static const double heroCardMinHeight = 180;
+
+  // Home — List Card
+  static const double listCardRadius = 22;
+
+  // Home — Segment Tab
+  static const double segmentRadius = 16;
+  static const Duration segmentAnimDuration = Duration(milliseconds: 300);
+
+  // Home — Stagger
+  static const Duration staggerDelay = Duration(milliseconds: 70);
+
   // Share Card
   static const double shareCardRadius = 28;
+
+  // Detail Screen
+  static const double detailHeaderRadius = 36;
+  static const double detailMilestoneNodeSize = 32;
+  static const double detailSubCountRadius = 16;
+  static const double detailShareRadius = 18;
 }

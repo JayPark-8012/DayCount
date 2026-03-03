@@ -38,6 +38,7 @@ dependencies:
   emoji_picker_flutter: ^3.0.0
   google_fonts: ^6.2.0
   confetti_widget: ^0.4.0
+  home_widget: ^0.7.0           # 홈 화면 위젯 (Android + iOS)
 
 dev_dependencies:
   flutter_test:

@@ -283,5 +283,48 @@
   "error_purchaseFailed": "구매에 실패했습니다. 다시 시도해주세요.",
   "error_restoreNone": "이전 구매 내역이 없습니다.",
   "error_restoreFailed": "문제가 발생했습니다. 다시 시도해주세요.",
-  "error_saveFailed": "저장에 실패했습니다. 다시 시도해주세요."
+  "error_saveFailed": "저장에 실패했습니다. 다시 시도해주세요.",
+
+  "detail_milestoneToday": "오늘",
+  "detail_milestoneDaysAgo": "{count}일 지남",
+  "@detail_milestoneDaysAgo": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "form_categoryAnniversary": "기념일",
+  "form_categoryTravel": "여행",
+  "form_categoryBirthday": "생일",
+  "form_categoryCustom": "기타",
+
+  "home_filterAnniversary": "기념일",
+  "home_filterTravel": "여행",
+  "home_filterBirthday": "생일",
+  "home_filterCustom": "기타",
+
+  "home_tabList": "리스트",
+  "home_tabTimeline": "타임라인",
+  "home_ddayCount": "{count}개의 D-Day",
+  "@home_ddayCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "home_sortNearest": "가까운순 \u25BE",
+
+  "detail_createdAt": "등록일 {date}",
+  "@detail_createdAt": {
+    "placeholders": {
+      "date": { "type": "String" }
+    }
+  },
+
+  "form_previewLabel": "미리보기",
+
+  "home_pressBackToExit": "한 번 더 누르면 종료됩니다",
+
+  "sort_nearest": "가까운 날짜순",
+  "sort_farthest": "먼 날짜순",
+  "sort_recent": "최근 추가순"
 }

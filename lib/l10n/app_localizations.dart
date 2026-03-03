@@ -1069,6 +1069,126 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to save. Please try again.'**
   String get error_saveFailed;
+
+  /// No description provided for @detail_milestoneToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get detail_milestoneToday;
+
+  /// No description provided for @detail_milestoneDaysAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}d ago'**
+  String detail_milestoneDaysAgo(int count);
+
+  /// No description provided for @form_categoryAnniversary.
+  ///
+  /// In en, this message translates to:
+  /// **'Anniversary'**
+  String get form_categoryAnniversary;
+
+  /// No description provided for @form_categoryTravel.
+  ///
+  /// In en, this message translates to:
+  /// **'Travel'**
+  String get form_categoryTravel;
+
+  /// No description provided for @form_categoryBirthday.
+  ///
+  /// In en, this message translates to:
+  /// **'Birthday'**
+  String get form_categoryBirthday;
+
+  /// No description provided for @form_categoryCustom.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom'**
+  String get form_categoryCustom;
+
+  /// No description provided for @home_filterAnniversary.
+  ///
+  /// In en, this message translates to:
+  /// **'Anniversary'**
+  String get home_filterAnniversary;
+
+  /// No description provided for @home_filterTravel.
+  ///
+  /// In en, this message translates to:
+  /// **'Travel'**
+  String get home_filterTravel;
+
+  /// No description provided for @home_filterBirthday.
+  ///
+  /// In en, this message translates to:
+  /// **'Birthday'**
+  String get home_filterBirthday;
+
+  /// No description provided for @home_filterCustom.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom'**
+  String get home_filterCustom;
+
+  /// No description provided for @home_tabList.
+  ///
+  /// In en, this message translates to:
+  /// **'List'**
+  String get home_tabList;
+
+  /// No description provided for @home_tabTimeline.
+  ///
+  /// In en, this message translates to:
+  /// **'Timeline'**
+  String get home_tabTimeline;
+
+  /// No description provided for @home_ddayCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} D-Days'**
+  String home_ddayCount(int count);
+
+  /// No description provided for @home_sortNearest.
+  ///
+  /// In en, this message translates to:
+  /// **'Nearest ▾'**
+  String get home_sortNearest;
+
+  /// No description provided for @detail_createdAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Created {date}'**
+  String detail_createdAt(String date);
+
+  /// No description provided for @form_previewLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview'**
+  String get form_previewLabel;
+
+  /// No description provided for @home_pressBackToExit.
+  ///
+  /// In en, this message translates to:
+  /// **'Press back again to exit'**
+  String get home_pressBackToExit;
+
+  /// No description provided for @sort_nearest.
+  ///
+  /// In en, this message translates to:
+  /// **'Nearest first'**
+  String get sort_nearest;
+
+  /// No description provided for @sort_farthest.
+  ///
+  /// In en, this message translates to:
+  /// **'Farthest first'**
+  String get sort_farthest;
+
+  /// No description provided for @sort_recent.
+  ///
+  /// In en, this message translates to:
+  /// **'Recently added'**
+  String get sort_recent;
 }
 
 class _AppLocalizationsDelegate

@@ -16,6 +16,7 @@ final Map<String, DdayCardTheme> cardThemes = {
     background: _grad(const Color(0xFFF0F0FF), const Color(0xFFE8E8FF)),
     textColor: const Color(0xFF2D2D3F),
     accentColor: const Color(0xFF6C63FF),
+    pattern: CardPatternType.circles,
   ),
   'sunset': DdayCardTheme(
     id: 'sunset',
@@ -23,6 +24,7 @@ final Map<String, DdayCardTheme> cardThemes = {
     background: _grad(const Color(0xFFFFF0E6), const Color(0xFFFFE0CC)),
     textColor: const Color(0xFF8B4513),
     accentColor: const Color(0xFFFF6B3D),
+    pattern: CardPatternType.waves,
   ),
   'ocean': DdayCardTheme(
     id: 'ocean',
@@ -30,6 +32,7 @@ final Map<String, DdayCardTheme> cardThemes = {
     background: _grad(const Color(0xFFE6F5FF), const Color(0xFFCCE8FF)),
     textColor: const Color(0xFF1A5276),
     accentColor: const Color(0xFF2E86DE),
+    pattern: CardPatternType.waves,
   ),
   'forest': DdayCardTheme(
     id: 'forest',
@@ -37,6 +40,7 @@ final Map<String, DdayCardTheme> cardThemes = {
     background: _grad(const Color(0xFFE8F5E9), const Color(0xFFC8E6C9)),
     textColor: const Color(0xFF1B5E20),
     accentColor: const Color(0xFF43A047),
+    pattern: CardPatternType.leaves,
   ),
   'lavender': DdayCardTheme(
     id: 'lavender',
@@ -44,6 +48,7 @@ final Map<String, DdayCardTheme> cardThemes = {
     background: _grad(const Color(0xFFF3E5F5), const Color(0xFFE1BEE7)),
     textColor: const Color(0xFF4A148C),
     accentColor: const Color(0xFF9C27B0),
+    pattern: CardPatternType.circles,
   ),
   'minimal': DdayCardTheme(
     id: 'minimal',
@@ -51,6 +56,7 @@ final Map<String, DdayCardTheme> cardThemes = {
     background: _grad(const Color(0xFFFFFFFF), const Color(0xFFF5F5F5)),
     textColor: const Color(0xFF212121),
     accentColor: const Color(0xFF6C63FF),
+    pattern: CardPatternType.circles,
   ),
 
   // --- Premium (15) ---
@@ -61,6 +67,7 @@ final Map<String, DdayCardTheme> cardThemes = {
     textColor: const Color(0xFFE8E8FF),
     accentColor: const Color(0xFF6C63FF),
     isPro: true,
+    pattern: CardPatternType.stars,
   ),
   'cherry': DdayCardTheme(
     id: 'cherry',
@@ -69,6 +76,7 @@ final Map<String, DdayCardTheme> cardThemes = {
     textColor: const Color(0xFFFFFFFF),
     accentColor: const Color(0xFFFFCDD2),
     isPro: true,
+    pattern: CardPatternType.petals,
   ),
   'aurora': DdayCardTheme(
     id: 'aurora',
@@ -77,6 +85,7 @@ final Map<String, DdayCardTheme> cardThemes = {
     textColor: const Color(0xFF43E8D8),
     accentColor: const Color(0xFF43E8D8),
     isPro: true,
+    pattern: CardPatternType.aurora,
   ),
   'peach': DdayCardTheme(
     id: 'peach',
@@ -85,6 +94,7 @@ final Map<String, DdayCardTheme> cardThemes = {
     textColor: const Color(0xFF5D4037),
     accentColor: const Color(0xFFFF7043),
     isPro: true,
+    pattern: CardPatternType.waves,
   ),
   'noir': DdayCardTheme(
     id: 'noir',
@@ -93,6 +103,7 @@ final Map<String, DdayCardTheme> cardThemes = {
     textColor: const Color(0xFFFAFAFA),
     accentColor: const Color(0xFFFFD700),
     isPro: true,
+    pattern: CardPatternType.aurora,
   ),
   'rosegold': DdayCardTheme(
     id: 'rosegold',
@@ -101,6 +112,7 @@ final Map<String, DdayCardTheme> cardThemes = {
     textColor: const Color(0xFF5D3A3A),
     accentColor: const Color(0xFFC97B7B),
     isPro: true,
+    pattern: CardPatternType.petals,
   ),
   'arctic': DdayCardTheme(
     id: 'arctic',
@@ -109,6 +121,7 @@ final Map<String, DdayCardTheme> cardThemes = {
     textColor: const Color(0xFF0D3B66),
     accentColor: const Color(0xFF1E88E5),
     isPro: true,
+    pattern: CardPatternType.leaves,
   ),
   'ember': DdayCardTheme(
     id: 'ember',
@@ -117,6 +130,7 @@ final Map<String, DdayCardTheme> cardThemes = {
     textColor: const Color(0xFFFFFFFF),
     accentColor: const Color(0xFFFFE0B2),
     isPro: true,
+    pattern: CardPatternType.petals,
   ),
   'sage': DdayCardTheme(
     id: 'sage',
@@ -125,6 +139,7 @@ final Map<String, DdayCardTheme> cardThemes = {
     textColor: const Color(0xFF2E4A2E),
     accentColor: const Color(0xFF5C8A5C),
     isPro: true,
+    pattern: CardPatternType.leaves,
   ),
   'twilight': DdayCardTheme(
     id: 'twilight',
@@ -133,6 +148,7 @@ final Map<String, DdayCardTheme> cardThemes = {
     textColor: const Color(0xFFD4C5FF),
     accentColor: const Color(0xFFB39DDB),
     isPro: true,
+    pattern: CardPatternType.stars,
   ),
   'mocha': DdayCardTheme(
     id: 'mocha',
@@ -141,6 +157,7 @@ final Map<String, DdayCardTheme> cardThemes = {
     textColor: const Color(0xFF3E2723),
     accentColor: const Color(0xFF795548),
     isPro: true,
+    pattern: CardPatternType.aurora,
   ),
   'ocean_deep': DdayCardTheme(
     id: 'ocean_deep',
@@ -149,6 +166,7 @@ final Map<String, DdayCardTheme> cardThemes = {
     textColor: const Color(0xFFA8D8EA),
     accentColor: const Color(0xFF48CAE4),
     isPro: true,
+    pattern: CardPatternType.waves,
   ),
   'cotton_candy': DdayCardTheme(
     id: 'cotton_candy',
@@ -157,6 +175,7 @@ final Map<String, DdayCardTheme> cardThemes = {
     textColor: const Color(0xFF4A148C),
     accentColor: const Color(0xFFE040FB),
     isPro: true,
+    pattern: CardPatternType.circles,
   ),
   'graphite': DdayCardTheme(
     id: 'graphite',
@@ -165,6 +184,7 @@ final Map<String, DdayCardTheme> cardThemes = {
     textColor: const Color(0xFFECEFF1),
     accentColor: const Color(0xFF90A4AE),
     isPro: true,
+    pattern: CardPatternType.stars,
   ),
   'royal': DdayCardTheme(
     id: 'royal',
@@ -173,6 +193,7 @@ final Map<String, DdayCardTheme> cardThemes = {
     textColor: const Color(0xFFE8EAF6),
     accentColor: const Color(0xFFFFD700),
     isPro: true,
+    pattern: CardPatternType.aurora,
   ),
 };
 

@@ -9,18 +9,18 @@ class AppColors {
   static const accentColor = Color(0xFF43E8D8);
 
   // Light mode
-  static const backgroundLight = Color(0xFFFAFAFA);
-  static const surfaceLight = Color(0xFFFFFFFF);
+  static const backgroundLight = Color(0xFFF6F6FC);
+  static const surfaceLight = Color(0xB3FFFFFF); // rgba(255,255,255,0.7)
   static const textPrimaryLight = Color(0xFF1A1A2E);
-  static const textSecondaryLight = Color(0xFF666666);
+  static const textSecondaryLight = Color(0xFF9090A8);
   static const textDisabledLight = Color(0xFF999999);
   static const dividerLight = Color(0xFFE8E8F0);
 
   // Dark mode
-  static const backgroundDark = Color(0xFF1A1A2E);
-  static const surfaceDark = Color(0xFF252542);
+  static const backgroundDark = Color(0xFF0A0A16);
+  static const surfaceDark = Color(0x991A1A30); // rgba(26,26,48,0.6)
   static const textPrimaryDark = Color(0xFFE8E8FF);
-  static const textSecondaryDark = Color(0xFFA0A0C0);
+  static const textSecondaryDark = Color(0xFF6B6B8D);
   static const textDisabledDark = Color(0xFF666680);
   static const dividerDark = Color(0xFF3A3A5C);
 

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui' show PlatformDispatcher;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -62,7 +63,13 @@ class LanguageNotifier extends AsyncNotifier<String?> {
   FutureOr<String?> build() async {
     _repository = ref.watch(settingsRepositoryProvider);
     final value = await _repository.get(_keyLanguage);
-    return value; // null = system default
+    if (value != null) return value;
+
+    // Auto-detect from system locale
+    final systemLang = PlatformDispatcher.instance.locale.languageCode;
+    final detected = systemLang == 'ko' ? 'ko' : 'en';
+    await _repository.set(_keyLanguage, detected);
+    return detected;
   }
 
   Future<void> setLanguage(String? languageCode) async {

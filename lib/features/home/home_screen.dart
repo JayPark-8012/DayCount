@@ -5,6 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_config.dart';
+import '../../core/theme/app_spacing.dart';
+import '../../core/theme/glass_style.dart';
+import '../../core/widgets/press_scale.dart';
 import '../../data/models/dday.dart';
 import '../../l10n/app_localizations.dart';
 import '../../providers/celebration_providers.dart';
@@ -20,6 +23,9 @@ import '../timeline/timeline_view.dart';
 import 'widgets/dday_card.dart';
 import 'widgets/empty_state.dart';
 import 'widgets/filter_chips.dart';
+import 'widgets/hero_card.dart';
+import 'widgets/list_header.dart';
+import 'widgets/segment_tab.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -30,14 +36,23 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   bool _celebrationChecked = false;
-  bool _isTimeline = false;
+  late final PageController _pageController;
+  int _currentPage = 0;
+  DateTime? _lastBackPressed;
 
   @override
   void initState() {
     super.initState();
+    _pageController = PageController();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _checkCelebrations();
     });
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 
   Future<void> _checkCelebrations() async {
@@ -50,6 +65,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     for (final item in celebrations) {
       if (!mounted) break;
       await _showCelebration(item);
+      if (!mounted) break;
     }
   }
 
@@ -82,30 +98,66 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   Future<void> _markCelebrated(CelebrationItem item) async {
-    final settingsRepo = ref.read(settingsRepositoryProvider);
-    await settingsRepo.set(
-      'celebrated_${item.dday.id}_${item.milestone.id}',
-      'true',
+    try {
+      final settingsRepo = ref.read(settingsRepositoryProvider);
+      await settingsRepo.set(
+        'celebrated_${item.dday.id}_${item.milestone.id}',
+        'true',
+      );
+    } catch (e) {
+      debugPrint('[HomeScreen] Failed to mark celebrated: $e');
+    }
+  }
+
+  void _onSegmentTapped(int index) {
+    _pageController.animateToPage(
+      index,
+      duration: AppConfig.segmentAnimDuration,
+      curve: Curves.easeOut,
     );
+  }
+
+  void _onPageChanged(int index) {
+    setState(() => _currentPage = index);
   }
 
   @override
   Widget build(BuildContext context) {
-    final filteredAsync = ref.watch(filteredDdayListProvider);
-    final currentFilter = ref.watch(currentFilterProvider);
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final l10n = AppLocalizations.of(context)!;
 
-    return Scaffold(
-      backgroundColor:
-          isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
-      body: SafeArea(
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+
+        final now = DateTime.now();
+        if (_lastBackPressed != null &&
+            now.difference(_lastBackPressed!) < const Duration(seconds: 2)) {
+          Navigator.of(context).pop();
+          return;
+        }
+        _lastBackPressed = now;
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.home_pressBackToExit),
+            duration: const Duration(seconds: 2),
+            behavior: SnackBarBehavior.floating,
+            margin: const EdgeInsets.only(bottom: 80, left: 24, right: 24),
+          ),
+        );
+      },
+      child: Scaffold(
+        backgroundColor:
+            isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
+        body: SafeArea(
         child: Column(
           children: [
-            // App bar
+            // ── App bar ──
             Padding(
               padding: const EdgeInsets.symmetric(
-                horizontal: AppConfig.xl,
+                horizontal: AppSpacing.pageHorizontal,
                 vertical: AppConfig.sm,
               ),
               child: Row(
@@ -118,6 +170,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       gradient: AppColors.logoGradient,
                       borderRadius:
                           BorderRadius.circular(AppConfig.logoRadius),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.primaryColor
+                              .withValues(alpha: 0.3),
+                          blurRadius: 12,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
                     ),
                     child: const Center(
                       child: Text(
@@ -132,10 +192,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ),
                   const SizedBox(width: AppConfig.sm),
                   Text(
-                    _isTimeline ? l10n.timeline_title : l10n.home_title,
+                    l10n.home_title,
                     style: TextStyle(
                       fontSize: 22,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w800,
                       letterSpacing: -0.5,
                       color: isDark
                           ? AppColors.textPrimaryDark
@@ -143,123 +203,82 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ),
                   ),
                   const Spacer(),
-                  // View toggle
-                  _AppBarIconButton(
-                    icon: _isTimeline ? '\u{1F4CB}' : '\u{1F4CA}',
-                    isDark: isDark,
-                    onTap: () {
-                      setState(() => _isTimeline = !_isTimeline);
-                    },
-                  ),
-                  const SizedBox(width: AppConfig.sm),
-                  // Settings
-                  _AppBarIconButton(
-                    icon: '\u{2699}\u{FE0F}',
-                    isDark: isDark,
+                  // Settings button (GlassContainer 40x40)
+                  GestureDetector(
                     onTap: () => _navigateToSettings(context),
+                    child: GlassContainer(
+                      borderRadius: 12,
+                      child: SizedBox(
+                        width: 40,
+                        height: 40,
+                        child: Center(
+                          child: Text(
+                            '\u{2699}\u{FE0F}',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: isDark
+                                  ? AppColors.textPrimaryDark
+                                  : AppColors.textPrimaryLight,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
             ),
 
-            // Filter chips (hidden in timeline view)
-            if (!_isTimeline) ...[
-              const FilterChips(),
-              const SizedBox(height: AppConfig.md),
-            ],
+            // ── Segment tab ──
+            Padding(
+              padding: const EdgeInsets.only(
+                top: AppConfig.xs,
+                bottom: AppConfig.md,
+              ),
+              child: SegmentTab(
+                selectedIndex: _currentPage,
+                onChanged: _onSegmentTapped,
+              ),
+            ),
 
-            // Main content: list or timeline
+            // ── List / Timeline ──
             Expanded(
-              child: AnimatedSwitcher(
-                duration: AppConfig.viewSwitchDuration,
-                transitionBuilder: (child, animation) {
-                  return FadeTransition(
-                    opacity: animation,
-                    child: SlideTransition(
-                      position: Tween<Offset>(
-                        begin: const Offset(0.05, 0),
-                        end: Offset.zero,
-                      ).animate(animation),
-                      child: child,
-                    ),
-                  );
-                },
-                child: _isTimeline
-                    ? const TimelineView(key: ValueKey('timeline'))
-                    : _buildListView(filteredAsync, currentFilter),
+              child: PageView(
+                controller: _pageController,
+                onPageChanged: _onPageChanged,
+                children: [
+                  _ListPage(
+                    onCreateTap: () => _navigateToCreate(context),
+                    onDetailTap: (id) => _navigateToDetail(context, id),
+                    onContextMenu: (dday) => _showContextMenu(context, dday),
+                  ),
+                  const TimelineView(),
+                ],
               ),
             ),
           ],
         ),
       ),
       floatingActionButton: _buildFab(context),
-    );
-  }
-
-  Widget _buildListView(
-    AsyncValue<List<DDay>> filteredAsync,
-    DdayFilter currentFilter,
-  ) {
-    return KeyedSubtree(
-      key: const ValueKey('list'),
-      child: filteredAsync.when(
-        data: (ddays) {
-          if (ddays.isEmpty) {
-            return HomeEmptyState(
-              isFiltered: currentFilter != DdayFilter.all,
-              onCreateTap: () => _navigateToCreate(context),
-            );
-          }
-          return ListView.separated(
-            padding: const EdgeInsets.only(
-              left: AppConfig.xl,
-              right: AppConfig.xl,
-              top: AppConfig.sm,
-              bottom: 100,
-            ),
-            itemCount: ddays.length,
-            separatorBuilder: (_, _) =>
-                const SizedBox(height: AppConfig.md),
-            itemBuilder: (context, index) {
-              final dday = ddays[index];
-              return DdayCard(
-                dday: dday,
-                index: index,
-                onTap: () => _navigateToDetail(context, dday.id!),
-                onLongPress: () => _showContextMenu(context, dday),
-              );
-            },
-          );
-        },
-        loading: () => const Center(
-          child: CircularProgressIndicator(
-            color: AppColors.primaryColor,
-          ),
-        ),
-        error: (error, _) => Center(
-          child: Text(
-            error.toString(),
-            style: const TextStyle(color: AppColors.errorColor),
-          ),
-        ),
       ),
     );
   }
 
   Widget _buildFab(BuildContext context) {
-    return GestureDetector(
+    return PressScale(
+      scaleValue: 0.9,
       onTap: () => _navigateToCreate(context),
       child: Container(
-        width: 56,
-        height: 56,
+        width: 60,
+        height: 60,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(AppConfig.fabRadius),
+          borderRadius: BorderRadius.circular(20),
           gradient: AppColors.primaryGradient,
           boxShadow: [
             BoxShadow(
-              color: AppColors.primaryColor.withValues(alpha: 0.4),
-              blurRadius: 24,
-              offset: const Offset(0, 8),
+              color: AppColors.primaryColor.withValues(alpha: 0.45),
+              blurRadius: 32,
+              offset: const Offset(0, 10),
             ),
           ],
         ),
@@ -267,7 +286,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           child: Text(
             '+',
             style: TextStyle(
-              fontSize: 28,
+              fontSize: 30,
               fontWeight: FontWeight.w400,
               color: Colors.white,
               height: 1.0,
@@ -374,7 +393,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           FilledButton(
             onPressed: () {
               Navigator.pop(dialogContext);
-              ref.read(ddayListProvider.notifier).deleteDday(dday.id!);
+              final id = dday.id;
+              if (id != null) {
+                ref.read(ddayListProvider.notifier).deleteDday(id);
+              }
             },
             style: FilledButton.styleFrom(
               backgroundColor: AppColors.errorColor,
@@ -408,32 +430,112 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 }
 
-class _AppBarIconButton extends StatelessWidget {
-  final String icon;
-  final bool isDark;
-  final VoidCallback onTap;
+/// List page shown as first page of PageView.
+class _ListPage extends ConsumerWidget {
+  final VoidCallback onCreateTap;
+  final ValueChanged<int> onDetailTap;
+  final ValueChanged<DDay> onContextMenu;
 
-  const _AppBarIconButton({
-    required this.icon,
-    required this.isDark,
-    required this.onTap,
+  const _ListPage({
+    required this.onCreateTap,
+    required this.onDetailTap,
+    required this.onContextMenu,
   });
 
   @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 36,
-        height: 36,
-        decoration: BoxDecoration(
-          color: isDark ? AppColors.iconButtonDark : AppColors.iconButtonLight,
-          borderRadius: BorderRadius.circular(AppConfig.iconButtonRadius),
-        ),
-        child: Center(
-          child: Text(icon, style: const TextStyle(fontSize: 16)),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final filteredAsync = ref.watch(filteredDdayListProvider);
+    final currentFilter = ref.watch(currentFilterProvider);
+
+    return filteredAsync.when(
+      data: (ddays) {
+        if (ddays.isEmpty) {
+          return HomeEmptyState(
+            isFiltered: currentFilter != DdayFilter.all,
+            onCreateTap: onCreateTap,
+          );
+        }
+        final hero = _findHero(ddays);
+        return CustomScrollView(
+          slivers: [
+            // Hero card
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.pageHorizontal,
+                ),
+                child: HeroCard(
+                  dday: hero,
+                  onTap: () {
+                    final id = hero.id;
+                    if (id != null) onDetailTap(id);
+                  },
+                  onLongPress: () => onContextMenu(hero),
+                ),
+              ),
+            ),
+            const SliverToBoxAdapter(
+              child: SizedBox(height: AppConfig.md),
+            ),
+
+            // Filter chips
+            const SliverToBoxAdapter(child: FilterChips()),
+            const SliverToBoxAdapter(
+              child: SizedBox(height: AppConfig.sm),
+            ),
+
+            // List header
+            SliverToBoxAdapter(
+              child: ListHeader(count: ddays.length),
+            ),
+
+            // Cards
+            SliverPadding(
+              padding: const EdgeInsets.only(
+                left: AppSpacing.pageHorizontal,
+                right: AppSpacing.pageHorizontal,
+                top: AppConfig.sm,
+                bottom: 100,
+              ),
+              sliver: SliverList.separated(
+                itemCount: ddays.length,
+                separatorBuilder: (_, _) =>
+                    const SizedBox(height: AppSpacing.cardGap),
+                itemBuilder: (context, index) {
+                  final dday = ddays[index];
+                  return DdayCard(
+                    dday: dday,
+                    index: index,
+                    onTap: () {
+                      final id = dday.id;
+                      if (id != null) onDetailTap(id);
+                    },
+                    onLongPress: () => onContextMenu(dday),
+                  );
+                },
+              ),
+            ),
+          ],
+        );
+      },
+      loading: () => const Center(
+        child: CircularProgressIndicator(color: AppColors.primaryColor),
+      ),
+      error: (error, _) => Center(
+        child: Text(
+          error.toString(),
+          style: const TextStyle(color: AppColors.errorColor),
         ),
       ),
     );
+  }
+
+  DDay _findHero(List<DDay> ddays) {
+    final today = DateUtils.dateOnly(DateTime.now());
+    for (final d in ddays) {
+      final target = DateTime.parse(d.targetDate);
+      if (!target.isBefore(today)) return d;
+    }
+    return ddays.first;
   }
 }

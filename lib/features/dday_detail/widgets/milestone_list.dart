@@ -1,10 +1,15 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_config.dart';
+import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/milestone_generator.dart';
+import '../../../core/widgets/press_scale.dart';
 import '../../../data/models/milestone.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../providers/milestone_providers.dart';
@@ -32,6 +37,9 @@ class _MilestoneListState extends ConsumerState<MilestoneList>
   late AnimationController _controller;
   bool _isExpanded = false;
 
+  static const int _collapsedCount = 3;
+  static final _dateFormat = DateFormat('yyyy-MM-dd');
+
   @override
   void initState() {
     super.initState();
@@ -55,64 +63,19 @@ class _MilestoneListState extends ConsumerState<MilestoneList>
     super.dispose();
   }
 
+  DateTime _milestoneDate(Milestone milestone) {
+    final target = DateTime.parse(widget.targetDate);
+    return target.subtract(Duration(days: milestone.days));
+  }
+
+  int _daysFromToday(Milestone milestone) {
+    final today = DateUtils.dateOnly(DateTime.now());
+    final mDate = DateUtils.dateOnly(_milestoneDate(milestone));
+    return mDate.difference(today).inDays;
+  }
+
   bool _isMilestoneReached(Milestone milestone) {
-    final today = DateUtils.dateOnly(DateTime.now());
-    final target = DateTime.parse(widget.targetDate);
-
-    if (widget.category == 'exam') {
-      final daysLeft = target.difference(today).inDays;
-      return daysLeft <= milestone.days;
-    }
-
-    final daysSince = today.difference(target).inDays;
-    return daysSince >= milestone.days;
-  }
-
-  int _daysUntilMilestone(Milestone milestone) {
-    final today = DateUtils.dateOnly(DateTime.now());
-    final target = DateTime.parse(widget.targetDate);
-
-    if (widget.category == 'exam') {
-      final milestoneDate = target.subtract(Duration(days: milestone.days));
-      return milestoneDate.difference(today).inDays;
-    }
-
-    final milestoneDate = target.add(Duration(days: milestone.days));
-    return milestoneDate.difference(today).inDays;
-  }
-
-  /// Returns indices to show in collapsed mode:
-  /// - 1 most recently reached (if any)
-  /// - up to 2 next upcoming (soonest first)
-  List<int> _collapsedIndices() {
-    final reached = <(int index, int daysLeft)>[];
-    final upcoming = <(int index, int daysLeft)>[];
-
-    for (int i = 0; i < widget.milestones.length; i++) {
-      final dl = _daysUntilMilestone(widget.milestones[i]);
-      if (_isMilestoneReached(widget.milestones[i])) {
-        reached.add((i, dl));
-      } else {
-        upcoming.add((i, dl));
-      }
-    }
-
-    final result = <int>{};
-
-    // Most recently reached = largest daysLeft among reached (closest to today)
-    if (reached.isNotEmpty) {
-      reached.sort((a, b) => b.$2.compareTo(a.$2));
-      result.add(reached.first.$1);
-    }
-
-    // Next 2 upcoming = smallest daysLeft (soonest)
-    upcoming.sort((a, b) => a.$2.compareTo(b.$2));
-    for (final u in upcoming.take(2)) {
-      result.add(u.$1);
-    }
-
-    final sorted = result.toList()..sort();
-    return sorted;
+    return _daysFromToday(milestone) <= 0;
   }
 
   void _showAddCustomDialog() {
@@ -157,16 +120,28 @@ class _MilestoneListState extends ConsumerState<MilestoneList>
               final milestone = Milestone(
                 ddayId: widget.ddayId,
                 days: days,
-                label: l10n.detail_customLabel(days),
+                label: 'D-$days',
                 isCustom: true,
               );
 
-              final repo = ref.read(milestoneRepositoryProvider);
-              await repo.insert(milestone);
-              ref.invalidate(milestonesForDdayProvider(widget.ddayId));
+              try {
+                final repo = ref.read(milestoneRepositoryProvider);
+                await repo.insert(milestone);
+                ref.invalidate(milestonesForDdayProvider(widget.ddayId));
 
-              if (dialogContext.mounted) {
-                Navigator.pop(dialogContext);
+                if (dialogContext.mounted) {
+                  Navigator.pop(dialogContext);
+                }
+              } catch (e) {
+                if (dialogContext.mounted) {
+                  ScaffoldMessenger.of(dialogContext).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        AppLocalizations.of(dialogContext)!.error_saveFailed,
+                      ),
+                    ),
+                  );
+                }
               }
             },
             child: Text(l10n.common_save),
@@ -176,44 +151,36 @@ class _MilestoneListState extends ConsumerState<MilestoneList>
     );
   }
 
-  bool _isTargetInFuture() {
-    final today = DateUtils.dateOnly(DateTime.now());
-    final target = DateTime.parse(widget.targetDate);
-    return target.isAfter(today);
-  }
-
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final hideMilestones =
-        widget.category != 'exam' && _isTargetInFuture();
 
-    final reachedCount =
-        widget.milestones.where((m) => _isMilestoneReached(m)).length;
-    final allReached =
-        reachedCount == widget.milestones.length && widget.milestones.isNotEmpty;
-    final collapsed = _collapsedIndices();
-    final showToggle = widget.milestones.length > collapsed.length;
-    final visibleIndices = _isExpanded
-        ? List.generate(widget.milestones.length, (i) => i)
-        : collapsed;
+    // Sort milestones descending by days (D-100 first, D-Day last)
+    final sorted = List<Milestone>.from(widget.milestones)
+      ..sort((a, b) => b.days.compareTo(a.days));
+
+    final showToggle = sorted.length > _collapsedCount;
+    final visible =
+        _isExpanded ? sorted : sorted.take(_collapsedCount).toList();
 
     return FadeTransition(
       opacity: _controller,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header
+          // Header — "마일스톤" 17pt w800 + "+ 커스텀"
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppConfig.xl),
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.pageHorizontal,
+            ),
             child: Row(
               children: [
                 Text(
                   l10n.detail_milestones,
                   style: TextStyle(
                     fontSize: 17,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w800,
                     letterSpacing: -0.5,
                     color: isDark
                         ? AppColors.textPrimaryDark
@@ -221,9 +188,13 @@ class _MilestoneListState extends ConsumerState<MilestoneList>
                   ),
                 ),
                 const Spacer(),
-                if (!hideMilestones)
-                  GestureDetector(
-                    onTap: _showAddCustomDialog,
+                PressScale(
+                  onTap: _showAddCustomDialog,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppConfig.sm,
+                      vertical: AppConfig.md,
+                    ),
                     child: Text(
                       l10n.detail_addCustom,
                       style: const TextStyle(
@@ -233,35 +204,16 @@ class _MilestoneListState extends ConsumerState<MilestoneList>
                       ),
                     ),
                   ),
+                ),
               ],
             ),
           ),
-          const SizedBox(height: AppConfig.md),
+          const SizedBox(height: AppConfig.lg),
 
-          if (hideMilestones)
-            // Placeholder for future non-exam D-Days
+          if (sorted.isEmpty)
             Padding(
               padding: const EdgeInsets.symmetric(
-                horizontal: AppConfig.xl,
-                vertical: AppConfig.lg,
-              ),
-              child: Center(
-                child: Text(
-                  l10n.detail_milestonesAfterDday,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: isDark
-                        ? AppColors.textSecondaryDark
-                        : AppColors.textSecondaryLight,
-                  ),
-                ),
-              ),
-            )
-          else if (widget.milestones.isEmpty)
-            // No milestones
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppConfig.xl,
+                horizontal: AppSpacing.pageHorizontal,
                 vertical: AppConfig.lg,
               ),
               child: Center(
@@ -277,47 +229,45 @@ class _MilestoneListState extends ConsumerState<MilestoneList>
               ),
             )
           else ...[
-            // Milestone items with animated expand/collapse
+            // Timeline milestone rows
             AnimatedSize(
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut,
               alignment: Alignment.topCenter,
               child: Column(
-                children: visibleIndices.map((i) {
-                  final milestone = widget.milestones[i];
+                children: List.generate(visible.length, (index) {
+                  final milestone = visible[index];
                   final reached = _isMilestoneReached(milestone);
-                  final daysLeft = _daysUntilMilestone(milestone);
-                  return Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: AppConfig.xl),
-                    child: _MilestoneRow(
-                      milestone: milestone,
-                      reached: reached,
-                      daysLeft: daysLeft,
-                      isDark: isDark,
-                      category: widget.category,
-                    ),
+                  final daysFromToday = _daysFromToday(milestone);
+                  final mDate = _milestoneDate(milestone);
+                  return _TimelineMilestoneRow(
+                    milestone: milestone,
+                    reached: reached,
+                    daysFromToday: daysFromToday,
+                    milestoneDate: _dateFormat.format(mDate),
+                    isDark: isDark,
+                    isFirst: index == 0,
+                    isLast: index == visible.length - 1,
                   );
-                }).toList(),
+                }),
               ),
             ),
 
-            // Toggle button
+            // Toggle button — "모두 보기 (8개)"
             if (showToggle)
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: AppConfig.xl),
-                child: GestureDetector(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.pageHorizontal,
+                ),
+                child: PressScale(
                   onTap: () => setState(() => _isExpanded = !_isExpanded),
                   child: Padding(
                     padding:
-                        const EdgeInsets.symmetric(vertical: AppConfig.sm),
+                        const EdgeInsets.symmetric(vertical: AppConfig.md),
                     child: Text(
                       _isExpanded
                           ? l10n.detail_collapse
-                          : allReached
-                              ? l10n.detail_showAllReached(
-                                  widget.milestones.length)
-                              : l10n.detail_showAll(widget.milestones.length),
+                          : l10n.detail_showAll(sorted.length),
                       style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
@@ -334,92 +284,230 @@ class _MilestoneListState extends ConsumerState<MilestoneList>
   }
 }
 
-class _MilestoneRow extends StatelessWidget {
+/// A single milestone row with timeline node on the left.
+class _TimelineMilestoneRow extends StatelessWidget {
   final Milestone milestone;
   final bool reached;
-  final int daysLeft;
+  final int daysFromToday;
+  final String milestoneDate;
   final bool isDark;
-  final String category;
+  final bool isFirst;
+  final bool isLast;
 
-  const _MilestoneRow({
+  const _TimelineMilestoneRow({
     required this.milestone,
     required this.reached,
-    required this.daysLeft,
+    required this.daysFromToday,
+    required this.milestoneDate,
     required this.isDark,
-    required this.category,
+    required this.isFirst,
+    required this.isLast,
   });
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final absDays = daysFromToday.abs();
+
+    // Status text
+    final String statusText;
+    if (daysFromToday == 0) {
+      statusText = l10n.detail_milestoneToday;
+    } else if (reached) {
+      statusText = l10n.detail_milestoneDaysAgo(absDays);
+    } else {
+      statusText = l10n.detail_daysRemaining(absDays);
+    }
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: AppConfig.md),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.pageHorizontal,
+      ),
       child: Opacity(
-        opacity: reached ? 0.6 : 1.0,
-        child: Row(
-          children: [
-            // Check / Circle icon
-            Container(
-              width: 28,
-              height: 28,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: reached
-                    ? (isDark
-                        ? AppColors.successColorDark
-                        : AppColors.successColor)
-                    : Colors.transparent,
-                border: reached
-                    ? null
-                    : Border.all(
-                        color: isDark
-                            ? AppColors.textDisabledDark
-                            : AppColors.textDisabledLight,
-                        width: 2,
-                      ),
-              ),
-              child: reached
-                  ? const Icon(Icons.check, size: 16, color: Colors.white)
-                  : null,
-            ),
-            const SizedBox(width: AppConfig.md),
-
-            // Label
-            Expanded(
-              child: Text(
-                category == 'couple'
-                    ? l10n.detail_coupleAnniversary(milestone.days)
-                    : localizedMilestoneLabel(l10n, milestone.days,
-                        category: category),
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
-                  color: isDark
-                      ? AppColors.textPrimaryDark
-                      : AppColors.textPrimaryLight,
+        opacity: reached ? 0.45 : 1.0,
+        child: IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // Timeline column — node + lines
+              SizedBox(
+                width: AppConfig.detailMilestoneNodeSize,
+                child: Column(
+                  children: [
+                    // Top line
+                    Expanded(
+                      child: isFirst
+                          ? const SizedBox.shrink()
+                          : Container(
+                              width: 2,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [
+                                    AppColors.primaryColor
+                                        .withValues(alpha: 0.15),
+                                    AppColors.primaryColor
+                                        .withValues(alpha: 0.3),
+                                  ],
+                                ),
+                              ),
+                            ),
+                    ),
+                    // Node — 32px
+                    _MilestoneNode(reached: reached, isDark: isDark),
+                    // Bottom line
+                    Expanded(
+                      child: isLast
+                          ? const SizedBox.shrink()
+                          : Container(
+                              width: 2,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [
+                                    AppColors.primaryColor
+                                        .withValues(alpha: 0.3),
+                                    AppColors.primaryColor
+                                        .withValues(alpha: 0.15),
+                                  ],
+                                ),
+                              ),
+                            ),
+                    ),
+                  ],
                 ),
               ),
-            ),
+              const SizedBox(width: AppConfig.md),
 
-            // Status
-            Text(
-              reached
-                  ? l10n.detail_reached
-                  : category == 'exam'
-                      ? l10n.detail_examDaysUntilReach(daysLeft.abs())
-                      : l10n.detail_daysRemaining(daysLeft.abs()),
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-                color: reached
-                    ? (isDark
-                        ? AppColors.textSecondaryDark
-                        : AppColors.textSecondaryLight)
-                    : AppColors.primaryColor,
+              // Content — 3 columns: [label] [date] [status]
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: AppConfig.md),
+                  child: Row(
+                    children: [
+                      // Label (D-100, D-Day)
+                      SizedBox(
+                        width: 56,
+                        child: Text(
+                          localizedMilestoneLabel(milestone.days),
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
+                            color: isDark
+                                ? AppColors.textPrimaryDark
+                                : AppColors.textPrimaryLight,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: AppConfig.sm),
+
+                      // Date
+                      Expanded(
+                        child: Text(
+                          milestoneDate,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: isDark
+                                ? AppColors.textSecondaryDark
+                                : AppColors.textSecondaryLight,
+                          ),
+                        ),
+                      ),
+
+                      // Status
+                      Text(
+                        statusText,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          color: reached
+                              ? (isDark
+                                  ? AppColors.successColorDark
+                                  : AppColors.successColor)
+                              : AppColors.primaryColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// 32px milestone node.
+/// Reached: green gradient + checkmark + glow shadow.
+/// Unreached: glass background with border.
+class _MilestoneNode extends StatelessWidget {
+  final bool reached;
+  final bool isDark;
+
+  const _MilestoneNode({required this.reached, required this.isDark});
+
+  @override
+  Widget build(BuildContext context) {
+    const size = AppConfig.detailMilestoneNodeSize;
+
+    if (reached) {
+      // Green gradient node + check + shadow
+      return Container(
+        width: size,
+        height: size,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              isDark ? AppColors.successColorDark : AppColors.successColor,
+              isDark
+                  ? AppColors.successColorDark.withValues(alpha: 0.7)
+                  : AppColors.successColor.withValues(alpha: 0.7),
+            ],
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: (isDark
+                      ? AppColors.successColorDark
+                      : AppColors.successColor)
+                  .withValues(alpha: 0.4),
+              blurRadius: 12,
+              spreadRadius: 2,
             ),
           ],
+        ),
+        child: const Center(
+          child: Icon(Icons.check, size: 16, color: Colors.white),
+        ),
+      );
+    }
+
+    // Glass-style unreached node
+    return ClipOval(
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+        child: Container(
+          width: size,
+          height: size,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: isDark
+                ? const Color(0x331A1A30)
+                : const Color(0x33FFFFFF),
+            border: Border.all(
+              color: isDark
+                  ? AppColors.textDisabledDark.withValues(alpha: 0.4)
+                  : AppColors.textDisabledLight.withValues(alpha: 0.4),
+              width: 2,
+            ),
+          ),
         ),
       ),
     );

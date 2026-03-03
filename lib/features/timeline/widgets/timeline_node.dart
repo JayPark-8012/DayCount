@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_config.dart';
 import '../../../core/theme/card_themes.dart';
+import '../../../core/widgets/card_pattern.dart';
+import '../../../core/widgets/press_scale.dart';
 import '../../../data/models/card_theme.dart';
 import '../../../data/models/dday.dart';
 import '../../../l10n/app_localizations.dart';
@@ -64,8 +66,6 @@ class _TimelineNodeState extends State<TimelineNode>
   Widget build(BuildContext context) {
     final theme = getCardTheme(widget.dday.themeId);
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final lineColor = (isDark ? AppColors.textSecondaryDark : AppColors.primaryColor)
-        .withValues(alpha: 0.3);
 
     return AnimatedBuilder(
       animation: _controller,
@@ -78,68 +78,35 @@ class _TimelineNodeState extends State<TimelineNode>
           ),
         );
       },
-      child: IntrinsicHeight(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Left: timeline line + marker
-            SizedBox(
-              width: 40,
-              child: Column(
-                children: [
-                  // Top line
-                  Expanded(
-                    child: widget.isFirst
-                        ? const SizedBox.shrink()
-                        : Center(
-                            child: Container(
-                              width: 2,
-                              color: lineColor,
-                            ),
-                          ),
-                  ),
-                  // Marker dot
-                  Container(
-                    width: 12,
-                    height: 12,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: _markerColor,
-                    ),
-                  ),
-                  // Bottom line
-                  Expanded(
-                    child: widget.isLast
-                        ? const SizedBox.shrink()
-                        : Center(
-                            child: Container(
-                              width: 2,
-                              color: lineColor,
-                            ),
-                          ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(width: AppConfig.md),
-            // Right: card content
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: AppConfig.xs),
-                child: _buildCard(context, theme),
-              ),
-            ),
-          ],
+      child: CustomPaint(
+        painter: _TimelineLinePainter(
+          isFirst: widget.isFirst,
+          isLast: widget.isLast,
+          markerColor: _markerColor(isDark),
+          lineColor: AppColors.primaryColor,
+          bgColor: isDark
+              ? AppColors.backgroundDark
+              : AppColors.backgroundLight,
+          emoji: widget.dday.emoji,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 52),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 6),
+            child: _buildCard(context, theme),
+          ),
         ),
       ),
     );
   }
 
-  Color get _markerColor {
+  Color _markerColor(bool isDark) {
     final target = DateTime.parse(widget.dday.targetDate);
     final today = DateUtils.dateOnly(DateTime.now());
     if (target.isAtSameMomentAs(today)) return AppColors.primaryColor;
-    if (widget.isPast) return Colors.grey.shade400;
+    if (widget.isPast) {
+      return isDark ? AppColors.textSecondaryDark : Colors.grey.shade400;
+    }
     return AppColors.accentColor;
   }
 
@@ -147,64 +114,86 @@ class _TimelineNodeState extends State<TimelineNode>
     final l10n = AppLocalizations.of(context)!;
     final daysDiff = _calculateDaysDiff();
 
-    return GestureDetector(
+    return PressScale(
       onTap: widget.onTap,
       child: Opacity(
-        opacity: widget.isPast ? 0.6 : 1.0,
+        opacity: widget.isPast ? 0.45 : 1.0,
         child: Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppConfig.lg,
-            vertical: AppConfig.md,
-          ),
+          clipBehavior: Clip.hardEdge,
           decoration: BoxDecoration(
             gradient: theme.background,
-            borderRadius: BorderRadius.circular(AppConfig.milestoneCardRadius),
+            borderRadius:
+                BorderRadius.circular(AppConfig.milestoneCardRadius),
           ),
-          child: Row(
+          child: Stack(
             children: [
-              // Emoji
-              Text(
-                widget.dday.emoji,
-                style: const TextStyle(fontSize: 20),
+              // Theme pattern
+              CardPattern(
+                type: theme.pattern,
+                color: theme.accentColor,
+                opacity: 0.10,
               ),
-              const SizedBox(width: AppConfig.md),
-              // Title + Date
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
+              // Content
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppConfig.lg,
+                  vertical: AppConfig.md,
+                ),
+                child: Row(
                   children: [
+                    // Emoji
                     Text(
-                      widget.dday.title,
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                        color: theme.textColor,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                      widget.dday.emoji,
+                      style: const TextStyle(fontSize: 20),
                     ),
-                    const SizedBox(height: 2),
-                    Text(
-                      widget.dday.targetDate,
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: theme.textColor.withValues(alpha: 0.6),
+                    const SizedBox(width: AppConfig.md),
+                    // Title + Date
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            widget.dday.title,
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w700,
+                              color: theme.textColor,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            widget.dday.targetDate,
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: theme.textColor.withValues(alpha: 0.6),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: AppConfig.sm),
+                    // Day count — constrained to prevent right overflow
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 90),
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          _formatCount(l10n, daysDiff),
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w800,
+                            color: theme.accentColor,
+                            letterSpacing: -0.5,
+                          ),
+                        ),
                       ),
                     ),
                   ],
-                ),
-              ),
-              const SizedBox(width: AppConfig.sm),
-              // Day count
-              Text(
-                _formatCount(l10n, daysDiff),
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w800,
-                  color: theme.accentColor,
-                  letterSpacing: -0.5,
                 ),
               ),
             ],
@@ -224,5 +213,93 @@ class _TimelineNodeState extends State<TimelineNode>
     if (daysDiff == 0) return l10n.home_dDay;
     if (daysDiff > 0) return '$daysDiff';
     return '+${daysDiff.abs()}';
+  }
+}
+
+class _TimelineLinePainter extends CustomPainter {
+  final bool isFirst;
+  final bool isLast;
+  final Color markerColor;
+  final Color lineColor;
+  final Color bgColor;
+  final String emoji;
+
+  _TimelineLinePainter({
+    required this.isFirst,
+    required this.isLast,
+    required this.markerColor,
+    required this.lineColor,
+    required this.bgColor,
+    required this.emoji,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    if (size.width <= 0 || size.height <= 0) return;
+
+    const centerX = 20.0;
+    final centerY = size.height / 2;
+    const markerRadius = 12.0;
+
+    // Top line
+    if (!isFirst) {
+      final topRect = Rect.fromLTWH(centerX - 1, 0, 2, centerY - markerRadius);
+      canvas.drawRect(
+        topRect,
+        Paint()
+          ..shader = LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              lineColor.withValues(alpha: 0.15),
+              lineColor.withValues(alpha: 0.3),
+            ],
+          ).createShader(topRect),
+      );
+    }
+
+    // Bottom line
+    if (!isLast) {
+      final bottomTop = centerY + markerRadius;
+      final bottomRect =
+          Rect.fromLTWH(centerX - 1, bottomTop, 2, size.height - bottomTop);
+      canvas.drawRect(
+        bottomRect,
+        Paint()
+          ..shader = LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              lineColor.withValues(alpha: 0.3),
+              lineColor.withValues(alpha: 0.15),
+            ],
+          ).createShader(bottomRect),
+      );
+    }
+
+    // Marker circle background
+    canvas.drawCircle(
+      Offset(centerX, centerY),
+      markerRadius,
+      Paint()..color = markerColor,
+    );
+
+    // Marker border
+    canvas.drawCircle(
+      Offset(centerX, centerY),
+      markerRadius,
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2
+        ..color = bgColor,
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant _TimelineLinePainter old) {
+    return isFirst != old.isFirst ||
+        isLast != old.isLast ||
+        markerColor != old.markerColor ||
+        bgColor != old.bgColor;
   }
 }

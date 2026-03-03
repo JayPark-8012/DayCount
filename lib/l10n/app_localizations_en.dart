@@ -540,4 +540,70 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get error_saveFailed => 'Failed to save. Please try again.';
+
+  @override
+  String get detail_milestoneToday => 'Today';
+
+  @override
+  String detail_milestoneDaysAgo(int count) {
+    return '${count}d ago';
+  }
+
+  @override
+  String get form_categoryAnniversary => 'Anniversary';
+
+  @override
+  String get form_categoryTravel => 'Travel';
+
+  @override
+  String get form_categoryBirthday => 'Birthday';
+
+  @override
+  String get form_categoryCustom => 'Custom';
+
+  @override
+  String get home_filterAnniversary => 'Anniversary';
+
+  @override
+  String get home_filterTravel => 'Travel';
+
+  @override
+  String get home_filterBirthday => 'Birthday';
+
+  @override
+  String get home_filterCustom => 'Custom';
+
+  @override
+  String get home_tabList => 'List';
+
+  @override
+  String get home_tabTimeline => 'Timeline';
+
+  @override
+  String home_ddayCount(int count) {
+    return '$count D-Days';
+  }
+
+  @override
+  String get home_sortNearest => 'Nearest ▾';
+
+  @override
+  String detail_createdAt(String date) {
+    return 'Created $date';
+  }
+
+  @override
+  String get form_previewLabel => 'Preview';
+
+  @override
+  String get home_pressBackToExit => 'Press back again to exit';
+
+  @override
+  String get sort_nearest => 'Nearest first';
+
+  @override
+  String get sort_farthest => 'Farthest first';
+
+  @override
+  String get sort_recent => 'Recently added';
 }

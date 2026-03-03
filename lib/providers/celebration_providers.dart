@@ -28,23 +28,27 @@ final todayCelebrationsProvider =
 
   for (final dday in ddays) {
     if (dday.id == null) continue;
-    final milestones = await milestoneRepo.getByDdayId(dday.id!);
-    final target = DateTime.parse(dday.targetDate);
+    try {
+      final milestones = await milestoneRepo.getByDdayId(dday.id!);
+      final target = DateTime.parse(dday.targetDate);
 
-    for (final milestone in milestones) {
-      if (milestone.id == null) continue;
+      for (final milestone in milestones) {
+        if (milestone.id == null) continue;
 
-      final mDate = _milestoneDate(target, milestone.days, dday.category);
-      final mDateOnly = DateUtils.dateOnly(mDate);
+        final mDate = _milestoneDate(target, milestone.days, dday.category);
+        final mDateOnly = DateUtils.dateOnly(mDate);
 
-      if (mDateOnly == today) {
-        final settingsKey = 'celebrated_${dday.id}_${milestone.id}';
-        final alreadyShown = await settingsRepo.getBool(settingsKey);
-        if (!alreadyShown) {
-          celebrations
-              .add(CelebrationItem(dday: dday, milestone: milestone));
+        if (mDateOnly == today) {
+          final settingsKey = 'celebrated_${dday.id}_${milestone.id}';
+          final alreadyShown = await settingsRepo.getBool(settingsKey);
+          if (!alreadyShown) {
+            celebrations
+                .add(CelebrationItem(dday: dday, milestone: milestone));
+          }
         }
       }
+    } catch (e) {
+      continue;
     }
   }
 
@@ -52,8 +56,5 @@ final todayCelebrationsProvider =
 });
 
 DateTime _milestoneDate(DateTime target, int days, String category) {
-  if (category == 'exam') {
-    return target.subtract(Duration(days: days));
-  }
-  return target.add(Duration(days: days));
+  return target.subtract(Duration(days: days));
 }

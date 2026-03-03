@@ -253,24 +253,64 @@ D-Day 생성/수정 화면을 구현해줘. 기획서 S03 참고.
 다크모드 전환 시 모든 화면 정상 렌더링되는지 확인.
 ```
 
-### T2.2 — 카드 테마 적용 완성
+### T2.2 — 카드 테마 적용 완성 + 패턴 시스템
 
 **프롬프트:**
 ```
 카드 테마를 홈 화면 카드와 상세 화면에 완전히 적용해줘.
+패턴 장식 시스템도 함께 구현.
 
-1. 홈 화면 카드 (dday_card.dart):
-   - 카드 배경: theme.background 그라데이션
-   - 텍스트: theme.textColor
-   - 일수: theme.accentColor
-   - 장식 원: theme.accentColor 10% opacity
+## 1. CardTheme 모델에 pattern 추가
 
-2. 다크모드와 카드 테마 조합:
-   - 카드 내부는 카드 테마 색상 유지
-   - 카드 바깥 (배경, 앱바 등)은 앱 다크/라이트 테마 따름
+card_themes.dart의 CardTheme에 pattern 필드 추가:
+- String pattern: 'circles' | 'waves' | 'leaves' | 'stars' | 'petals' | 'aurora'
+- 전체 21개 테마의 pattern 매핑은 docs/design-tokens.md 9번 "테마별 패턴 매핑 전체" 참고
 
-3. 설정 화면에 테마 모드 선택 추가:
-   - System / Light / Dark 라디오 또는 드롭다운
+## 2. CardPattern 위젯 생성
+
+lib/widgets/card_pattern.dart 생성.
+CustomPaint로 6종 패턴 구현. 색상은 accentColor 사용.
+
+1. circles — 큰 원(r:70) + 작은 원(r:35, opacity 0.4)
+   - Positioned(right: -20, top: -20), size 160x160
+2. waves — 물결 곡선 2겹 (QuadraticBezier)
+   - Positioned(right: -10, bottom: -10), size 180x90
+3. leaves — 회전 타원 3개 (30°, -20°, 45°)
+   - Positioned(right: -20, top: -20), size 140x140
+4. stars — 크기 다른 원 8개
+   - Positioned(right: -20, top: -20), size 160x120
+   - opacity 특별 처리: 기본값 × 2.5
+5. petals — 꽃잎 6장 (60° 간격 타원)
+   - Positioned(right: -20, top: -20), size 140x140
+6. aurora — 물결 2겹, 카드 전체 하단 덮기
+   - Positioned.fill, preserveAspectRatio 없음
+   - opacity 특별 처리: 기본값 × 2
+
+상세 수치는 docs/design-tokens.md 9번 "패턴 6종 정의" 참고.
+
+## 3. 카드에 패턴 적용
+
+모든 카드에 clipBehavior: Clip.hardEdge 필수.
+
+| 위치 | opacity |
+|------|---------|
+| 홈 히어로 카드 | 0.12 |
+| 홈 리스트 카드 | 0.07 |
+| 타임라인 카드 | 0.06 |
+| 상세 화면 상단 | 0.12 |
+| 공유 카드 | 0.10 |
+
+## 4. 홈 화면 카드 스타일
+
+- 카드 배경: theme.background 그라데이션
+- 텍스트: theme.textColor
+- 일수: theme.accentColor
+- 기존 장식 원은 패턴 시스템으로 대체
+
+## 5. 다크모드 + 카드 테마 조합
+
+- 카드 내부는 카드 테마 색상 유지
+- 카드 바깥(배경, 앱바 등)은 앱 다크/라이트 테마 따름
 ```
 
 ### T2.3 — 설정 화면
@@ -306,14 +346,16 @@ D-Day 생성/수정 화면을 구현해줘. 기획서 S03 참고.
 | # | 확인 항목 | 예상 결과 | Pass |
 |---|----------|----------|------|
 | 1 | 홈 카드 테마 | 각 D-Day의 선택된 테마 그라데이션이 카드에 적용 | □ |
-| 2 | 다크모드 전환 | 설정 → Theme Mode → Dark → 앱 전체 다크 배경 | □ |
-| 3 | 시스템 모드 | System 선택 시 기기 설정 따라감 | □ |
-| 4 | 테마 + 다크모드 조합 | 다크모드에서도 카드 내부는 카드 테마 색상 유지 | □ |
-| 5 | 설정 화면 진입 | ⚙️ 탭 → 설정 화면 정상 표시 | □ |
-| 6 | 언어 변경 | English ↔ 한국어 전환 → UI 즉시 반영 | □ |
-| 7 | PRO 배너 | 설정 상단에 PRO 배너 표시 (탭하면 아직 동작 안 해도 OK) | □ |
-| 8 | 새 D-Day에 테마 선택 | 생성 화면에서 테마 서클 선택 → 저장 → 홈 카드에 반영 | □ |
-| 9 | 프리미엄 테마 잠금 | 프리미엄 테마 서클에 PRO 뱃지 표시, 선택 불가 | □ |
+| 2 | 카드 패턴 장식 | 각 테마의 고유 패턴이 카드에 표시 (circles/waves/leaves/stars/petals/aurora) | □ |
+| 3 | 패턴 클리핑 | 패턴이 카드 밖으로 삐져나가지 않음 (Clip.hardEdge 확인) | □ |
+| 4 | 다크모드 전환 | 설정 → Theme Mode → Dark → 앱 전체 다크 배경 | □ |
+| 5 | 시스템 모드 | System 선택 시 기기 설정 따라감 | □ |
+| 6 | 테마 + 다크모드 조합 | 다크모드에서도 카드 내부는 카드 테마 색상 유지 | □ |
+| 7 | 설정 화면 진입 | ⚙️ 탭 → 설정 화면 정상 표시 | □ |
+| 8 | 언어 변경 | English ↔ 한국어 전환 → UI 즉시 반영 | □ |
+| 9 | PRO 배너 | 설정 상단에 PRO 배너 표시 (탭하면 아직 동작 안 해도 OK) | □ |
+| 10 | 새 D-Day에 테마 선택 | 생성 화면에서 테마 서클 선택 → 저장 → 홈 카드에 반영 | □ |
+| 11 | 프리미엄 테마 잠금 | 프리미엄 테마 서클에 PRO 뱃지 표시, 선택 불가 | □ |
 
 **에러 발생 시:**
 - 다크모드 깨짐 → app_theme.dart 라이트/다크 ThemeData 확인
@@ -778,6 +820,485 @@ Firebase Analytics + Crashlytics를 연동해줘.
 | 4 | 알림 권한 (Android 13+) | □ |
 
 **통과하면 → Phase 7 (스토어 제출) 진행**
+
+---
+
+## M7: 홈 화면 위젯 (W3 후반~W4)
+
+### T7.1 — Flutter 측 위젯 데이터 브릿지
+
+**프롬프트:**
+```
+홈 화면 위젯용 데이터 브릿지를 구현해줘.
+
+## 패키지 설치
+
+pubspec.yaml에 home_widget 추가:
+```yaml
+dependencies:
+  home_widget: ^0.7.0
+```
+
+## 위젯 데이터 서비스
+
+lib/data/services/widget_service.dart 생성:
+
+```dart
+import 'package:home_widget/home_widget.dart';
+
+class WidgetService {
+  static const _appGroupId = 'group.com.yourcompany.daycount';
+  static const _androidWidgetName = 'DdayWidgetProvider';
+  static const _iosWidgetName = 'DdayWidget';
+
+  /// 가장 가까운 D-Day를 위젯에 전달
+  static Future<void> updateWidget(DDay? dday, DdayCardTheme? theme) async {
+    if (dday == null) {
+      await HomeWidget.saveWidgetData('widget_dday_title', '');
+      await HomeWidget.saveWidgetData('widget_dday_empty', true);
+    } else {
+      final daysDiff = _calculateDaysDiff(dday);
+      await HomeWidget.saveWidgetData('widget_dday_emoji', dday.emoji);
+      await HomeWidget.saveWidgetData('widget_dday_title', dday.title);
+      await HomeWidget.saveWidgetData('widget_dday_date', dday.targetDate);
+      await HomeWidget.saveWidgetData('widget_dday_days', daysDiff.abs());
+      await HomeWidget.saveWidgetData('widget_dday_is_past', daysDiff < 0);
+      await HomeWidget.saveWidgetData('widget_dday_is_dday', daysDiff == 0);
+      await HomeWidget.saveWidgetData('widget_dday_id', dday.id);
+      // 테마 컬러 (네이티브에서 파싱)
+      if (theme != null) {
+        await HomeWidget.saveWidgetData('widget_theme_bg_start',
+            theme.startColor.value.toRadixString(16));
+        await HomeWidget.saveWidgetData('widget_theme_bg_end',
+            theme.endColor.value.toRadixString(16));
+        await HomeWidget.saveWidgetData('widget_theme_text',
+            theme.textColor.value.toRadixString(16));
+        await HomeWidget.saveWidgetData('widget_theme_accent',
+            theme.accentColor.value.toRadixString(16));
+      }
+      await HomeWidget.saveWidgetData('widget_dday_empty', false);
+    }
+
+    // 위젯 갱신 트리거
+    await HomeWidget.updateWidget(
+      androidName: _androidWidgetName,
+      iOSName: _iosWidgetName,
+    );
+  }
+
+  /// 가장 가까운 D-Day 찾기 (홈 히어로 로직과 동일)
+  static DDay? findClosestDday(List<DDay> ddays) {
+    if (ddays.isEmpty) return null;
+    final today = DateTime.now();
+    // 미래 중 가장 가까운 것 우선
+    final future = ddays.where((d) =>
+        !DateTime.parse(d.targetDate).isBefore(DateUtils.dateOnly(today)))
+        .toList()
+      ..sort((a, b) => a.targetDate.compareTo(b.targetDate));
+    if (future.isNotEmpty) return future.first;
+    // 없으면 가장 최근 과거
+    final past = ddays.toList()
+      ..sort((a, b) => b.targetDate.compareTo(a.targetDate));
+    return past.first;
+  }
+
+  static int _calculateDaysDiff(DDay dday) {
+    final target = DateTime.parse(dday.targetDate);
+    final now = DateUtils.dateOnly(DateTime.now());
+    return target.difference(now).inDays;
+  }
+}
+```
+
+## 갱신 트리거 연결
+
+dday_providers.dart의 DdayListNotifier에서
+addDday, updateDday, deleteDday, toggleFavorite 완료 후
+위젯 갱신 호출:
+
+```dart
+// addDday, updateDday, deleteDday 각 메서드 끝에:
+_updateWidget();
+
+Future<void> _updateWidget() async {
+  try {
+    final ddays = state.valueOrNull ?? [];
+    final closest = WidgetService.findClosestDday(ddays);
+    final theme = closest != null ? getCardTheme(closest.themeId) : null;
+    await WidgetService.updateWidget(closest, theme);
+  } catch (e) {
+    debugPrint('[Widget] Update failed: $e');
+  }
+}
+```
+
+## home_widget 초기화
+
+main.dart에서 앱 시작 시:
+```dart
+// HomeWidget 초기화 (iOS App Group)
+HomeWidget.setAppGroupId('group.com.yourcompany.daycount');
+
+// 위젯 탭 → 앱 열기 처리
+HomeWidget.widgetClicked.listen((uri) {
+  // uri에서 ddayId 추출 → 상세 화면으로 이동
+});
+```
+
+home_widget 패키지 문서를 반드시 참고해서 최신 API에 맞게 구현.
+```
+
+### T7.2 — Android 위젯 구현
+
+**프롬프트:**
+```
+Android 홈 화면 위젯을 구현해줘.
+
+home_widget 패키지 문서의 Android 설정 가이드를 참고.
+
+## 파일 생성
+
+### 1. 위젯 Provider
+android/app/src/main/kotlin/.../DdayWidgetProvider.kt
+
+AppWidgetProvider를 상속하여 구현.
+SharedPreferences에서 Flutter가 저장한 위젯 데이터를 읽어서 RemoteViews에 바인딩.
+
+```kotlin
+class DdayWidgetProvider : HomeWidgetProvider() {
+    override fun onUpdate(
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetIds: IntArray,
+        widgetData: SharedPreferences
+    ) {
+        appWidgetIds.forEach { widgetId ->
+            val views = RemoteViews(context.packageName, R.layout.widget_dday)
+
+            val isEmpty = widgetData.getBoolean("widget_dday_empty", true)
+            if (isEmpty) {
+                views.setTextViewText(R.id.widget_title, "Add your first D-Day")
+                views.setTextViewText(R.id.widget_days, "")
+                views.setTextViewText(R.id.widget_emoji, "📅")
+            } else {
+                val emoji = widgetData.getString("widget_dday_emoji", "📅") ?: "📅"
+                val title = widgetData.getString("widget_dday_title", "") ?: ""
+                val days = widgetData.getInt("widget_dday_days", 0)
+                val isPast = widgetData.getBoolean("widget_dday_is_past", false)
+                val isDday = widgetData.getBoolean("widget_dday_is_dday", false)
+
+                views.setTextViewText(R.id.widget_emoji, emoji)
+                views.setTextViewText(R.id.widget_title, title)
+                views.setTextViewText(R.id.widget_days,
+                    if (isDday) "D-Day!" else if (isPast) "D+$days" else "D-$days")
+
+                // 배경 그라데이션은 XML drawable로 처리
+                // 테마 컬러 적용은 RemoteViews 제약으로 제한적
+                // → 기본 그라데이션(#6C63FF → #FF6B8A) 사용
+            }
+
+            // 탭 → 앱 열기
+            val intent = HomeWidgetLaunchIntent.getActivity(
+                context, MainActivity::class.java)
+            views.setOnClickPendingIntent(R.id.widget_root, intent)
+
+            appWidgetManager.updateAppWidget(widgetId, views)
+        }
+    }
+}
+```
+
+### 2. 위젯 레이아웃
+android/app/src/main/res/layout/widget_dday.xml
+
+Small (2×1):
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:padding="12dp"
+    android:background="@drawable/widget_bg">
+
+    <TextView
+        android:id="@+id/widget_emoji"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="28sp" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginStart="8dp">
+
+        <TextView
+            android:id="@+id/widget_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:fontFamily="sans-serif-medium"
+            android:maxLines="1"
+            android:ellipsize="end" />
+
+        <TextView
+            android:id="@+id/widget_days"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            android:fontFamily="sans-serif-black"
+            android:layout_marginTop="2dp" />
+    </LinearLayout>
+</LinearLayout>
+```
+
+### 3. 위젯 배경 Drawable
+android/app/src/main/res/drawable/widget_bg.xml
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:startColor="#6C63FF"
+        android:endColor="#8B5CF6"
+        android:angle="135" />
+    <corners android:radius="16dp" />
+</shape>
+```
+
+### 4. 위젯 메타데이터
+android/app/src/main/res/xml/widget_dday_info.xml
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:initialLayout="@layout/widget_dday"
+    android:minWidth="180dp"
+    android:minHeight="40dp"
+    android:resizeMode="horizontal|vertical"
+    android:updatePeriodMillis="86400000"
+    android:widgetCategory="home_screen"
+    android:description="@string/widget_description"
+    android:previewImage="@drawable/widget_preview" />
+```
+
+### 5. AndroidManifest.xml에 위젯 등록
+
+```xml
+<receiver android:name=".DdayWidgetProvider"
+    android:exported="true">
+    <intent-filter>
+        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+    </intent-filter>
+    <meta-data
+        android:name="android.appwidget.provider"
+        android:resource="@xml/widget_dday_info" />
+</receiver>
+```
+
+### 6. strings.xml에 추가
+```xml
+<string name="widget_description">Display your closest D-Day countdown</string>
+```
+
+home_widget 패키지 문서의 Android 설정을 반드시 참고해서 최신 API에 맞게 구현.
+```
+
+### T7.3 — iOS 위젯 구현
+
+**프롬프트:**
+```
+iOS 홈 화면 위젯을 WidgetKit + SwiftUI로 구현해줘.
+
+home_widget 패키지 문서의 iOS 설정 가이드를 참고.
+
+## Xcode 설정
+
+1. Xcode에서 Widget Extension 타겟 추가
+   - File → New → Target → Widget Extension
+   - 이름: DdayWidget
+   - "Include Configuration Intent" 체크 해제
+
+2. App Groups 설정
+   - 메인 앱 + Widget Extension 모두에
+   - group.com.yourcompany.daycount 추가
+
+## 파일 생성
+
+### DdayWidget.swift
+
+```swift
+import WidgetKit
+import SwiftUI
+
+struct DdayEntry: TimelineEntry {
+    let date: Date
+    let emoji: String
+    let title: String
+    let targetDate: String
+    let days: Int
+    let isPast: Bool
+    let isDday: Bool
+    let isEmpty: Bool
+    let bgStartColor: Color
+    let bgEndColor: Color
+}
+
+struct DdayProvider: TimelineProvider {
+    let userDefaults = UserDefaults(suiteName: "group.com.yourcompany.daycount")
+
+    func placeholder(in context: Context) -> DdayEntry {
+        DdayEntry(date: Date(), emoji: "💕", title: "My D-Day",
+                  targetDate: "2026-06-15", days: 105, isPast: false,
+                  isDday: false, isEmpty: false,
+                  bgStartColor: Color(hex: "6C63FF"),
+                  bgEndColor: Color(hex: "8B5CF6"))
+    }
+
+    func getSnapshot(in context: Context, completion: @escaping (DdayEntry) -> Void) {
+        completion(readEntry())
+    }
+
+    func getTimeline(in context: Context, completion: @escaping (Timeline<DdayEntry>) -> Void) {
+        let entry = readEntry()
+        // 자정에 갱신
+        let midnight = Calendar.current.startOfDay(for: Date()).addingTimeInterval(86400)
+        let timeline = Timeline(entries: [entry], policy: .after(midnight))
+        completion(timeline)
+    }
+
+    private func readEntry() -> DdayEntry {
+        let isEmpty = userDefaults?.bool(forKey: "widget_dday_empty") ?? true
+        if isEmpty {
+            return DdayEntry(date: Date(), emoji: "📅", title: "Add your first D-Day",
+                             targetDate: "", days: 0, isPast: false, isDday: false,
+                             isEmpty: true,
+                             bgStartColor: Color(hex: "6C63FF"),
+                             bgEndColor: Color(hex: "8B5CF6"))
+        }
+
+        return DdayEntry(
+            date: Date(),
+            emoji: userDefaults?.string(forKey: "widget_dday_emoji") ?? "📅",
+            title: userDefaults?.string(forKey: "widget_dday_title") ?? "",
+            targetDate: userDefaults?.string(forKey: "widget_dday_date") ?? "",
+            days: userDefaults?.integer(forKey: "widget_dday_days") ?? 0,
+            isPast: userDefaults?.bool(forKey: "widget_dday_is_past") ?? false,
+            isDday: userDefaults?.bool(forKey: "widget_dday_is_dday") ?? false,
+            isEmpty: false,
+            bgStartColor: Color(hex: userDefaults?.string(forKey: "widget_theme_bg_start") ?? "6C63FF"),
+            bgEndColor: Color(hex: userDefaults?.string(forKey: "widget_theme_bg_end") ?? "8B5CF6")
+        )
+    }
+}
+
+struct DdayWidgetView: View {
+    var entry: DdayEntry
+    @Environment(\.widgetFamily) var family
+
+    var body: some View {
+        ZStack {
+            LinearGradient(
+                gradient: Gradient(colors: [entry.bgStartColor, entry.bgEndColor]),
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text(entry.emoji)
+                    .font(.system(size: family == .systemSmall ? 24 : 32))
+
+                Text(entry.title)
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundColor(.white)
+                    .lineLimit(1)
+
+                if !entry.isEmpty {
+                    Spacer()
+                    Text(entry.isDday ? "D-Day!" :
+                         entry.isPast ? "D+\(entry.days)" : "D-\(entry.days)")
+                        .font(.system(size: family == .systemSmall ? 28 : 36, weight: .black))
+                        .foregroundColor(.white)
+
+                    if family != .systemSmall && !entry.targetDate.isEmpty {
+                        Text(entry.targetDate)
+                            .font(.system(size: 11, weight: .medium))
+                            .foregroundColor(.white.opacity(0.6))
+                    }
+                }
+            }
+            .padding()
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+        }
+    }
+}
+
+@main
+struct DdayWidget: Widget {
+    let kind: String = "DdayWidget"
+
+    var body: some WidgetConfiguration {
+        StaticConfiguration(kind: kind, provider: DdayProvider()) { entry in
+            DdayWidgetView(entry: entry)
+        }
+        .configurationDisplayName("DayCount")
+        .description("Display your closest D-Day countdown")
+        .supportedFamilies([.systemSmall, .systemMedium])
+    }
+}
+
+// Color hex extension
+extension Color {
+    init(hex: String) {
+        let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+        var int: UInt64 = 0
+        Scanner(string: hex).scanHexInt64(&int)
+        let r, g, b: UInt64
+        (r, g, b) = ((int >> 16) & 0xFF, (int >> 8) & 0xFF, int & 0xFF)
+        self.init(red: Double(r) / 255, green: Double(g) / 255, blue: Double(b) / 255)
+    }
+}
+```
+
+## Info.plist 주의사항
+
+Widget Extension의 Info.plist에 App Groups 설정이 필요.
+메인 앱과 동일한 group ID 사용.
+
+home_widget 패키지 문서의 iOS 설정을 반드시 참고해서 최신 API에 맞게 구현.
+```
+
+### 🔨 M7 빌드 체크포인트
+
+**타이밍:** T7.3 완료 후
+
+**Android 확인:**
+
+| # | 확인 항목 | 예상 결과 | Pass |
+|---|----------|----------|------|
+| 1 | 위젯 추가 | 홈 화면 → 위젯 추가 → DayCount 위젯 목록에 표시 | □ |
+| 2 | 데이터 표시 | 위젯에 가장 가까운 D-Day 이모지 + 제목 + 일수 표시 | □ |
+| 3 | D-Day 변경 반영 | 앱에서 D-Day 추가/수정/삭제 → 위젯 자동 갱신 | □ |
+| 4 | 위젯 탭 | 위젯 탭 → 앱 열기 | □ |
+| 5 | 자정 갱신 | 날짜 변경 후 일수 업데이트 | □ |
+| 6 | 빈 상태 | D-Day 0개 → "Add your first D-Day" 표시 | □ |
+
+**iOS 확인:**
+
+| # | 확인 항목 | 예상 결과 | Pass |
+|---|----------|----------|------|
+| 1 | 위젯 추가 | 홈 화면 → 위젯 갤러리 → DayCount Small/Medium 표시 | □ |
+| 2 | 데이터 표시 | 가장 가까운 D-Day 정보 표시 | □ |
+| 3 | D-Day 변경 반영 | 앱에서 변경 → 위젯 갱신 | □ |
+| 4 | 위젯 탭 | 위젯 탭 → 앱 열기 | □ |
+| 5 | 자정 갱신 | Timeline policy로 자정 갱신 | □ |
+| 6 | 빈 상태 | D-Day 0개 → 안내 표시 | □ |
 
 ---
 

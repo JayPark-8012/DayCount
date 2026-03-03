@@ -46,10 +46,7 @@ class _TodayMarkerState extends State<TodayMarker>
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
     final l10n = AppLocalizations.of(context)!;
-    final lineColor = (isDark ? AppColors.textSecondaryDark : AppColors.primaryColor)
-        .withValues(alpha: 0.3);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: AppConfig.sm),
@@ -65,23 +62,36 @@ class _TodayMarkerState extends State<TodayMarker>
                 children: [
                   // Top line
                   if (!widget.isFirst)
-                    Container(width: 2, height: 8, color: lineColor),
-                  // Glow dot
+                    Container(
+                      width: 2,
+                      height: 8,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            AppColors.primaryColor.withValues(alpha: 0.3),
+                            AppColors.primaryColor.withValues(alpha: 0.6),
+                          ],
+                        ),
+                      ),
+                    ),
+                  // Glow dot (28px, gradient)
                   AnimatedBuilder(
                     animation: _glowAnim,
                     builder: (context, child) {
                       return Container(
-                        width: 20,
-                        height: 20,
+                        width: 28,
+                        height: 28,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: AppColors.primaryColor,
+                          gradient: AppColors.primaryGradient,
                           boxShadow: [
                             BoxShadow(
                               color: AppColors.primaryColor
-                                  .withValues(alpha: _glowAnim.value * 0.6),
-                              blurRadius: 12,
-                              spreadRadius: 4,
+                                  .withValues(alpha: (_glowAnim.value * 0.6).clamp(0.0, 1.0)),
+                              blurRadius: 16,
+                              spreadRadius: 6,
                             ),
                           ],
                         ),
@@ -90,7 +100,20 @@ class _TodayMarkerState extends State<TodayMarker>
                   ),
                   // Bottom line
                   if (!widget.isLast)
-                    Container(width: 2, height: 8, color: lineColor),
+                    Container(
+                      width: 2,
+                      height: 8,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            AppColors.secondaryColor.withValues(alpha: 0.5),
+                            AppColors.secondaryColor.withValues(alpha: 0.1),
+                          ],
+                        ),
+                      ),
+                    ),
                 ],
               ),
             ),
@@ -103,7 +126,8 @@ class _TodayMarkerState extends State<TodayMarker>
                     child: CustomPaint(
                       size: const Size(double.infinity, 1),
                       painter: _DashedLinePainter(
-                        color: AppColors.primaryColor.withValues(alpha: 0.5),
+                        color:
+                            AppColors.primaryColor.withValues(alpha: 0.5),
                       ),
                     ),
                   ),
@@ -125,7 +149,8 @@ class _TodayMarkerState extends State<TodayMarker>
                     child: CustomPaint(
                       size: const Size(double.infinity, 1),
                       painter: _DashedLinePainter(
-                        color: AppColors.primaryColor.withValues(alpha: 0.5),
+                        color:
+                            AppColors.primaryColor.withValues(alpha: 0.5),
                       ),
                     ),
                   ),
@@ -146,6 +171,8 @@ class _DashedLinePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    if (size.width <= 0 || size.height <= 0) return;
+
     final paint = Paint()
       ..color = color
       ..strokeWidth = 1.5

@@ -4,11 +4,15 @@ import 'package:intl/intl.dart';
 
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_config.dart';
+import '../../core/theme/app_spacing.dart';
+import '../../core/widgets/press_scale.dart';
+import '../../data/constants/emoji_sets.dart';
 import '../../data/models/dday.dart';
 import '../../l10n/app_localizations.dart';
 import '../../providers/dday_providers.dart';
 import 'widgets/category_chips.dart';
 import 'widgets/emoji_selector.dart';
+import 'widgets/preview_card.dart';
 import 'widgets/theme_selector.dart';
 
 class DdayFormScreen extends ConsumerStatefulWidget {
@@ -42,7 +46,7 @@ class _DdayFormScreenState extends ConsumerState<DdayFormScreen> {
     _emoji = dday?.emoji ?? '\u{1F4C5}';
     _selectedDate =
         dday != null ? DateTime.parse(dday.targetDate) : DateTime.now();
-    _category = dday?.category ?? 'general';
+    _category = dday?.category ?? 'anniversary';
     _themeId = dday?.themeId ?? 'cloud';
   }
 
@@ -54,6 +58,20 @@ class _DdayFormScreenState extends ConsumerState<DdayFormScreen> {
   }
 
   bool get _isValid => _titleController.text.trim().isNotEmpty;
+
+  /// When category changes, auto-update emoji to the category default
+  /// (only if current emoji belongs to old category set).
+  void _onCategoryChanged(String newCategory) {
+    final oldEmojis = emojiSets[_category] ?? [];
+    setState(() {
+      _category = newCategory;
+      // If current emoji is from the old set or is the default placeholder,
+      // switch to new category's default emoji
+      if (oldEmojis.contains(_emoji) || _emoji == '\u{1F4C5}') {
+        _emoji = defaultEmojiForCategory(newCategory);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,21 +111,14 @@ class _DdayFormScreenState extends ConsumerState<DdayFormScreen> {
         ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(
-            horizontal: AppConfig.xl,
+            horizontal: AppSpacing.pageHorizontal,
             vertical: AppConfig.lg,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Emoji selector
-              EmojiSelector(
-                selectedEmoji: _emoji,
-                onEmojiSelected: (emoji) => setState(() => _emoji = emoji),
-              ),
-              const SizedBox(height: AppConfig.xxl),
-
-              // Title
-              _buildLabel(l10n.form_titleLabel, isDark),
+              // ── 1. Title ──
+              _buildSectionLabel(l10n.form_titleLabel, isDark),
               const SizedBox(height: AppConfig.sm),
               TextField(
                 controller: _titleController,
@@ -125,26 +136,18 @@ class _DdayFormScreenState extends ConsumerState<DdayFormScreen> {
               ),
               const SizedBox(height: AppConfig.xxl),
 
-              // Date
-              _buildLabel(l10n.form_dateLabel, isDark),
+              // ── 2. Date ──
+              _buildSectionLabel(l10n.form_dateLabel, isDark),
               const SizedBox(height: AppConfig.sm),
               GestureDetector(
                 onTap: () => _pickDate(context),
                 child: Container(
                   width: double.infinity,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                  decoration: BoxDecoration(
-                    color:
-                        isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
-                    borderRadius:
-                        BorderRadius.circular(AppConfig.milestoneCardRadius),
-                    border: Border.all(
-                      color: isDark
-                          ? AppColors.dividerDark
-                          : AppColors.dividerLight,
-                    ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 18,
+                    vertical: 15,
                   ),
+                  decoration: _fieldDecoration(isDark),
                   child: Row(
                     children: [
                       Expanded(
@@ -173,65 +176,47 @@ class _DdayFormScreenState extends ConsumerState<DdayFormScreen> {
               ),
               const SizedBox(height: AppConfig.xxl),
 
-              // Category
+              // ── 3. Category ──
+              _buildSectionLabel(l10n.form_categoryLabel, isDark),
+              const SizedBox(height: AppConfig.sm),
               CategoryChips(
                 selectedCategory: _category,
-                onCategoryChanged: (cat) => setState(() => _category = cat),
+                onCategoryChanged: _onCategoryChanged,
               ),
               const SizedBox(height: AppConfig.xxl),
 
-              // Theme
+              // ── 4. Emoji ──
+              _buildSectionLabel(l10n.form_emojiLabel, isDark),
+              const SizedBox(height: AppConfig.sm),
+              EmojiSelector(
+                selectedEmoji: _emoji,
+                category: _category,
+                onEmojiSelected: (emoji) => setState(() => _emoji = emoji),
+              ),
+              const SizedBox(height: AppConfig.xxl),
+
+              // ── 5. Theme ──
+              _buildSectionLabel(l10n.form_themeLabel, isDark),
+              const SizedBox(height: AppConfig.sm),
               ThemeSelector(
                 selectedThemeId: _themeId,
                 onThemeChanged: (id) => setState(() => _themeId = id),
               ),
               const SizedBox(height: AppConfig.xxl),
 
-              // Memo
-              _buildLabel(l10n.form_memoLabel, isDark),
+              // ── 6. Preview Card ──
+              _buildSectionLabel(l10n.form_previewLabel, isDark),
               const SizedBox(height: AppConfig.sm),
-              TextField(
-                controller: _memoController,
-                maxLines: 3,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: isDark
-                      ? AppColors.textPrimaryDark
-                      : AppColors.textPrimaryLight,
-                ),
-                decoration: _inputDecoration(
-                  context,
-                  hintText: l10n.form_memoHint,
-                ),
+              PreviewCard(
+                emoji: _emoji,
+                title: _titleController.text.trim(),
+                themeId: _themeId,
+                targetDate: _selectedDate,
               ),
               const SizedBox(height: AppConfig.xxxl),
 
-              // Save button
-              SizedBox(
-                width: double.infinity,
-                height: 52,
-                child: FilledButton(
-                  onPressed: _isValid ? () => _save(context) : null,
-                  style: FilledButton.styleFrom(
-                    backgroundColor: AppColors.primaryColor,
-                    disabledBackgroundColor: isDark
-                        ? AppColors.surfaceDark
-                        : AppColors.dividerLight,
-                    shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(AppConfig.buttonRadius),
-                    ),
-                  ),
-                  child: Text(
-                    l10n.form_save,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
+              // ── Save button ──
+              _buildSaveButton(l10n, isDark),
               const SizedBox(height: AppConfig.xxxl),
             ],
           ),
@@ -240,12 +225,14 @@ class _DdayFormScreenState extends ConsumerState<DdayFormScreen> {
     );
   }
 
-  Widget _buildLabel(String text, bool isDark) {
+  /// Section label — 12pt, w700, textSecondary, uppercase, letterSpacing 0.5
+  Widget _buildSectionLabel(String text, bool isDark) {
     return Text(
-      text,
+      text.toUpperCase(),
       style: TextStyle(
-        fontSize: 14,
-        fontWeight: FontWeight.w600,
+        fontSize: 12,
+        fontWeight: FontWeight.w700,
+        letterSpacing: 0.5,
         color: isDark
             ? AppColors.textSecondaryDark
             : AppColors.textSecondaryLight,
@@ -253,6 +240,22 @@ class _DdayFormScreenState extends ConsumerState<DdayFormScreen> {
     );
   }
 
+  /// Unified field decoration — radius 16, padding 15x18
+  BoxDecoration _fieldDecoration(bool isDark) {
+    return BoxDecoration(
+      color: isDark
+          ? const Color(0x991A1A30) // rgba(26,26,48,0.6)
+          : const Color(0xE6F5F5FC), // rgba(245,245,252,0.9)
+      borderRadius: BorderRadius.circular(16),
+      border: Border.all(
+        color: isDark
+            ? const Color(0x0FFFFFFF) // rgba(255,255,255,0.06)
+            : const Color(0x0A000000), // rgba(0,0,0,0.04)
+      ),
+    );
+  }
+
+  /// Input decoration matching the unified field style
   InputDecoration _inputDecoration(
     BuildContext context, {
     required String hintText,
@@ -261,26 +264,91 @@ class _DdayFormScreenState extends ConsumerState<DdayFormScreen> {
     return InputDecoration(
       hintText: hintText,
       hintStyle: TextStyle(
-        color: isDark ? AppColors.textDisabledDark : AppColors.textDisabledLight,
+        color:
+            isDark ? AppColors.textDisabledDark : AppColors.textDisabledLight,
       ),
       filled: true,
-      fillColor: isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      fillColor: isDark
+          ? const Color(0x991A1A30)
+          : const Color(0xE6F5F5FC),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(AppConfig.milestoneCardRadius),
+        borderRadius: BorderRadius.circular(16),
         borderSide: BorderSide(
-          color: isDark ? AppColors.dividerDark : AppColors.dividerLight,
+          color: isDark
+              ? const Color(0x0FFFFFFF)
+              : const Color(0x0A000000),
         ),
       ),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(AppConfig.milestoneCardRadius),
+        borderRadius: BorderRadius.circular(16),
         borderSide: BorderSide(
-          color: isDark ? AppColors.dividerDark : AppColors.dividerLight,
+          color: isDark
+              ? const Color(0x0FFFFFFF)
+              : const Color(0x0A000000),
         ),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(AppConfig.milestoneCardRadius),
-        borderSide: const BorderSide(color: AppColors.primaryColor),
+        borderRadius: BorderRadius.circular(16),
+        borderSide: const BorderSide(
+          color: Color(0x446C63FF), // #6C63FF44
+        ),
+      ),
+    );
+  }
+
+  /// Save button — active: gradient + shadow, inactive: grey
+  Widget _buildSaveButton(AppLocalizations l10n, bool isDark) {
+    if (_isValid) {
+      return PressScale(
+        onTap: () => _save(context),
+        child: Container(
+          width: double.infinity,
+          height: 52,
+          decoration: BoxDecoration(
+            gradient: AppColors.primaryGradient,
+            borderRadius: BorderRadius.circular(AppConfig.buttonRadius),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.primaryColor.withValues(alpha: 0.35),
+                blurRadius: 20,
+                offset: const Offset(0, 8),
+              ),
+            ],
+          ),
+          child: Center(
+            child: Text(
+              l10n.form_save,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+
+    // Disabled state
+    return Container(
+      width: double.infinity,
+      height: 52,
+      decoration: BoxDecoration(
+        color: isDark ? AppColors.surfaceDark : AppColors.dividerLight,
+        borderRadius: BorderRadius.circular(AppConfig.buttonRadius),
+      ),
+      child: Center(
+        child: Text(
+          l10n.form_save,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+            color: isDark
+                ? AppColors.textDisabledDark
+                : AppColors.textDisabledLight,
+          ),
+        ),
       ),
     );
   }

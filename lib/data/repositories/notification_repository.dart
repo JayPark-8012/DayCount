@@ -284,10 +284,7 @@ class NotificationRepository {
   // ---------------------------------------------------------------------------
 
   DateTime _milestoneDate(DateTime target, int days, String category) {
-    if (category == 'exam') {
-      return target.subtract(Duration(days: days));
-    }
-    return target.add(Duration(days: days));
+    return target.subtract(Duration(days: days));
   }
 
   DateTime _notificationDate(DateTime milestoneDate, String notifyBefore) {

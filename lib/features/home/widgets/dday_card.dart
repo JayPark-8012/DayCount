@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_config.dart';
 import '../../../core/theme/card_themes.dart';
+import '../../../core/widgets/card_pattern.dart';
+import '../../../core/widgets/press_scale.dart';
 import '../../../data/models/dday.dart';
 import '../../../l10n/app_localizations.dart';
 
@@ -42,7 +45,8 @@ class _DdayCardState extends State<DdayCard>
       end: Offset.zero,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
 
-    Future.delayed(AppConfig.cardStaggerDelay * widget.index, () {
+    final clampedIndex = widget.index.clamp(0, 10);
+    Future.delayed(AppConfig.staggerDelay * clampedIndex, () {
       if (mounted) _controller.forward();
     });
   }
@@ -56,6 +60,7 @@ class _DdayCardState extends State<DdayCard>
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final theme = getCardTheme(widget.dday.themeId);
     final daysDiff = _calculateDaysDiff();
 
@@ -70,107 +75,116 @@ class _DdayCardState extends State<DdayCard>
           ),
         );
       },
-      child: GestureDetector(
+      child: PressScale(
         onTap: widget.onTap,
-        onLongPress: widget.onLongPress,
-        child: Container(
-          padding: const EdgeInsets.all(AppConfig.lg),
-          decoration: BoxDecoration(
-            gradient: theme.background,
-            borderRadius: BorderRadius.circular(AppConfig.cardRadius),
-          ),
-          child: Stack(
-            children: [
-              // Decorative circle
-              Positioned(
-                right: -20,
-                top: -20,
-                child: Container(
-                  width: 100,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: theme.accentColor.withValues(alpha: 0.1),
-                  ),
+        child: GestureDetector(
+          onLongPress: widget.onLongPress,
+          child: Container(
+            clipBehavior: Clip.hardEdge,
+            decoration: BoxDecoration(
+              gradient: theme.background,
+              borderRadius:
+                  BorderRadius.circular(AppConfig.listCardRadius),
+              boxShadow: [
+                BoxShadow(
+                  color: isDark
+                      ? Colors.black.withValues(alpha: 0.25)
+                      : AppColors.primaryColor.withValues(alpha: 0.06),
+                  blurRadius: 20,
+                  offset: const Offset(0, 6),
                 ),
-              ),
-              // Content
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Top row: emoji + title + favorite
-                  Row(
+              ],
+            ),
+            child: Stack(
+              children: [
+                // Theme pattern
+                CardPattern(
+                  type: theme.pattern,
+                  color: theme.accentColor,
+                  opacity: 0.12,
+                ),
+                // Content
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 22,
+                  ),
+                  child: Row(
                     children: [
+                      // Emoji
                       Text(
                         widget.dday.emoji,
-                        style: const TextStyle(fontSize: 20),
+                        style: const TextStyle(fontSize: 24),
+                      ),
+                      const SizedBox(width: AppConfig.md),
+                      // Title + Date
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              widget.dday.title,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                color: theme.textColor,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              widget.dday.targetDate,
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w500,
+                                color: theme.textColor.withValues(alpha: 0.35),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       const SizedBox(width: AppConfig.sm),
-                      Expanded(
-                        child: Text(
-                          widget.dday.title,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                            color: theme.textColor,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      if (widget.dday.isFavorite)
-                        Text(
-                          '\u{2B50}',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: theme.accentColor,
-                          ),
-                        ),
-                    ],
-                  ),
-                  const SizedBox(height: AppConfig.md),
-                  // Bottom row: date + days count
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        widget.dday.targetDate,
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: theme.textColor.withValues(alpha: 0.6),
-                        ),
-                      ),
-                      const Spacer(),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            _formatCount(daysDiff),
-                            style: TextStyle(
-                              fontSize: 36,
-                              fontWeight: FontWeight.w800,
-                              color: theme.accentColor,
-                              letterSpacing: -1.0,
-                              height: 1.0,
+                      // Day count — constrained to prevent right overflow
+                      ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 120),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                _formatCount(daysDiff),
+                                style: TextStyle(
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.w800,
+                                  color: theme.accentColor,
+                                  letterSpacing: -1.0,
+                                  height: 1.0,
+                                ),
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            _formatLabel(l10n, daysDiff),
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: theme.textColor.withValues(alpha: 0.6),
+                            const SizedBox(height: 2),
+                            Text(
+                              _formatLabel(l10n, daysDiff),
+                              style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w600,
+                                color: theme.textColor.withValues(alpha: 0.35),
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ],
                   ),
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

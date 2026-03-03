@@ -69,13 +69,12 @@ class TimelineView extends ConsumerWidget {
       null, // TODAY marker
       ...future,
     ];
-
     final totalCount = items.length;
 
     return ListView.builder(
       padding: const EdgeInsets.only(
-        left: AppConfig.xl,
-        right: AppConfig.xl,
+        left: AppConfig.xxl,
+        right: AppConfig.xxl,
         top: AppConfig.sm,
         bottom: 100,
       ),
@@ -103,7 +102,10 @@ class TimelineView extends ConsumerWidget {
           isPast: isPast,
           isFirst: isFirst,
           isLast: isLast,
-          onTap: () => _navigateToDetail(context, item.id!),
+          onTap: () {
+            final id = item.id;
+            if (id != null) _navigateToDetail(context, id);
+          },
         );
       },
     );

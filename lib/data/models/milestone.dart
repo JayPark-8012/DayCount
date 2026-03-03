@@ -75,7 +75,7 @@ class Milestone {
   }
 
   @override
-  int get hashCode => id.hashCode;
+  int get hashCode => id?.hashCode ?? 0;
 
   @override
   String toString() =>

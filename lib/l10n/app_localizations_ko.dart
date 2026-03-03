@@ -535,4 +535,70 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get error_saveFailed => '저장에 실패했습니다. 다시 시도해주세요.';
+
+  @override
+  String get detail_milestoneToday => '오늘';
+
+  @override
+  String detail_milestoneDaysAgo(int count) {
+    return '$count일 지남';
+  }
+
+  @override
+  String get form_categoryAnniversary => '기념일';
+
+  @override
+  String get form_categoryTravel => '여행';
+
+  @override
+  String get form_categoryBirthday => '생일';
+
+  @override
+  String get form_categoryCustom => '기타';
+
+  @override
+  String get home_filterAnniversary => '기념일';
+
+  @override
+  String get home_filterTravel => '여행';
+
+  @override
+  String get home_filterBirthday => '생일';
+
+  @override
+  String get home_filterCustom => '기타';
+
+  @override
+  String get home_tabList => '리스트';
+
+  @override
+  String get home_tabTimeline => '타임라인';
+
+  @override
+  String home_ddayCount(int count) {
+    return '$count개의 D-Day';
+  }
+
+  @override
+  String get home_sortNearest => '가까운순 ▾';
+
+  @override
+  String detail_createdAt(String date) {
+    return '등록일 $date';
+  }
+
+  @override
+  String get form_previewLabel => '미리보기';
+
+  @override
+  String get home_pressBackToExit => '한 번 더 누르면 종료됩니다';
+
+  @override
+  String get sort_nearest => '가까운 날짜순';
+
+  @override
+  String get sort_farthest => '먼 날짜순';
+
+  @override
+  String get sort_recent => '최근 추가순';
 }

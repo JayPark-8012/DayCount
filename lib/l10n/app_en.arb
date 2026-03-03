@@ -283,5 +283,48 @@
   "error_purchaseFailed": "Purchase failed. Please try again.",
   "error_restoreNone": "No previous purchase found.",
   "error_restoreFailed": "Something went wrong. Please try again.",
-  "error_saveFailed": "Failed to save. Please try again."
+  "error_saveFailed": "Failed to save. Please try again.",
+
+  "detail_milestoneToday": "Today",
+  "detail_milestoneDaysAgo": "{count}d ago",
+  "@detail_milestoneDaysAgo": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "form_categoryAnniversary": "Anniversary",
+  "form_categoryTravel": "Travel",
+  "form_categoryBirthday": "Birthday",
+  "form_categoryCustom": "Custom",
+
+  "home_filterAnniversary": "Anniversary",
+  "home_filterTravel": "Travel",
+  "home_filterBirthday": "Birthday",
+  "home_filterCustom": "Custom",
+
+  "home_tabList": "List",
+  "home_tabTimeline": "Timeline",
+  "home_ddayCount": "{count} D-Days",
+  "@home_ddayCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "home_sortNearest": "Nearest \u25BE",
+
+  "detail_createdAt": "Created {date}",
+  "@detail_createdAt": {
+    "placeholders": {
+      "date": { "type": "String" }
+    }
+  },
+
+  "form_previewLabel": "Preview",
+
+  "home_pressBackToExit": "Press back again to exit",
+
+  "sort_nearest": "Nearest first",
+  "sort_farthest": "Farthest first",
+  "sort_recent": "Recently added"
 }

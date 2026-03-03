@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/constants/app_config.dart';
 import '../../../core/theme/card_themes.dart';
+import '../../../core/widgets/card_pattern.dart';
 import '../../../core/utils/date_calc.dart';
 import '../../../data/models/dday.dart';
 import '../../../l10n/app_localizations.dart';
@@ -82,30 +83,11 @@ class CardPreview extends StatelessWidget {
                 ),
               ),
             ] else ...[
-              // ── Color mode: decorative circles ──
-              Positioned(
-                right: -40,
-                top: -40,
-                child: Container(
-                  width: 160,
-                  height: 160,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: theme.accentColor.withValues(alpha: 0.08),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: -30,
-                bottom: -30,
-                child: Container(
-                  width: 120,
-                  height: 120,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: theme.accentColor.withValues(alpha: 0.06),
-                  ),
-                ),
+              // ── Color mode: theme pattern ──
+              CardPattern(
+                type: theme.pattern,
+                color: theme.accentColor,
+                opacity: 0.10,
               ),
             ],
 

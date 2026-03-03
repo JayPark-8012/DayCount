@@ -17,7 +17,7 @@ class DDay {
     this.id,
     required this.title,
     required this.targetDate,
-    this.category = 'general',
+    this.category = 'anniversary',
     this.emoji = '📅',
     this.themeId = 'cloud',
     this.isCountUp = false,
@@ -34,7 +34,7 @@ class DDay {
       id: map['id'] as int?,
       title: map['title'] as String,
       targetDate: map['target_date'] as String,
-      category: map['category'] as String? ?? 'general',
+      category: map['category'] as String? ?? 'anniversary',
       emoji: map['emoji'] as String? ?? '📅',
       themeId: map['theme_id'] as String? ?? 'cloud',
       isCountUp: (map['is_count_up'] as int? ?? 0) == 1,
@@ -104,7 +104,7 @@ class DDay {
   }
 
   @override
-  int get hashCode => id.hashCode;
+  int get hashCode => id?.hashCode ?? 0;
 
   @override
   String toString() => 'DDay(id: $id, title: $title, targetDate: $targetDate)';

@@ -3,13 +3,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_config.dart';
+import '../../core/theme/app_spacing.dart';
 import '../../core/theme/card_themes.dart';
+import '../../core/theme/glass_style.dart';
+import '../../core/widgets/card_pattern.dart';
+import '../../core/widgets/press_scale.dart';
 import '../../l10n/app_localizations.dart';
 import '../../providers/dday_providers.dart';
 import '../../providers/milestone_providers.dart';
 import '../dday_form/form_screen.dart';
 import '../share_card/share_card_screen.dart';
-import 'widgets/category_section.dart';
 import 'widgets/counter_display.dart';
 import 'widgets/milestone_list.dart';
 import 'widgets/sub_counts.dart';
@@ -57,18 +60,62 @@ class DetailScreen extends ConsumerWidget {
         final daysDiff = target.difference(today).inDays;
 
         return Scaffold(
+          backgroundColor:
+              isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
           body: SingleChildScrollView(
             child: Column(
               children: [
-                // ── Top gradient section ──
+                // ── Theme header area ──
+                // Bottom radius 36, accent line, shadow
                 Container(
                   width: double.infinity,
-                  decoration: BoxDecoration(gradient: theme.background),
-                  child: SafeArea(
+                  clipBehavior: Clip.hardEdge,
+                  decoration: BoxDecoration(
+                    gradient: theme.background,
+                    borderRadius: BorderRadius.vertical(
+                      bottom:
+                          Radius.circular(AppConfig.detailHeaderRadius),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: isDark
+                            ? const Color(0x66000000)
+                            : const Color(0x0F000000),
+                        blurRadius: isDark ? 40 : 32,
+                        offset: isDark
+                            ? const Offset(0, 12)
+                            : const Offset(0, 8),
+                      ),
+                    ],
+                  ),
+                  child: Stack(
+                    children: [
+                      // Theme pattern
+                      CardPattern(
+                        type: theme.pattern,
+                        color: theme.accentColor,
+                        opacity: 0.18,
+                      ),
+                      SafeArea(
                     bottom: false,
                     child: Column(
                       children: [
-                        // App bar row
+                        // Top accent line — 3px gradient fade
+                        Container(
+                          width: double.infinity,
+                          height: 3,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                theme.accentColor.withValues(alpha: 0.0),
+                                theme.accentColor.withValues(alpha: 0.6),
+                                theme.accentColor.withValues(alpha: 0.0),
+                              ],
+                            ),
+                          ),
+                        ),
+
+                        // App bar — glass back / glass edit
                         Padding(
                           padding: const EdgeInsets.symmetric(
                             horizontal: AppConfig.sm,
@@ -76,17 +123,29 @@ class DetailScreen extends ConsumerWidget {
                           ),
                           child: Row(
                             children: [
-                              IconButton(
-                                onPressed: () => Navigator.pop(context),
-                                icon: Icon(
-                                  Icons.arrow_back,
-                                  color: theme.textColor,
-                                  size: 22,
+                              // ← Back — glass 40x40, radius 12, blur 10
+                              PressScale(
+                                onTap: () => Navigator.pop(context),
+                                child: GlassContainer(
+                                  borderRadius: 12,
+                                  blur: 10,
+                                  child: SizedBox(
+                                    width: 40,
+                                    height: 40,
+                                    child: Center(
+                                      child: Icon(
+                                        Icons.arrow_back,
+                                        color: theme.textColor,
+                                        size: 20,
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
                               const Spacer(),
-                              IconButton(
-                                onPressed: () async {
+                              // ✏️ Edit — glass 40x40, radius 12, blur 10
+                              PressScale(
+                                onTap: () async {
                                   await Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -94,13 +153,25 @@ class DetailScreen extends ConsumerWidget {
                                           DdayFormScreen(existingDday: dday),
                                     ),
                                   );
-                                  ref.invalidate(ddayListProvider);
+                                  if (context.mounted) {
+                                    ref.invalidate(ddayListProvider);
+                                  }
                                 },
-                                icon: Text(
-                                  '\u270F\uFE0F',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: theme.textColor,
+                                child: GlassContainer(
+                                  borderRadius: 12,
+                                  blur: 10,
+                                  child: SizedBox(
+                                    width: 40,
+                                    height: 40,
+                                    child: Center(
+                                      child: Text(
+                                        '\u270F\uFE0F',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: theme.textColor,
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -108,7 +179,7 @@ class DetailScreen extends ConsumerWidget {
                           ),
                         ),
 
-                        // Counter display
+                        // Emoji + Title + Day count
                         CounterDisplay(
                           emoji: dday.emoji,
                           title: dday.title,
@@ -117,86 +188,108 @@ class DetailScreen extends ConsumerWidget {
                           theme: theme,
                         ),
 
-                        // Sub counts
+                        // Sub counts — glass chips
                         SubCounts(totalDays: daysDiff, theme: theme),
                         const SizedBox(height: AppConfig.xxl),
                       ],
                     ),
                   ),
-                ),
-
-                // ── Bottom section (app background) ──
-                Container(
-                  width: double.infinity,
-                  transform: Matrix4.translationValues(0, -28, 0),
-                  decoration: BoxDecoration(
-                    color: isDark
-                        ? AppColors.backgroundDark
-                        : AppColors.backgroundLight,
-                    borderRadius: const BorderRadius.vertical(
-                      top: Radius.circular(28),
-                    ),
-                  ),
-                  child: Column(
-                    children: [
-                      const SizedBox(height: AppConfig.xxl),
-
-                      // Category-specific section (exam/baby)
-                      if (dday.category == 'exam' || dday.category == 'baby') ...[
-                        CategorySection(dday: dday),
-                        const SizedBox(height: AppConfig.lg),
-                      ],
-
-                      // Milestones
-                      milestonesAsync.when(
-                        data: (milestones) => MilestoneList(
-                          ddayId: ddayId,
-                          targetDate: dday.targetDate,
-                          category: dday.category,
-                          milestones: milestones,
-                        ),
-                        loading: () => const Padding(
-                          padding: EdgeInsets.all(AppConfig.xxl),
-                          child: Center(child: CircularProgressIndicator()),
-                        ),
-                        error: (e, _) => Padding(
-                          padding: const EdgeInsets.all(AppConfig.xxl),
-                          child: Text(e.toString()),
-                        ),
-                      ),
-
-                      const SizedBox(height: AppConfig.xxl),
-
-                      // Share Card button
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: AppConfig.xl,
-                        ),
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: FilledButton.icon(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) =>
-                                      ShareCardScreen(dday: dday),
-                                ),
-                              );
-                            },
-                            icon: const Text(
-                              '\u{1F4E4}',
-                              style: TextStyle(fontSize: 16),
-                            ),
-                            label: Text(l10n.detail_shareCard),
-                          ),
-                        ),
-                      ),
-
-                      const SizedBox(height: 48),
                     ],
                   ),
                 ),
+
+                // ── Bottom section ──
+                const SizedBox(height: AppSpacing.sectionGap),
+
+                // Milestones
+                milestonesAsync.when(
+                  data: (milestones) => MilestoneList(
+                    ddayId: ddayId,
+                    targetDate: dday.targetDate,
+                    category: dday.category,
+                    milestones: milestones,
+                  ),
+                  loading: () => const Padding(
+                    padding: EdgeInsets.all(AppConfig.xxl),
+                    child: Center(child: CircularProgressIndicator()),
+                  ),
+                  error: (e, _) => Padding(
+                    padding: const EdgeInsets.all(AppConfig.xxl),
+                    child: Text(e.toString()),
+                  ),
+                ),
+
+                const SizedBox(height: AppSpacing.sectionGap),
+
+                // Share Card button — gradient + radius 18 + shadow + PressScale
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.pageHorizontal,
+                  ),
+                  child: PressScale(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => ShareCardScreen(dday: dday),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      decoration: BoxDecoration(
+                        gradient: AppColors.primaryGradient,
+                        borderRadius: BorderRadius.circular(
+                          AppConfig.detailShareRadius,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.primaryColor
+                                .withValues(alpha: 0.35),
+                            blurRadius: 20,
+                            offset: const Offset(0, 8),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            '\u{1F4E4}',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          const SizedBox(width: AppConfig.sm),
+                          Text(
+                            l10n.detail_shareCard,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: AppSpacing.sectionGap),
+
+                // Created date — bottom center, 11pt, textSecondary, letterSpacing 0.3
+                Text(
+                  l10n.detail_createdAt(dday.createdAt.split('T').first),
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w400,
+                    letterSpacing: 0.3,
+                    color: isDark
+                        ? AppColors.textSecondaryDark
+                        : AppColors.textSecondaryLight,
+                  ),
+                ),
+
+                const SizedBox(height: 48),
               ],
             ),
           ),

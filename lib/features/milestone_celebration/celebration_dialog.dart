@@ -118,7 +118,7 @@ class _CelebrationDialogState extends State<CelebrationDialog> {
 
                   // Milestone label
                   Text(
-                    '${localizedMilestoneLabel(l10n, widget.milestone.days)}!',
+                    '${localizedMilestoneLabel(widget.milestone.days)}!',
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 36,
