@@ -3,10 +3,12 @@ import 'dart:async';
 import 'package:flutter/foundation.dart' show debugPrint, kIsWeb;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../core/theme/card_themes.dart';
 import '../core/utils/milestone_generator.dart';
 import '../data/models/dday.dart';
 import '../data/repositories/dday_repository.dart';
 import '../data/repositories/notification_repository.dart';
+import '../data/services/widget_service.dart';
 import 'milestone_providers.dart';
 import 'settings_providers.dart';
 
@@ -72,6 +74,7 @@ class DdayListNotifier extends AsyncNotifier<List<DDay>> {
 
     ref.invalidateSelf();
     await future;
+    _updateHomeWidget();
     return id;
   }
 
@@ -100,6 +103,7 @@ class DdayListNotifier extends AsyncNotifier<List<DDay>> {
 
     ref.invalidateSelf();
     await future;
+    _updateHomeWidget();
   }
 
   Future<void> toggleFavorite(DDay dday) async {
@@ -107,6 +111,7 @@ class DdayListNotifier extends AsyncNotifier<List<DDay>> {
     await _repository.update(updated);
     ref.invalidateSelf();
     await future;
+    _updateHomeWidget();
   }
 
   Future<void> deleteDday(int id) async {
@@ -118,5 +123,17 @@ class DdayListNotifier extends AsyncNotifier<List<DDay>> {
     await _repository.delete(id);
     ref.invalidateSelf();
     await future;
+    _updateHomeWidget();
+  }
+
+  void _updateHomeWidget() {
+    try {
+      final ddays = state.valueOrNull ?? [];
+      final closest = WidgetService.findClosestDday(ddays);
+      final theme = closest != null ? getCardTheme(closest.themeId) : null;
+      WidgetService.updateWidget(closest, theme);
+    } catch (e) {
+      debugPrint('[Widget] Update failed: $e');
+    }
   }
 }

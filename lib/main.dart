@@ -8,6 +8,7 @@ import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
 import 'app.dart';
 import 'data/repositories/notification_repository.dart';
 import 'data/repositories/purchase_repository.dart';
+import 'data/services/widget_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,10 +20,11 @@ void main() async {
   // Initialize timezone data
   NotificationRepository.initializeTimeZones();
 
-  // Initialize notification plugin and RevenueCat (skip on web)
+  // Initialize notification plugin, RevenueCat, HomeWidget (skip on web)
   if (!kIsWeb) {
     await NotificationRepository.instance.initialize();
     await PurchaseRepository.init();
+    await WidgetService.initialize();
   }
 
   // Edge-to-edge mode — transparent navigation bar
